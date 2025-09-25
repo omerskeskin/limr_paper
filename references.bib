@@ -1,0 +1,266 @@
+
+@inproceedings{VeryGentle,
+	abstract = {Multiparty session types (MPST) are a formal specification and verification framework for message-passing protocols without central control: the desired interactions at the scale of the network itself are specified into a session (called global type). Global types are then projected onto local types (one for each participant), which describe the protocol from a local point of view. These local types are used to validate an application through type-checking, monitoring, and code generation. Theory of session types guarantees that local conformance of all participants induces global conformance of the network to the initial global type. This paper provides a very gentle introduction of the simplest version of multiparty session types for readers who are not familiar with session types nor process calculi.},
+	address = {Cham},
+	author = {Yoshida, Nobuko and Gheri, Lorenzo},
+	booktitle = {Distributed Computing and Internet Technology},
+	editor = {Hung, Dang Van and D{\textasciiacute}Souza, Meenakshi},
+	isbn = {978-3-030-36987-3},
+	pages = {73--93},
+	publisher = {Springer International Publishing},
+	title = {A Very Gentle Introduction to Multiparty Session Types},
+	year = {2020}
+}
+
+@inbook{pierce2002types,
+  title={Types and programming languages},
+  author={Pierce, Benjamin C},
+  year={2002},
+  publisher={MIT press}
+}
+@book{sangiorgi2011introduction,
+  title={Introduction to bisimulation and coinduction},
+  author={Sangiorgi, Davide},
+  year={2011},
+  publisher={Cambridge University Press}
+}
+@article{SynchronousSubtyping,
+	abstract = {This paper proves the soundness and completeness, together referred to as preciseness, of the subtyping relation for a synchronous multiparty session calculus. We address preciseness from operational and denotational viewpoints. The operational preciseness has been recently developed with respect to type safety, i.e., the safe replacement of a process of a smaller type in a context where a process of a bigger type is expected. The denotational preciseness is based on the denotation of a type: a mathematical object describing the meaning of the type, in accordance with the denotations of other expressions from the language. The main technical contribution of this paper is a novel proof strategy for the operational completeness of subtyping. We develop the notion of characteristic global type of a session type T, which describes a deadlock-free circular communication protocol involving all participants appearing in T. We prove operational completeness by showing that, if we place a process not conforming to a subtype of T in a context that matches the characteristic global type of T, then we obtain a deadlock. The denotational preciseness is proved as a corollary of the operational preciseness.},
+	author = {Silvia Ghilezan and Svetlana Jak{\v s}i{\'c} and Jovanka Pantovi{\'c} and Alceste Scalas and Nobuko Yoshida},
+	doi = {https://doi.org/10.1016/j.jlamp.2018.12.002},
+	issn = {2352-2208},
+	journal = {Journal of Logical and Algebraic Methods in Programming},
+	keywords = {Concurrency, Process calculi, Multiparty session types, Subtyping},
+	pages = {127-173},
+	title = {Precise subtyping for synchronous multiparty sessions},
+	url = {https://www.sciencedirect.com/science/article/pii/S2352220817302237},
+	volume = {104},
+	year = {2019},
+	bdsk-url-1 = {https://www.sciencedirect.com/science/article/pii/S2352220817302237},
+	bdsk-url-2 = {https://doi.org/10.1016/j.jlamp.2018.12.002}
+}
+
+@article{LessIsMore,
+author = {Scalas, Alceste and Yoshida, Nobuko},
+title = {Less is more: multiparty session types revisited},
+year = {2019},
+issue_date = {January 2019},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {3},
+number = {POPL},
+url = {https://doi.org/10.1145/3290343},
+doi = {10.1145/3290343},
+abstract = {Multiparty Session Types (MPST) are a typing discipline ensuring that a message-passing process implements a multiparty session protocol, without errors. In this paper, we propose a new, generalised MPST theory. Our contribution is fourfold. (1) We demonstrate that a revision of the theoretical foundations of MPST is necessary: classic MPST have a limited subject reduction property, with inherent restrictions that are easily overlooked, and in previous work have led to flawed type safety proofs; our new theory removes such restrictions and fixes such flaws. (2) We contribute a new MPST theory that is less complicated, and yet more general, than the classic one: it does not require global multiparty session types nor binary session type duality — instead, it is grounded on general behavioural type-level properties, and proves type safety of many more protocols and processes. (3) We produce a detailed analysis of type-level properties, showing how, in our new theory, they allow to ensure decidability of type checking, and statically guarantee that processes enjoy, , deadlock-freedom and liveness at run-time. (4) We show how our new theory can integrate type and model checking: type-level properties can be expressed in modal µ-calculus, and verified with well-established tools.},
+journal = {Proc. ACM Program. Lang.},
+month = jan,
+articleno = {30},
+numpages = {29},
+keywords = {deadlock-freedom, duality, liveness, session types}
+}
+
+@misc{LessIsMoreRevisited,
+      title={Less is More Revisited}, 
+      author={Nobuko Yoshida and Ping Hou},
+      year={2024},
+      eprint={2402.16741},
+      archivePrefix={arXiv},
+      primaryClass={cs.PL},
+      url={https://arxiv.org/abs/2402.16741}, 
+}
+
+
+@techreport{srpaper,
+  author      = {Burak Ekici and Kamegai, Tadayoshi and Nobuko Yoshida},
+  title       = {Formalising Subject Reduction and Progress for Multiparty Session Processes},
+  institution = {University of Oxford},
+  year        = {2025}
+}
+
+
+@article{paco,
+author = {Hur, Chung-Kil and Neis, Georg and Dreyer, Derek and Vafeiadis, Viktor},
+title = {The power of parameterization in coinductive proof},
+year = {2013},
+issue_date = {January 2013},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {48},
+number = {1},
+issn = {0362-1340},
+url = {https://doi.org/10.1145/2480359.2429093},
+doi = {10.1145/2480359.2429093},
+journal = {SIGPLAN Not.},
+month = jan,
+pages = {193–206},
+numpages = {14},
+keywords = {coinduction, compositionality, interactive theorem proving, lattice theory, parameterized greatest fixed point, simulation}
+}
+
+@misc{mmaps,
+      title={{Modular Finite Maps over Ordered Types}}, 
+      author={Letouzey, Pierre and Appel, Andrew W.},
+      url={https://github.com/rocq-community/mmaps}, 
+}
+
+@book{clrs,
+author = {Cormen, Thomas H. and Leiserson, Charles E. and Rivest, Ronald L. and Stein, Clifford},
+title = {Introduction to Algorithms, Third Edition},
+year = {2009},
+isbn = {0262033844},
+publisher = {The MIT Press},
+edition = {3rd},
+abstract = {If you had to buy just one text on algorithms, Introduction to Algorithms is a magnificent choice. The book begins by considering the mathematical foundations of the analysis of algorithms and maintains this mathematical rigor throughout the work. The tools developed in these opening sections are then applied to sorting, data structures, graphs, and a variety of selected algorithms including computational geometry, string algorithms, parallel models of computation, fast Fourier transforms (FFTs), and more. This book's strength lies in its encyclopedic range, clear exposition, and powerful analysis. Pseudo-code explanation of the algorithms coupled with proof of their accuracy makes this book is a great resource on the basic tools used to analyze the performance of algorithms.}
+}
+
+@manual{coqmanual,
+  title        = {{The Rocq Reference Manual}},
+  author       = {{The Rocq Development Team}},
+  year         = {2025},
+  organization = {Inria},
+  note         = {\url{https://rocq-prover.org/doc/V9.0.0/refman}},
+}
+
+@manual{coqstl,
+  title        = {{The Rocq Standard Library}},
+  author       = {{The Rocq Development Team}},
+  year         = {2025},
+  organization = {Inria},
+  note         = {\url{https://rocq-prover.org/doc/V9.0.0/stdlib}},
+}
+
+@book{cpdt,
+author = {Chlipala, Adam},
+title = {Certified Programming with Dependent Types: A Pragmatic Introduction to the Coq Proof Assistant},
+year = {2013},
+isbn = {0262026651},
+publisher = {The MIT Press},
+abstract = {The technology of mechanized program verification can play a supporting role in many kinds of research projects in computer science, and related tools for formal proof-checking are seeing increasing adoption in mathematics and engineering. This book provides an introduction to the Coq software for writing and checking mathematical proofs. It takes a practical engineering focus throughout, emphasizing techniques that will help users to build, understand, and maintain large Coq developments and minimize the cost of code change over time. Two topics, rarely discussed elsewhere, are covered in detail: effective dependently typed programming (making productive use of a feature at the heart of the Coq system) and construction of domain-specific proof tactics. Almost every subject covered is also relevant to interactive computer theorem proving in general, not just program verification, demonstrated through examples of verified programs applied in many different sorts of formalizations. The book develops a unique automated proof style and applies it throughout; even experienced Coq users may benefit from reading about basic Coq concepts from this novel perspective. The book also offers a library of tactics, or programs that find proofs, designed for use with examples in the book. Readers will acquire the necessary skills to reimplement these tactics in other settings by the end of the book. All of the code appearing in the book is freely available online.}
+}
+
+@article{fairness,
+   title={Progress, Justness, and Fairness},
+   volume={52},
+   ISSN={1557-7341},
+   url={http://dx.doi.org/10.1145/3329125},
+   DOI={10.1145/3329125},
+   number={4},
+   journal={ACM Computing Surveys},
+   publisher={Association for Computing Machinery (ACM)},
+   author={Glabbeek, Rob Van and Höfner, Peter},
+   year={2019},
+   month=aug, pages={1–38} }
+
+   @book{baier,
+author = {Baier, Christel and Katoen, Joost-Pieter},
+title = {Principles of Model Checking (Representation and Mind Series)},
+year = {2008},
+isbn = {026202649X},
+publisher = {The MIT Press},
+abstract = {Our growing dependence on increasingly complex computer and software systems necessitates the development of formalisms, techniques, and tools for assessing functional properties of these systems. One such technique that has emerged in the last twenty years is model checking, which systematically (and automatically) checks whether a model of a given system satisfies a desired property such as deadlock freedom, invariants, or request-response properties. This automated technique for verification and debugging has developed into a mature and widely used approach with many applications. Principles of Model Checking offers a comprehensive introduction to model checking that is not only a text suitable for classroom use but also a valuable reference for researchers and practitioners in the field. The book begins with the basic principles for modeling concurrent and communicating systems, introduces different classes of properties (including safety and liveness), presents the notion of fairness, and provides automata-based algorithms for these properties. It introduces the temporal logics LTL and CTL, compares them, and covers algorithms for verifying these logics, discussing real-time systems as well as systems subject to random phenomena. Separate chapters treat such efficiency-improving techniques as abstraction and symbolic manipulation. The book includes an extensive set of examples (most of which run through several chapters) and a complete set of basic results accompanied by detailed proofs. Each chapter concludes with a summary, bibliographic notes, and an extensive list of exercises of both practical and theoretical nature.}
+}
+
+@inproceedings{pnueli1977temporal,
+  title={The temporal logic of programs},
+  author={Pnueli, Amir},
+  booktitle={18th annual symposium on foundations of computer science (sfcs 1977)},
+  pages={46--57},
+  year={1977},
+  organization={ieee}
+}
+
+@book{milner,
+author = {Milner, Robin},
+title = {Communicating and mobile systems: the pi-calculus},
+year = {1999},
+isbn = {0521658691},
+publisher = {Cambridge University Press},
+address = {USA}
+}
+
+@article{honda,
+author = {Honda, Kohei and Yoshida, Nobuko and Carbone, Marco},
+title = {Multiparty Asynchronous Session Types},
+year = {2016},
+issue_date = {March 2016},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {63},
+number = {1},
+issn = {0004-5411},
+url = {https://doi.org/10.1145/2827695},
+doi = {10.1145/2827695},
+abstract = {Communication is a central elements in software development. As a potential typed foundation for structured communication-centered programming, session types have been studied over the past decade for a wide range of process calculi and programming languages, focusing on binary (two-party) sessions. This work extends the foregoing theories of binary session types to multiparty, asynchronous sessions, which often arise in practical communication-centered applications. Presented as a typed calculus for mobile processes, the theory introduces a new notion of types in which interactions involving multiple peers are directly abstracted as a global scenario. Global types retain the friendly type syntax of binary session types while specifying dependencies and capturing complex causal chains of multiparty asynchronous interactions. A global type plays the role of a shared agreement among communication peers and is used as a basis of efficient type-checking through its projection onto individual peers. The fundamental properties of the session type discipline, such as communication safety, progress, and session fidelity, are established for general n-party asynchronous interactions.},
+journal = {J. ACM},
+month = mar,
+articleno = {9},
+numpages = {67},
+keywords = {the pi-calculus, projection, progress, global types, global protocols, Session types}
+}
+
+@article{lamport82,
+  title={Proving liveness properties of concurrent programs},
+  author={Owicki, Susan and Lamport, Leslie},
+  journal={ACM Transactions on Programming Languages and Systems (TOPLAS)},
+  volume={4},
+  number={3},
+  pages={455--495},
+  year={1982},
+  publisher={ACM New York, NY, USA}
+}
+
+@book{coq,
+author = {Bertot, Yves and Castran, Pierre},
+title = {Interactive Theorem Proving and Program Development: Coq'Art The Calculus of Inductive Constructions},
+year = {2010},
+isbn = {3642058809},
+publisher = {Springer Publishing Company, Incorporated},
+edition = {1st},
+abstract = {A practical introduction to the development of proofs and certified programs using Coq. An invaluable tool for researchers, students, and engineers interested in formal methods and the development of zero-fault software.}
+}
+
+@article{projsurvey,
+  title={Top-down or bottom-up? Complexity analyses of synchronous multiparty session types},
+  author={Udomsrirungruang, Thien and Yoshida, Nobuko},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={9},
+  number={POPL},
+  pages={1040--1071},
+  year={2025},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{fairnesslock,
+author = {van Glabbeek, Rob and H\"{o}fner, Peter and Horne, Ross},
+title = {Assuming just enough fairness to make session types complete for lock-freedom},
+year = {2021},
+isbn = {9781665448956},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1109/LICS52264.2021.9470531},
+doi = {10.1109/LICS52264.2021.9470531},
+abstract = {We investigate how different fairness assumptions affect results concerning lock-freedom, a typical liveness property targeted by session type systems. We fix a minimal session calculus and systematically take into account all known fairness assumptions, thereby identifying precisely three interesting and semantically distinct notions of lock-freedom, all of which having a sound session type system. We then show that, by using a general merge operator in an otherwise standard approach to global session types, we obtain a session type system complete for the strongest amongst those notions of lock-freedom, which assumes only justness of execution paths, a minimal fairness assumption for concurrent systems.},
+booktitle = {Proceedings of the 36th Annual ACM/IEEE Symposium on Logic in Computer Science},
+articleno = {8},
+numpages = {13},
+location = {Rome, Italy},
+series = {LICS '21}
+}
+
+@inproceedings{zooid,
+author = {Castro-Perez, David and Ferreira, Francisco and Gheri, Lorenzo and Yoshida, Nobuko},
+title = {Zooid: a DSL for certified multiparty computation: from mechanised metatheory to certified multiparty processes},
+year = {2021},
+isbn = {9781450383912},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3453483.3454041},
+doi = {10.1145/3453483.3454041},
+abstract = {We design and implement Zooid, a domain specific language for certified multiparty communication, embedded in Coq and implemented atop our mechanisation framework of asynchronous multiparty session types (the first of its kind). Zooid provides a fully mechanised metatheory for the semantics of global and local types, and a fully verified end-point process language that faithfully reflects the type-level behaviours and thus inherits the global types properties such as deadlock freedom, protocol compliance, and liveness guarantees.},
+booktitle = {Proceedings of the 42nd ACM SIGPLAN International Conference on Programming Language Design and Implementation},
+pages = {237–251},
+numpages = {15},
+keywords = {Coq, concurrent processes, deadlock freedom, liveness, mechanisation, multiparty session types, protocol compliance},
+location = {Virtual, Canada},
+series = {PLDI 2021}
+}

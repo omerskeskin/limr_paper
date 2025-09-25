@@ -1,0 +1,269 @@
+\message{<Macros I extracted from Kai's proof of subject reduction>}
+
+\makeatletter
+\newcommand{\labeltext}[3][]{
+    \@bsphack%
+    \csname phantomsection\endcsname% in case hyperref is used
+    \def\tst{#1}%
+    \def\labelmarkup{\emph}% How to markup the label itself
+    %\def\refmarkup{\labelmarkup}% How to markup the reference
+    \def\refmarkup{}%
+    \ifx\tst\empty\def\@currentlabel{\refmarkup{#2}}{\label{#3}}%
+    \else\def\@currentlabel{\refmarkup{#1}}{\label{#3}}\fi%
+    \@esphack%
+    \labelmarkup{#2}% visible printed text.
+}
+\makeatother
+
+\newcommand{\rulename}[1]{
+  \text{\textnormal{\small[\textsc{#1}]}}
+}
+
+\newcommand{\cinferrule}[3][]{
+  \mprset{fraction={===},
+  fractionaboveskip=0.2ex,
+  fractionbelowskip=1.0ex}
+  \inferrule[#1]{#2}{#3}
+}
+
+\newcommand{\ccinferrule}[3][]{
+  \mprset{fraction={===},
+  fractionaboveskip=1.8ex,
+  fractionbelowskip=0.4ex}
+  \inferrule[#1]{#2}{#3}
+}
+
+
+
+
+%
+\newcommand{\s}{s}
+\newcommand{\pp}{{\sf p}}
+\newcommand{\andsign}{{\sf \&}}
+\newcommand{\sendsign}{{\sf \oplus}}
+\newcommand{\prt}[1]{{\sf #1}}
+\newcommand{\pq}{\prt{q}}
+\newcommand{\pr}{\prt{r}}
+\newcommand{\ps}{\prt{s}}
+\newcommand{\e}{\kf{e}}
+\newcommand{\x}{x}
+\newcommand{\y}{y}
+\newcommand{\h}{h}
+\newcommand{\val}{\kf{v}}
+\newcommand{\valn}{\kf{n}}
+\newcommand{\valr}{\kf{i}}
+\newcommand{\vali}{\valr}
+\newcommand{\valb}{\kf{b}}
+\newcommand{\SEP}{\ensuremath{~~\mathbf{|\!\!|}~~ }}
+\newcommand{\kf}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\pc}{\ensuremath{~|~}}
+
+\newcommand{\assoc}{\sqsubseteq}
+
+\newcommand{\G}{\ensuremath{{\sf G}}}
+\newcommand{\T}{\ensuremath{{\sf T}}}
+\newcommand{\typ}[1]{\ensuremath{{\sf #1}}}
+
+\newcommand{\RedG}{\Longrightarrow}
+\newcommand{\Gvti}[5]{\ensuremath{#1\to#2:\{#3_i({#4}_i). #5_i \}_{i \in I}}}
+\newcommand{\Gvtj}[5]{\ensuremath{#1\to#2:\{#3_j({#4}_j). #5_j \}_{j \in J}}}
+\newcommand{\Gvtk}[5]{\ensuremath{#1\to#2:\{#3_k({#4}_k). #5_k \}_{k \in K}}}
+\newcommand{\GvtiSet}[6]{\ensuremath{#1\to#2:\{#3_i({#4}_i). #5_i \}_{i \in {#6}}}}
+\newcommand{\GvtlSet}[6]{\ensuremath{#1\to#2:\{#3_l({#4}_l). #5_l \}_{l \in {#6}}}}
+\newcommand{\GvtmSet}[6]{\ensuremath{#1\to#2:\{#3_m({#4}_m). #5_m \}_{m \in {#6}}}}
+\newcommand{\Gvt}[5]{\ensuremath{#1\to#2: #3({#4}). #5 }}
+\newcommand{\GvtIdx}[6]{\ensuremath{#1\to#2: \{#3({#4}). #5\}_{#6}}}
+\newcommand{\ty}{\mathbf{t}}
+\newcommand{\GvtPair}[3]{\ensuremath{\prt{#1}\to\prt{#2}: \{#3\}}}
+\newcommand{\Sy}{\ensuremath{\mathcal S}}
+\newcommand{\N}{\ensuremath{\mathcal N}}
+\newcommand{\M}{\ensuremath{\mathcal M}}
+
+\newcommand{\pa}[2]{#1 \triangleleft  #2}
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\eval}[2]{#1 \downarrow #2}
+\newcommand{\true}{\kf{true}}
+\newcommand{\false}{\kf{false}}
+
+\newcommand{\myrule}[3]{\begin{prooftree} #1 \justifies   #2   \using{\rln{#3}} \end{prooftree}}
+\newcommand{\rln}[1]{\textsc{#1}}
+\newcommand{\der}[3]{ #1 \vdash   #2  :#3}
+\newcommand{\pro}[3]{ #1 \upharpoonright_#2 #3}
+\newcommand{\CP}[1]{ {\mathcal P}\!\left({#1}\right)}
+\newcommand{\CG}[2]{ {\mathcal G}(#1,#2)}
+\newcommand{\CGZ}[3]{ {\mathcal G}_0(#1,#2,#3)}
+\newcommand{\res}{\setminus}
+\newcommand{\rem}{\bbslash}
+\newcommand{\CC}[1]{ {\mathcal C}[#1]}
+
+\newcommand{\inout}[1]{{\mathtt {actions}}(#1)}
+%
+%
+%
+
+\newcommand{\participant}[1]{\mathtt{pt}\{#1\}}
+
+\newcommand{\rulesubend}{\rulename{sub-end}}
+\newcommand{\rulesubin}{\rulename{sub-in}}
+\newcommand{\rulesubout}{\rulename{sub-out}}
+\newcommand{\ruleprojend}{\rulename{Proj-End}}
+\newcommand{\ruleprojin}{\rulename{Proj-In}}
+\newcommand{\ruleprojout}{\rulename{Proj-Out}}
+\newcommand{\ruleprojcont}{\rulename{Proj-Cont}}
+\newcommand{\ruleredsync}{\rulename{$\Gamma$ - $\oplus$\andsign}}
+\newcommand{\ruleredsend}{\rulename{ $\Gamma$ - $\oplus$}}
+\newcommand{\ruleredvar}{\rulename{$\Gamma$ -,}}
+\newcommand{\ruleredrec}{\rulename{ $\Gamma$ - \andsign}}
+\newcommand{\rulegredsendrec}{\rulename{GR-$ \sendsign \andsign$}}
+\newcommand{\rulegredctx}{\rulename{GR-Ctx}}
+\newcommand{\funprt}{\mathtt{pt}}
+\newcommand{\pn}[1]{\mathtt{pn}(#1)}
+\newcommand{\pnin}[1]{\mathtt{pn}_?(#1)}
+\newcommand{\pnout}[1]{\mathtt{pn}_!(#1)}
+\newcommand{\proj}[1]{\upharpoonright_{\prt{#1}}}
+\newcommand{\projt}[2]{{#1}{\upharpoonright}{#2}}
+\newcommand{\sub}[2]{\set{#1/#2}}
+\newcommand{\projfn}[2]{ #1 \upharpoonright {\prt{#2}}}
+\newcommand{\projf}{\upharpoonright}
+\newcommand{\exprt}[2]{\mathtt{expression}(#1,#2)}
+\newcommand{\valt}[1]{\mathtt{value}(#1)}
+\newcommand{\hgt}{\mathtt{height}}
+
+%
+%
+\newcommand{\hole}{[\ ]}
+\newcommand{\Gcx}{\mathcal{G}}
+\newcommand{\Tcx}{\mathcal{T}}
+\newcommand{\lblsend}[3]{\prt{#1}:\prt{#2}\sendsign #3}
+\newcommand{\lblrec}[3]{\prt{#1}:\prt{#2} \andsign #3}
+\newcommand{\lblsync}[3]{(\prt{#1},\prt{#2})#3}
+\newcommand{\lbltrans}[3]{#1 \lts{#2} #3}
+\newcommand{\transcls}[2]{#1 \lts{}^* #2}
+\newcommand{\rdc}{\lts{}}
+\newcommand{\rdcc}{\lts{}^*}
+%
+
+\newcommand{\MP}{M}
+\newcommand{\tlt}{\mathbb{T}}
+\newcommand{\new}[1]{(\nu#1)}
+
+%procin single: p&l(s).P , procin mult: p&{inside}
+\newcommand{\merge}{\sqcap}
+\newcommand{\procinset}[4]{\prt{#1} \andsign \{ #2. #3\}_{#4}}
+\newcommand{\procoutset}[4]{\prt{#1} \sendsign \{ #2. #3\}_{#4}}
+
+\newcommand{\procinsingle}[3]{\prt{#1} \andsign  \{#2. #3\}}
+\newcommand{\procoutsingle}[3]{\prt{#1} \sendsign \{ #2. #3\}}
+
+\newcommand{\procinmult}[2]{\prt{#1} \andsign \{ #2\}}
+\newcommand{\procoutmult}[2]{\prt{#1} \sendsign \{ #2\}}
+
+\newcommand{\ltsend}[2]{\prt{#1} \sendsign \{ #2\}}
+\newcommand{\ltrec}[2]{\prt{#1} \andsign \{ #2\}}
+
+%
+\newcommand{\safe}{\kf{safe }}
+\newcommand{\rulesafesync}{\rulename{S-$\andsign\sendsign$}}
+\newcommand{\rulesafereduce}{\rulename{S-$\lts{}$}}
+%
+
+\newcommand{\procdag}[3]{#1 \dagger  #2 .#3}
+\newcommand{\procddag}[3]{#1 \dagger #2. #3}
+\newcommand{\error}{\kf{error}}
+\newcommand{\PP}{\ensuremath{P}}
+\newcommand{\Q}{\ensuremath{Q}}
+\newcommand{\cond}[3]{\kf{if}~ #1 ~\kf{then} ~#2 ~\kf{else}~#3}
+\newcommand{\ccond}[2]{\kf{if}~ #1 ~\kf{then} ~#2 ~\kf{else}}
+%
+\newcommand{\inact}{\ensuremath{\mathbf{0}}}
+\newcommand{\internal}{\oplus}
+\newcommand{\external}{+}
+\newcommand{\co}[1]{\mathtt{coherent}\{#1\}}
+\newcommand{\emptyqueue}{\epsilon}
+
+%
+%
+%
+
+\newcommand{\tend}{\mathtt{end}}
+\newcommand{\tbool}{\mathtt{bool}}
+\newcommand{\tnat}{\mathtt{nat}}
+\newcommand{\tint}{\mathtt{int}}
+\newcommand{\tin}[3]{#1?#2(#3)}
+\newcommand{\tout}[3]{#1!#2(#3)}
+\newcommand{\tdag}[3]{#1\dagger #2(#3)}
+\newcommand{\tddag}[3]{#1\ddagger #2 (#3)}
+\newcommand{\tinternal}{\bigvee\limits_{i\in I}}
+\newcommand{\texternal}{\bigwedge\limits_{i\in I}}
+
+\newcommand{\lin}{part}
+\newcommand{\lout}{lab}
+
+\renewcommand{\S}{S}
+\newcommand{\queue}{\mathtt{queue}}
+\newcommand{\lts}[1]{\xrightarrow{#1}}
+\newcommand{\redG}[4]{#1\setminus#2\xrightarrow#3#4}
+\newcommand{\SortI}[2]{ {#1}_{#2}}
+%
+%
+%
+
+%
+\newcommand{\context}{\mathcal{C}}
+\newcommand{\Econtext}{\mathcal{E}}
+
+%
+\newcommand{\Gctx}[1][]{\ifempty{#1}{\textswab{G}}{\textswab{G}_{#1}}}%
+\newcommand{\GctxHole}[1]{[\;]^{#1}}%
+\newcommand{\GctxApp}[4]{{#1}[{#2}]^{#3}_{#4}}%
+
+\newcommand{\subtp}{\leqslant}
+\newcommand{\subso}{\leq}
+
+\newcommand{\subta}{\mathrel{\leqslant_a}}
+\newcommand{\subs}{\leq\vcentcolon}
+\newcommand{\nsubs}{\not\leq\vcentcolon}
+\newcommand{\red}{\longrightarrow}
+\newcommand{\nsubt}{\not\trianglelefteq}
+\newcommand{\someRel}[1][]{\mathrel{\ifempty{#1}{\mathcal{R}}{\mathcal{R}_{#1}}}}%
+\newcommand{\someReli}[1][]{\mathrel{\ifempty{#1}{\mathcal{R}'}{\mathcal{R}'_{#1}}}}%
+
+%
+%
+%
+
+\newcommand{\fsqrt}[1]{{\tt neg}(#1)}
+\newcommand{\fneg}{\fsqrt}
+\newcommand{\fsucc}[1]{{\tt succ}(#1)}
+\newcommand{\sbj}[1]{{\tt subj}(#1)}
+\newcommand{\fail}[1]{{\tt fail}(#1)}
+\newcommand{\stuck}[1]{{\tt stuck}\!\left({#1}\right)}
+\newcommand{\dual}[1]{\overline #1}
+
+\newcommand{\fpv}[1]{\mathit{fpv}(#1)}
+
+
+\newcommand{\subject}[1]{\operatorname{subject}({#1})}
+
+
+\newcommand{\dom}[1]{\operatorname{dom}({#1})}
+\newcommand{\ran}[1]{\operatorname{ran}({#1})}
+\newcommand{\subst}[2]{\{\nicefrac{#1}{#2}\}}%
+
+%
+%
+%
+\newcommand{\contTag}{{\,\mathsf{C}}}%
+\newcommand{\payloadTag}{{\,\mathsf{P}}}%
+\newcommand{\ttreeSym}{\mathcal{T}}%
+\newcommand{\ttree}[1]{\operatorname{\ttreeSym}\!\left({#1}\right)}%
+%
+\newcommand{\tsynt}[1]{\mathbb{#1}}%
+\newcommand{\ts}{\tsynt}%
+
+\newcommand{\AContext}{\mathcal{A}}
+\newcommand{\BContext}{\mathcal{B}}
+\newcommand{\AContextf}[1]{\AContext [ #1 ]}
+\newcommand{\AContextfp}[1]{\AContext' [ #1 ]}
+\newcommand{\AContextfi}[2]{\AContext_#1 [ #2 ]}
+\newcommand{\AContextfip}[2]{\AContext'_#1 [ #2 ]}

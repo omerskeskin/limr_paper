@@ -1,0 +1,247 @@
+\def\delequal{\mathrel{\ensurestackMath{\stackon[1pt]{=}{\scriptstyle\Delta}}}}
+
+
+\newcommand*\justify{%
+  \fontdimen2\font=0.4em% interword space
+  \fontdimen3\font=0.2em% interword stretch
+  \fontdimen4\font=0.1em% interword shrink
+  \fontdimen7\font=0.1em% extra space
+  \hyphenchar\font=`\-% allowing hyphenation
+}
+
+
+\newcommand{\newpar}[1]{
+\bigskip
+\noindent\textbf{#1}\ }
+
+\newcommand{\ct}[1]{\rem{CT: #1}}
+\newcommand{\cb}[1]{\rem{CB: #1}}
+
+\newcommand{\smtcoq}{SMTCoq\xspace}
+\newcommand{\coq}{Coq\xspace}
+\newcommand{\zchaff}{ZChaff\xspace}
+\newcommand{\verit}{veriT\xspace}
+\newcommand{\cvcfour}{CVC4\xspace}
+\newcommand{\lfsc}{LFSC\xspace}
+\newcommand{\ocaml}{OCaml\xspace}
+
+\newcommand{\rbvl}{\texttt{RAWBITVECTOR\_LIST}\xspace}
+\newcommand{\bvl}{\texttt{BITVECTOR\_LIST}\xspace}
+\newcommand{\bv}{\texttt{BITVECTOR}\xspace}
+\newcommand{\rbv}{\texttt{RAWBITVECTOR}\xspace}
+\newcommand{\rtbv}{\texttt{RAW2BITVECTOR}\xspace}
+
+
+% serif sections
+\definecolor{colorsec}{HTML}{345A8A}
+\definecolor{colorsubsec}{HTML}{4F81BD}
+\definecolor{colorsubsubsec}{HTML}{5388C8}
+% \addtokomafont{disposition}{\rmfamily}
+% \usepackage{relsize}
+% \addtokomafont{disposition}{\color{colorsec}}
+% \addtokomafont{section}{\LARGE}
+% \addtokomafont{subsection}{\Large\color{colorsubsec}}
+% \addtokomafont{subsubsection}{\color{colorsubsubsec}}
+% \addtokomafont{paragraph}{\color{colorsubsubsec}}
+
+\hypersetup{
+  colorlinks = true,
+  citecolor=purple,
+  linkcolor=colorsubsec,
+}
+
+
+\definecolor{bg}{rgb}{0.95,0.95,0.95}
+
+\makeatletter
+
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[most]{tcolorbox}
+
+% |===| Lustre listings.
+  \lstset{
+    % frame=tb,framerule=0pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    % framexleftmargin=10pt,
+    % framextopmargin=2pt,
+    % framexbottommargin=2pt, 
+    showstringspaces=false,
+    columns=fullflexible,keepspaces=true,
+    basicstyle={\ttfamily\small\upshape},
+    % backgroundcolor=\color{bg},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    breakatwhitespace=true,
+    mathescape=true,
+    tabsize=3,
+    commentstyle=\itshape\color{black!50},
+    keywordstyle=\color{green!50!black}\bfseries,
+    stringstyle=\color{purple},
+  }
+
+
+\def\beginlstdelim#1#2#3#4%
+{%
+  \def\endlstdelim{#2\egroup}%
+  {\ttfamily#3#1}\bgroup#4\aftergroup\endlstdelim%
+}
+
+
+
+\lstdefinelanguage{smt}{
+  language=lisp,
+  alsoletter=0123456789>=,
+  keywords={define-fun,declare-fun,declare-const,set-option,echo,set-info,exit,pop,push,assert},
+  classoffset=1,
+  morekeywords={Int,Real,Bool},keywordstyle=\color{blue!60!black}\bfseries,
+  classoffset=2,
+  morekeywords={not,and,or,=>},keywordstyle=\bfseries,
+  classoffset=3,
+  morekeywords={check-sat,check-sat-assume},keywordstyle=\color{red}\bfseries,
+  classoffset=4,
+  morekeywords={true,false,0,1,2,3,4,5,6,7,8,9,10},keywordstyle=\color{violet}\bfseries,
+  classoffset=0,
+  moredelim=**[is][\beginlstdelim{define-fun\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!80!black!50!white}\bfseries}]{define-fun\ }{\ },
+  moredelim=**[is][\beginlstdelim{declare-const\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!80!black!50!white}\bfseries}]{declare-const\ }{\ },
+  moredelim=**[is][\beginlstdelim{declare-fun\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!80!black!50!white}\bfseries}]{declare-fun\ }{\ },
+  mathescape=false
+}
+
+
+\lstdefinelanguage{Coq}{
+  alsoletter={<}{:}0123456789,
+  morekeywords={Variable,Variant,Inductive,CoInductive,Fixpoint,CoFixpoint,%
+    Definition,Program, Lemma,Theorem,Corollary,Axiom,Local,Save,Grammar,Syntax,Intro,%
+    Trivial,Qed,Intros,Symmetry,Simpl,Rewrite,Apply,Elim,Assumption,%
+    Left,Cut,Case,Auto,Unfold,Exact,Right,Hypothesis,Pattern,Destruct,%
+    Constructor,Defined,Fix,Record,Proof,Induction,Hints,Exists,%
+    Parameter,Split,Red,Reflexivity,Transitivity,if,then,else,Opaque,Module,%
+    Transparent,Inversion,Absurd,Generalize,Mutual,Cases,of,Analyze,%
+    AutoRewrite,Functional,Scheme,params,Refine,using,Discriminate,Try,%
+    Require,Load,Import,Scope,Open,Section,End,Ltac,fun,forall,exists,Canonical,Structure,Eval,Notation,as,return,Goal,Class,Module%
+  },%
+  classoffset=1,
+  morekeywords={Type,Prop,bool,nat,Set,let,in,match,with,end,as,<:,Z,farray,bitvector},keywordstyle=\color{blue!60!black}\bfseries,
+  classoffset=2,
+  morekeywords={Error:,Warning:},keywordstyle=\color{red}\bfseries,
+  classoffset=3,
+  morekeywords={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,16,18,19,20},keywordstyle=\color{violet},
+  classoffset=0,
+  sensitive, %
+  moredelim=**[is][\beginlstdelim{CoInductive\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!80!black!50!white}\bfseries}]{CoInductive\ }{\ },
+  moredelim=**[is][\beginlstdelim{Inductive\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!80!black!50!white}\bfseries}]{Inductive\ }{\ },
+  moredelim=**[is][\beginlstdelim{Definition\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!80!black!50!white}\bfseries}]{Definition\ }{\ },
+  moredelim=**[is][\beginlstdelim{Lemma\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!80!black!50!white}\bfseries}]{Lemma\ }{\ },
+  moredelim=**[is][\beginlstdelim{Axiom\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!80!black!50!white}\bfseries}]{Axiom\ }{\ },
+  moredelim=**[is][\beginlstdelim{Theorem\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!80!black!50!white}\bfseries}]{Theorem\ }{\ },
+  moredelim=**[is][\beginlstdelim{Class\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!60!black}\bfseries}]{Class\ }{\ },
+  moredelim=**[is][\beginlstdelim{Module\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!60!black}\bfseries}]{Module\ }{\ },
+  moredelim=**[is][\beginlstdelim{Record\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!60!black}\bfseries}]{Record\ }{\ },
+  morecomment=[n]{(*}{*)},%
+  morestring=[d]",%
+  literate={=>}{{$\Rightarrow$}}1
+  {->}{{$\,\to\,$}}1
+  {<-}{{$\leftarrow$}}1
+  {>->}{{$\rightarrowtail$}}2
+  {<->}{{$\leftrightarrow$}}1
+  {forall}{{\color{blue!60!black}\bfseries$\forall$}}1
+  {exists}{{\color{blue!60!black}\bfseries$\exists$}}1
+  {<>}{{$\neq$}}1
+  {<=}{{$\leq$}}1
+  {>=}{{$\geq$}}1
+  {:=}{{$\triangleq$}}1
+  {\/\\}{{$\wedge$}}1
+  {|-}{{$\vdash$}}1
+  {\\\/}{{$\vee$}}1
+  % {~}{{$\sim$}}1
+  {'}{'}1
+  {⟦}{{$\llbracket$}}1
+  {⟧}{{$\rrbracket$}}1
+  {-->}{{$\longrightarrow$}}1
+  % {nat}{{\color{blue!60!black}\bfseries$\mathbb{N}$}}1
+  % {bool}{{\color{blue!60!black}\bfseries$\mathbb{B}$}}1
+  % {Qed.}{{\color{green!50!black}\bfseries$\blacksquare$}}1
+  % {Defined.}{{\color{green!50!black}\bfseries$\square$}}1
+  % {Proof.}{{\color{green!50!black}\bfseries$\because$}}1
+}
+
+
+% Syntax for LFSC listings
+\lstdefinelanguage{lfsc}{
+  language=lisp,
+    alsoletter={!}{\%}{@}{\\},
+  keywords={check,define,declare,program},
+  classoffset=1,
+  morekeywords={int,mpz,th_holds,holds,term,sort,type,match,fail,default},keywordstyle=\color{blue!60!black}\bfseries,
+  classoffset=2,
+  keywords={\%,@,!,\\},keywordstyle=\color{violet}\bfseries,
+  classoffset=0,
+  % mathescape=false,
+  moredelim=**[is][\beginlstdelim{define\ }{\ }{\color{green!50!black}\bfseries}{\color{green!50!black!50!white}\bfseries}]{define\ }{\ },
+  moredelim=**[is][\beginlstdelim{declare\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!80!black!50!white}\bfseries}]{declare\ }{\ },
+  moredelim=**[is][\beginlstdelim{program\ }{\ }{\color{green!50!black}\bfseries}{\color{blue!80!black!50!white}\bfseries}]{program\ }{\ },
+  escapechar=\&
+}
+
+\lstdefinelanguage{smtcoq}{
+  % language=lisp,
+  alsoletter=\#0123456789\=,
+  classoffset=0,
+  keywords={or,and,not,impl,true,false,\=,->},keywordstyle=\color{black}\bfseries,
+  classoffset=1,
+  morekeywords={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,16,18,19,20},keywordstyle=\color{violet}\bfseries,
+  classoffset=0,
+  sensitive=true,
+  % moredelim=**[is][\beginlstdelim{\#}{\ }{}{\color{blue!60!black}\bfseries}]{\#}{\ },
+  % moredelim=**[is][\beginlstdelim{\#}{:}{\color{blue!60!black}\bfseries}{}]{\#}{:},
+  moredelim=**[is][\beginlstdelim{:(}{\ }{}{\color{green!50!black}\bfseries}]{:(}{\ },
+}
+
+\lstdefinelanguage{ocaml}{
+  language=[Objective]caml,
+  identifierstyle=\ocidstyle
+}
+
+\newcommand*\ocidstyle{%
+        \expandafter\id@style\the\lst@token\relax
+}
+\def\id@style#1#2\relax{%
+        \ifcat#1\relax\else
+                \ifnum`#1=\uccode`#1%
+                        \color{blue!60!black}
+                \fi
+        \fi
+}
+
+
+\newenvironment{tcb}[2][\small]{%
+  \tcblisting{enhanced jigsaw,breakable,lines before break=3,
+    listing only,colback=bg,colframe=bg,enlarge
+    top by=0mm,top=0pt,bottom=0pt,left=2pt,right=2pt,enhanced,
+    before={\vspace{10pt}},
+    after={\par\vspace{5pt}\noindent},
+    listing options={language=#2,basicstyle={\ttfamily#1\upshape}}%
+    }}{\endtcblisting}
+
+
+\newenvironment{tcbfl}[2][\linewidth]{%
+  \tcblisting{enhanced jigsaw,breakable,lines before break=3,%
+    listing only,colback=bg,colframe=bg,enlarge
+    top by=0mm,top=0pt,bottom=0pt,left=2pt,right=2pt,enhanced,%
+    width=#1,%
+    % before={\vspace{\baselineskip}},
+    % after={\par\vspace{\baselineskip}\noindent},
+    listing options={language=#2}%
+    }}{\endtcblisting}
+
+
+\definecolor{bgcolor}{HTML}{E0E0E0}
+
+\lstset{language=Coq, breaklines=true}
+\sloppy
+\newcommand{\code}[1]{\colorbox{bg}{\lstinline!#1!}}
+
+\newcommand{\lstin}[1]{\lstinline|#1|}
+\captionsetup{labelfont=bf,font={footnotesize}}

@@ -1,0 +1,9 @@
+\begin{thebibliography}{1}
+
+\bibitem{SynchronousSubtyping}
+Silvia Ghilezan, Svetlana Jak{\v s}i{\'c}, Jovanka Pantovi{\'c}, Alceste Scalas, and Nobuko Yoshida.
+\newblock Precise subtyping for synchronous multiparty sessions.
+\newblock {\em Journal of Logical and Algebraic Methods in Programming}, 104:127--173, 2019.
+\newblock URL: \url{https://www.sciencedirect.com/science/article/pii/S2352220817302237}, \href {https://doi.org/10.1016/j.jlamp.2018.12.002} {\path{doi:10.1016/j.jlamp.2018.12.002}}.
+
+\end{thebibliography}
