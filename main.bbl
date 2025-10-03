@@ -1,9 +1,74 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{baier}
+Christel Baier and Joost-Pieter Katoen.
+\newblock {\em Principles of Model Checking (Representation and Mind Series)}.
+\newblock The MIT Press, 2008.
+
+\bibitem{clrs}
+Thomas~H. Cormen, Charles~E. Leiserson, Ronald~L. Rivest, and Clifford Stein.
+\newblock {\em Introduction to Algorithms, Third Edition}.
+\newblock The MIT Press, 3rd edition, 2009.
+
+\bibitem{srpaper}
+Burak Ekici, Tadayoshi Kamegai, and Nobuko Yoshida.
+\newblock Formalising subject reduction and progress for multiparty session processes.
+\newblock Technical report, University of Oxford, 2025.
 
 \bibitem{SynchronousSubtyping}
 Silvia Ghilezan, Svetlana Jak{\v s}i{\'c}, Jovanka Pantovi{\'c}, Alceste Scalas, and Nobuko Yoshida.
 \newblock Precise subtyping for synchronous multiparty sessions.
 \newblock {\em Journal of Logical and Algebraic Methods in Programming}, 104:127--173, 2019.
 \newblock URL: \url{https://www.sciencedirect.com/science/article/pii/S2352220817302237}, \href {https://doi.org/10.1016/j.jlamp.2018.12.002} {\path{doi:10.1016/j.jlamp.2018.12.002}}.
+
+\bibitem{fairness}
+Rob~Van Glabbeek and Peter Höfner.
+\newblock Progress, justness, and fairness.
+\newblock {\em ACM Computing Surveys}, 52(4):1–38, August 2019.
+\newblock URL: \url{http://dx.doi.org/10.1145/3329125}, \href {https://doi.org/10.1145/3329125} {\path{doi:10.1145/3329125}}.
+
+\bibitem{paco}
+Chung-Kil Hur, Georg Neis, Derek Dreyer, and Viktor Vafeiadis.
+\newblock The power of parameterization in coinductive proof.
+\newblock {\em SIGPLAN Not.}, 48(1):193–206, January 2013.
+\newblock \href {https://doi.org/10.1145/2480359.2429093} {\path{doi:10.1145/2480359.2429093}}.
+
+\bibitem{mmaps}
+Pierre Letouzey and Andrew~W. Appel.
+\newblock {Modular Finite Maps over Ordered Types}.
+\newblock URL: \url{https://github.com/rocq-community/mmaps}.
+
+\bibitem{pierce2002types}
+Benjamin~C Pierce.
+\newblock {\em Types and programming languages}.
+\newblock MIT press, 2002.
+
+\bibitem{pnueli1977temporal}
+Amir Pnueli.
+\newblock The temporal logic of programs.
+\newblock In {\em 18th annual symposium on foundations of computer science (sfcs 1977)}, pages 46--57. ieee, 1977.
+
+\bibitem{coqmanual}
+{The Rocq Development Team}.
+\newblock {\em {The Rocq Reference Manual}}.
+\newblock Inria, 2025.
+\newblock \url{https://rocq-prover.org/doc/V9.0.0/refman}.
+
+\bibitem{coqstl}
+{The Rocq Development Team}.
+\newblock {\em {The Rocq Standard Library}}.
+\newblock Inria, 2025.
+\newblock \url{https://rocq-prover.org/doc/V9.0.0/stdlib}.
+
+\bibitem{fairnesslock}
+Rob van Glabbeek, Peter H\"{o}fner, and Ross Horne.
+\newblock Assuming just enough fairness to make session types complete for lock-freedom.
+\newblock In {\em Proceedings of the 36th Annual ACM/IEEE Symposium on Logic in Computer Science}, LICS '21, New York, NY, USA, 2021. Association for Computing Machinery.
+\newblock \href {https://doi.org/10.1109/LICS52264.2021.9470531} {\path{doi:10.1109/LICS52264.2021.9470531}}.
+
+\bibitem{LessIsMoreRevisited}
+Nobuko Yoshida and Ping Hou.
+\newblock Less is more revisited, 2024.
+\newblock URL: \url{https://arxiv.org/abs/2402.16741}, \href {https://arxiv.org/abs/2402.16741} {\path{arXiv:2402.16741}}.
 
 \end{thebibliography}

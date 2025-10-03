@@ -1,0 +1,38 @@
+\section{Notes on the Coq Implementation}\label{appx:coq}
+\subsection{Structure of the Code}
+Our code extends Tadayoshi Kamegai's library \cite{srpaper} for subject reduction,
+which formalises most of the definitions in \cref{sec:types}.
+Most of the code submitted is from that library and our contribution is to be found mainly in the following files:
+\begin{itemize}
+    \item \path{src/lcontext.v}: Contains definitions of local typing contexts (\cref{def-type-ctx}),
+    typing context reductions (\cref{def-ctx-red}) and theorems about them (\cref{appx:proof}, Lemmas A.1 to A.5)
+    \item \path{src/assoc.v}: Contains the definition of association (\cref{def-assoc}) and  
+    lemmas on them (\cref{appx:proof}, Lemmas A.6 to A.8)
+    \item \path{lemma/correspond.v}: Contains the proof for the soundness of association
+    (\cref{appx:proof}, Lemmas A.10 to A.11)
+   \item \path{src/path_props.v}: Defines safety (\cref{def:safety}) and fairness and liveness (\cref{def-fair-live})
+   for reduction paths
+   \item \path{lemma/example_3.v}: Illustrates the definitions from \path{src/path_props.v} and 
+   \path{src/lcontext.v} with examples. In particular, we formalise the reductions in 
+   Example \ref{exam:reductions}, and the safety property of $\Gamma$ in Example \ref{exam:safe}. We also 
+   show the fairness of the infinite path in Example \ref{exam:live}.  
+\end{itemize}
+Additionally, the submitted code contains Adam Chlipala's CpdtTactics library \cite{cpdt}.
+We mainly use that library for its powerful \lstin{crush} tactic which automates a lot of the 
+tedium out of the proofs. Note that we didn't rely on automation as much as we could have 
+due to performance concerns. Many proofs, especially the ones using rewrites on finite maps, could be made
+shorter by using more automation features.
+\subsection{Axioms and Admitted Lemmas}
+The axioms we use are the dependent equality axiom \cite[Eqdep]{coqstl}
+employed by the CpdtTactics library, constructive indefinite description
+\cite[ChoiceFacts]{coqstl} for some constructive proofs, particularly \cref{theo-soundness},
+and coinductive extensionality as described in \cref{sec:types}. 
+In \path{lemma/correspond.v} we admit two lemmas, \lstin{projection_implies_slist_send}
+and \lstin{projection_implies_slist_recv}, which state that well-formed global types 
+project onto local types with non-empty continuations. The proof is tedious and divorced from the rest 
+of the formalised proofs, so we have left it as admitted. 
+Additionally, in  \path{lemma/example_3.v} we have admitted three lemmas which state that 
+certain types satisfy \rulesafesync (represented in Coq with \lstin{weak_safety}). Again, the 
+proofs are long and non-informative, our purpose in proving \lstin{gamma_safe} is to showcase 
+the coinductive definition of safety and show how it corresponds to checking that all reducts 
+satisfy \rulesafesync.

@@ -1,0 +1,127 @@
+We introduce the simple synchronous session calculus that our type system will be used on. 
+\newcommand{\PT}{\mathsf P}
+\newcommand{\Xv}{\ensuremath{{\textbf{X}}}}
+\newcommand{\ST}{{\mathsf S}}
+\newcommand{\QT}{{\mathsf Q}}
+\newcommand{\RT}{{\mathsf R}}
+
+\subsection{Processes and Sessions}
+\begin{definition}[Expressions and Processes]
+  \label[definition]{def:processes}
+  We define processes as follows: 
+  \begin{align*}
+    \PT ::= \prt{p}!\ell(\kf{e}).\PT \SEP \sum_{i \in I}
+\prt{p}?\ell_i(x_i).\PT_i \SEP \cond{\kf{e}}{\PT}{\PT} \SEP \mu \Xv.\PT \SEP \Xv \SEP \textbf{0}
+    \end{align*}
+    where \kf{e} is an expression that can be a variable, a value such as \texttt{true}, $0$ or $-3$, 
+    or a term built from expressions by applying the operators \texttt{succ}, \texttt{neg}, $\neg$, 
+    non-deterministic choice $\sendsign$ and $>$. 
+\end{definition}
+$\prt{p}!\ell(\kf{e}).\PT$ is a process that sends the value of expression $\kf{e}$ 
+with label $\ell$ to participant $\pp$, and continues with process $\PT$.
+$\sum_{i \in I}
+\prt{p}?\ell_i(x_i).P_i$ is a process that may receive a value from any 
+$\ell_i \in I$, binding the result to $x_i$ and continuing with $\PT_i$, depending on which $\ell_i$
+the value was received from. $\Xv$ is a recursion variable, $\mu \Xv.\PT$ is a recursive process,
+$\cond{\kf{e}}{\PT}{\PT}$ is a conditional and $\textbf{0}$ is a terminated process.
+
+Processes can be composed in parallel into sessions.
+\begin{definition}[Multiparty Sessions]\label[definition]{def:sessions}
+  Multiparty sessions are defined as follows.
+    \[
+    \M \;::=\;%
+    {\prt{p}} \triangleleft \PT \quad \SEP \quad(\M  \mid \M)
+    \quad \SEP \quad \mathcal{O}
+  \]
+\end{definition}
+${\prt{p}} \triangleleft \PT$ denotes that participant $\pp$ is running the process $\PT$,
+$\mid$ indicates parallel compositon. We write $\displaystyle  \prod_{i \in I}^{} \pp_i \triangleleft \PT_i$
+to denote the session formed by $\pp_i$ running $\PT_i$ in parallel for all $i \in I$. 
+$\mathcal{O}$
+is an empty session with no participants, that is, the unit of parallel composition.
+\begin{remark}
+Note that $\mathcal{O}$ is different than
+$\pp \triangleleft \textbf{0}$ as $\pp$ is a participant in the latter but not the former. 
+This differs from previous work, e.g. in \cite{SynchronousSubtyping} the unit of 
+parallel composition is 
+$\pp \triangleleft \textbf{0}$ while in \cite{srpaper} there is no unit. For a detailed discussion see \cref{rem:scong}.
+\end{remark} 
+\subsection{Structural Congruence and Operational Semantics}
+We define a structural congruence relation $\equiv$ on sessions which expresses the commutativity, associativity and 
+unit of the parallel composition operator.
+
+\begin{table}[h]
+{\footnotesize
+\[
+\begin{array}{@{}l@{}}
+  \inferrule[\rulename{sc-sym}]
+  {}
+  {\pp \triangleleft \PT  \mid \pq \triangleleft \QT  \equiv \pq \triangleleft \QT \mid \pp \triangleleft \PT} 
+  \qquad
+  \inferrule[\rulename{sc-assoc}]
+  {}
+  {(\pp \triangleleft \PT  \mid \pq \triangleleft \QT) \mid \pr \triangleleft \RT  
+  \equiv \pp \triangleleft \PT  \mid (\pq \triangleleft \QT \mid \pr \triangleleft \RT)} 
+  \\\\
+  \inferrule[\rulename{sc-o}]
+  {}
+  {\pp \triangleleft \PT  \mid \pq \triangleleft \mathcal{O}  
+  \equiv \pp \triangleleft \PT } 
+\end{array}
+\]}
+\caption{Structural Congruence over Sessions}
+\label{tbl:scong}
+\end{table}
+We now give the operational semantics for sessions by the means of a labelled transition system.
+We have two kinds of transitions, \textit{silent} ($\tau$) and 
+\textit{observable} $(\beta)$. Correspondingly, we have two kinds of \textit{transition labels}, 
+$\tau$ and $(\pp,\pq)\ell$ where $\pp, \pq$ are participants and $\ell$ is a message label.  
+We omit the semantics of expressions, they are 
+standard and can be found in \cite[Table 1]{SynchronousSubtyping}. We write $e \downarrow v$ when 
+expression $e$ evaluates to value $v$. 
+\newcommand{\taured}{\ensuremath{\xrightarrow{\tau}}}
+
+\begin{table}[h]
+{\footnotesize
+\[
+\begin{array}{@{}l@{}}
+    \inferrule[\rulename{R-comm}]
+  {j\in I \quad e \downarrow v}
+  {\pp \triangleleft \sum^{}_{i\in I} \tin\pq{\ell_i}{x_i}.\PT_i \ \mid \  \pq \triangleleft \tout{\pp}{\ell_j}{\kf{e}}.\QT \ \mid \ \N \ \ 
+  \xrightarrow{(\pp,\pq)\ell_j} \ \ 
+    \pp \triangleleft \PT_j[v/x_j] \ \mid \ \pq \triangleleft \QT \ \mid \ \N}
+    \\[10mm]
+    \inferrule[\rulename{R-rec}]
+  {}
+  {\pp \triangleleft \mu \Xv.\PT \mid \N \ \ 
+  \taured \ \
+    \pp \triangleleft \PT[\mu \Xv.\PT / \Xv] \ \mid \ \N}  
+      \\[5mm]
+    \inferrule[\rulename{R-condt}]
+  {e \downarrow \text{true}}
+  {\pp \triangleleft \text{ if } e \text{ then } \PT \text{ else } \QT \ \mid \ \N \ \ 
+  \taured \ \
+    \pp \triangleleft \PT \ \mid \ \N}    
+      \\[5mm]
+        \inferrule[\rulename{R-condf}]
+  {e \downarrow \text{false}}
+  {\pp \triangleleft \text{ if } e \text{ then } \PT \text{ else } \QT \ \mid \ \N \ \ 
+  \taured \ \
+    \pp \triangleleft \QT \ \mid \ \N}  
+      \\[5mm]
+        \inferrule[\rulename{R-struct}]
+  {\N_1' \equiv \N_1 \quad \N_1 \xrightarrow{\lambda} \N_2 \quad \N_2 \equiv \N_2'}
+  {\N'_1 \xrightarrow{\lambda} \N'_2}  
+\end{array}
+\]}
+\caption{Operational Semantics of Sessions}
+\label{tbl:srr}
+\end{table}
+In \cref{tbl:srr}, \rulename{R-comm} describes a synchronous communication from $\pp$ to $\pq$ via 
+message label $\ell_j$.
+\rulename{R-rec} unfolds recursion, \rulename{R-condt} and \rulename{R-condf} express how to evaluate conditionals,
+and \rulename{R-struct} shows that the reduction respects the structural pre-congruence.
+We write $\M \rightarrow \N$ if $\M \xrightarrow{\lambda} \N$ for some transition label $\lambda$.
+We write $\rightarrow^*$ to denote the reflexive transitive closure of $\rightarrow$. We also write 
+$\M \Rrightarrow \N$ when $\M \equiv \N$ or $\M \rightarrow^* \N$ where all the transitions
+involved in the multistep reduction are $\tau$ transitions.

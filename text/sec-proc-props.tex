@@ -1,0 +1,215 @@
+\section{Properties of Sessions}\label{sec-proc-props}
+
+We give typing rules for the session calculus introduced in \ref{sec-procs}, and prove subject 
+reduction and progress for them. Then we define 
+a liveness property for sessions, and show that processes typable by a local type context 
+that's associated with a global type tree are guaranteed to satisfy this liveness property.
+\subsection{Typing rules}
+We give typing rules for our session calculus based on \cite{SynchronousSubtyping} and \cite{srpaper}. 
+
+We distinguish between two kinds of typing judgements and type contexts.
+\newcommand{\vdashm}{\vdash_\M}
+\newcommand{\vdashp}{\vdash_\PT}
+\begin{enumerate}
+    \item A local type context $\Gamma$ associates participants with local type trees, as defined in
+    c{def-type-ctx}. Local type contexts are used to type sessions (\cref{def:sessions}) i.e. a set of 
+    pairs of participants and single processes composed in parallel. We express 
+    such judgements as $\Gamma \vdashm \M$, or as \lstin{typ_sess M gamma} in Rocq.
+    \item A process variable context $\Theta_\T$ associates process variables with local type trees,
+    and an expression variable context $\Theta_\kf{e}$ 
+    assigns sorts to expresion variables.
+    Variable contexts are used to type single processes and expressions (\cref{def:processes}). 
+    Such judgements are expressed 
+    as $\Theta_\T, \Theta_\kf{e} \vdashp \PT : \T$, or in as \lstin{typ_proc theta_T theta_e P T}.
+\end{enumerate}
+
+\begin{table}[h]
+{\footnotesize
+\[
+\begin{array}{@{}l@{}}
+  \inferrule%[\rulename{steq}]
+  {}
+  {\Theta \vdashp n\colon \texttt{nat}\qquad \Theta \vdashp i\colon \texttt{int}
+  \qquad \Theta \vdashp \mathtt{true}\colon \texttt{bool}\qquad \Theta \vdashp \mathtt{false}\colon \texttt{bool}\qquad \Theta,x\colon\ST \vdashp x\colon \ST}
+      \\[3mm]
+     \inferrule%[\rulename{steq}]
+  {\Theta \vdashp e\colon \texttt{nat}}
+  {\Theta \vdashp \mathtt{succ}\ e\colon \texttt{nat}}
+      \quad
+     \inferrule%[\rulename{steq}]
+  {\Theta \vdashp e\colon \texttt{int}}
+  {\Theta \vdashp \mathtt{neg}\ e\colon \texttt{int}}
+  \qquad
+     \inferrule%[\rulename{steq}]
+  {\Theta \vdashp e\colon \texttt{bool}}
+  {\Theta \vdashp \neg\ e\colon \texttt{bool}}
+      \\[3mm]
+     \inferrule%[\rulename{steq}]
+  {\Theta \vdashp e_1\colon \ST \quad \Theta \vdashp e_2\colon \ST}
+  {\Theta \vdashp  e_1\oplus e_2\colon \ST}
+  \qquad
+     \inferrule%[\rulename{steq}]
+  {\Theta \vdashp e_1\colon \texttt{int} \quad \Theta \vdashp e_2\colon \texttt{int}}
+  {\Theta \vdashp \ e_1 > e_2\colon \texttt{bool}}
+  \qquad
+     \inferrule%[\rulename{steq}]
+  {\Theta \vdashp e\colon \ST \quad \ST \subso \ST'}
+  {\Theta \vdashp e\colon \ST'}
+\end{array}
+\]}
+\caption{Typing expressions}
+\label{tbl:expr}
+\end{table}
+\begin{table}[h]
+{\footnotesize
+\[
+\begin{array}{@{}l@{}}
+  \inferrule[\rulename{t-end}]
+  {}
+  {\Theta \vdashp \inact \colon \tend}
+\quad
+  \inferrule[\rulename{t-var}]
+  {}
+  {\Theta,\Xv\colon\T \vdashp \Xv\colon\T}
+ \quad
+  \inferrule[\rulename{t-rec}]
+  {\Theta,\Xv\colon\T \vdashp \PT\colon \T}
+  {\Theta \vdashp \mu\Xv.\PT\colon\T}
+ \quad
+  \inferrule[\rulename{t-if}]
+  {\Theta\vdashp e\colon \texttt{bool} \quad \Theta \vdashp \PT_1\colon \T  \quad \Theta \vdashp \PT_2\colon \T}
+  {\Theta \vdashp \texttt{if}\ \kf{e} \ \mathtt{then}\ \PT_1  \ \mathtt{else} \ \PT_2\colon \T}
+      \\[4mm]
+  \inferrule[\rulename{t-sub}]
+  {\Theta \vdashp \PT\colon \T \quad \T\leqslant \T'}
+  {\Theta \vdashp \PT\colon \T'}
+  \quad
+   \inferrule[\rulename{t-in}]
+  {\forall i\in I,\quad \Theta,x_i\colon\ST_i \vdashp \PT_i\colon \T_i}
+  {\Theta \vdashp \sum_{i \in I} \prt{p} ?\ell_i(x_i).\PT_i\colon  
+  \ltrec{\pp}{\ell_i(\ST_i).\T_i}_{i \in I}}
+ \quad
+   \inferrule[\rulename{t-out}]
+  {\Theta \vdashp e\colon\ST \quad \Theta \vdashp \PT\colon \T}
+  {\Theta \vdashp \prt{p}!\ell(\kf{e}).\PT \ \colon  \ {\pp}\sendsign\{{\ell(\ST).\T}\}}
+\end{array}
+\]}
+\caption{Typing processes}
+\label{tbl:proc}
+\end{table}
+\cref{tbl:expr} and \cref{tbl:proc} state the standard typing rules for expressions and processes.
+We have a single rule for typing sessions:
+\[
+\inferrule[\rulename{t-sess}]{\forall i \in I: \qquad \vdashp \PT_i \colon \Gamma(\pp_i) \qquad 
+\Gamma \assoc \G}
+{\Gamma \vdashm \prod_i \pp_i \triangleleft \PT_i}
+\]
+
+\subsection{Subject Reduction, Progress and Session Fidelity}
+The subject reduction, progress and non-stuck theorems from \cite{srpaper} \todo{give theorem no}
+also hold in this setting, with minor changes in their statements and proofs. 
+We won't discuss these proofs in detail.
+\begin{lemma}
+  If \lstin{typ_sess M gamma} and \lstin{unfoldP M M'} then \lstin{typ_sess M' gamma}.
+\end{lemma}
+\begin{proof}
+  By induction on \lstin{unfoldP M M'}.
+\end{proof}
+\begin{theorem}[Subject Reduction]\label{theo-sub-red}
+If \lstin{typ_sess M gamma} and \lstin{betaP_lbl M (lcomm p q ell) M'}, then 
+there exists a typing context \lstin{gamma'} such that 
+\lstin{tctxR gamma (lcomm p q ell) gamma'}
+and \lstin{typ_sess M' gamma'}.
+\end{theorem}
+\begin{theorem}[Progress]
+If \lstin{typ_sess M gamma}, one of the following hold :
+\begin{enumerate}
+  \item Either \lstin{unfoldP M M_inact} where every process making up \lstin{M_inact}
+  is inactive, i.e. 
+  \lstin{M_inact}$= \prod_{i=1}^{n}\pp_i \triangleleft \bf{0}$ for some $n$. 
+  \item Or there is a \lstin{M'} such that \lstin{betaP M M'}.
+\end{enumerate}
+\end{theorem}
+\begin{remark}
+Note that in \cref{theo-sub-red} one transition between sessions corresponds to exactly one transition
+between local type contexts with the same label. That is, every session transition is observed by the corresponding type.
+This is the main reason for our choice of 
+reactive semantics (\cref{def-sess-semantics}) as $\tau$ transitions are not observed by the type in
+ordinary semantics. In other words, with $\tau$-semantics the typing relation is a \textit{weak simulation} \cite{weakbisim},
+while it turns into a strong simulation with reactive semantics. For our Rocq implementation 
+working with the strong simulation turns out be more convenient. 
+\end{remark}
+We can also prove the following correspondence result in the reverse direction to \cref{theo-sub-red}, analogus 
+to \cref{theo-soundness}.
+\begin{theorem}[Session Fidelity]\label{theo-sess-fid}
+If \lstin{typ_sess M gamma} and \lstin{tctxR gamma (lcomm p q ell) gamma'}, there exists a
+message label
+\lstin{ell'} and a session \lstin{M'} such that \lstin{betaP_lbl M (lcomm p q ell') M'} 
+and \lstin{typ_sess M' gamma'}.  
+\end{theorem}
+\begin{proof}
+By inverting the local type context transition and the typing.
+\end{proof}
+\begin{remark}
+Again we note that by \cref{theo-sess-fid} a single-step context reduction induces 
+a single-step session reduction on the type. 
+With the $\tau$-semantics the session reduction induced by 
+the context reduction would be multistep.
+\end{remark}
+\subsection{Session Liveness}
+We state the liveness property we are interested in proving,
+and show that typable sessions have this property.
+\begin{definition}[Session Liveness]\label[definition]{def-live-sess}
+  Session $\M$ is live iff
+  \begin{enumerate}
+    \item ${\M}\longrightarrow^* {\M'} \Rrightarrow \pq \triangleleft \tout{\pp}{\ell_i}{x_i}.Q \;|\; \N$ implies 
+    ${\M'}\longrightarrow^*{\M''} \Rrightarrow \pq \triangleleft Q \;|\; \N'$ for some $\M'', \N'$
+    
+    \item ${\M}\longrightarrow^* {\M'} \Rrightarrow \pq \triangleleft \texternal \tin{\pp}{\ell_i}{x_i}.Q_i \;|\; \N$ implies 
+    ${\M'}\longrightarrow^*{\M''} \Rrightarrow \pq \triangleleft Q_i[v/x_i] \;|\; \N'$ for some $\M'', \N', i, v.$ 
+  \end{enumerate}
+\end{definition}
+Session liveness, analogous to liveness for typing contexts (\cref{def-fair-live}), says that 
+when $\M$ is live, if $\M$ reduces to a session $\M'$ containing a participant that's attempting to send 
+or receive, then $\M'$ reduces to a session where that communication has happened. 
+It's also called \textit{lock-freedom} in related work (\cite{fairnesslock,padovani}). 
+
+We now prove that typed sessions are live. Our proof follows the following steps:
+\begin{enumerate}
+  \item Formulate an analogue of fairness for typable sessions,
+  with the property that any finite session reduction path can be extended to a fair
+  session reduction path.  
+  \item Lift the typing relation to reduction paths, and show that fair session reduction paths
+  are typed by fair local type context reduction paths.
+  \item Prove that a certain transition eventually happens in the local context reduction 
+  path, and that this means the desired transition is enabled in the session reduction path.   
+\end{enumerate}
+\begin{theorem}[Liveness by Typing]
+  If $\Gamma \vdashm \M$ then $\M$ is live.
+\end{theorem}
+\begin{proof}
+  We proceed by assuming that Item 1 of \cref{def-live-sess}
+  doesn't hold and showing a contradiction. The case for when Item 2 doesn't hold is similar.
+
+  Suppose  $\transcls{\M}{\M'} \Rrightarrow \pq \triangleleft \tout{\pp}{\ell_i}{x_i}.Q \;|\; \N$,
+  and there is no $\M''$ such that 
+  $\M'' \Rrightarrow \pq \triangleleft Q \;|\; \N'$. By subject reduction we have 
+  $\Gamma' \vdashm \M'$ for some $\Gamma'$. By inverting $\rulename{T-out}$ and subtyping
+  we get that $\Gamma'(\pq)=\ltsend{p}{\ell_i(S_i).\T_i}_{i \in I}$ for some $I$.
+  Therefore by \cref{def-ctx-red} we have that 
+  $\Gamma'
+  \lts{\lblsend{q}{p}{\ell_i}}$ for some $i$.
+  Furthermore by our assumption we don't ever have $\pp \triangleleft \texternal \tin{\pq}{\ell_i(x_i).\PT_i}$
+  in a session $\M'$ can reduce to, hence for all $\M''$ s.t. $\M' \longrightarrow^* \M''$
+  and $\Gamma'' \vdashm \M''$ we don't have $\Gamma''(\pp)=\ltrec{q}{...}$.
+  Thus we have that there is no reduction path from $\Gamma'$ that contains a $\lblsync{p}{q}{\ell_k}$
+  transition. Now suppose there exists a fair path from $\Gamma'$, then on this path 
+  we perpetually have $\Gamma'(\pq) \lts{\lblsend{q}{p}{\ell_i}}$ 
+  without ever transitioning via $\lts{\lblsync{p}{q}{\ell_k}}$, therefore this path is not live.
+  Therefore $\Gamma$ is not a live type context.
+  However, we have by \ref{theo-assoc-live} that $\Gamma$ is live, which is a contradiction.
+  
+  Now it suffices to show that there exists a fair path starting from $\Gamma'$. This 
+  path always exists as we can just "schedule" the available synchronous transitions so that
+  all of them are eventually executed e.g. in a round-robin-like way.  
+\end{proof}

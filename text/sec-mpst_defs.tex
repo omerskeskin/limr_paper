@@ -1,0 +1,435 @@
+\section{The Type System}
+We introduce local and global types and trees and the subtyping and projection relations based on
+\cite{SynchronousSubtyping}.
+\label{sec:types}
+We start by defining the sorts that will be used to type expressions, 
+and local types that will be used to type single processes.
+\subsection{Local Types and Type Trees}
+\begin{definition}[Sorts]
+    \label[definition]{def:sorts}
+    We define sorts as follows: 
+    \begin{align*}
+      \S &::= \quad \tint \SEP \tbool \SEP \tnat
+      \end{align*}
+      and the corresponding Coq
+      \begin{tcb}{Coq}
+Inductive sort: Type :=
+   | sbool: sort
+   | sint : sort
+   | snat : sort.
+    \end{tcb}
+  \end{definition}
+
+\begin{definition}
+    Local types are defined inductively with the following syntax: 
+    \begin{align*}
+        \tlt &::= \quad \tend 
+        \SEP \ltsend{\prt{p}}{\ell_i(\S_i).\tlt_i}_{i \in I}
+        \SEP \ltrec{\prt{p}}{\ell_i(\S_i).\tlt_i}_{i \in I}
+        \SEP \textbf{t}
+        \SEP \mu \textbf{t}.\tlt        
+    \end{align*}                              
+\end{definition}
+Informally, in the above definition, $\tend$ represents a role that has finished communicating.
+$\ltsend{\prt{p}}{\ell_i(\S_i).\tlt_i}_{i \in I}$ denotes a role that may, from any $i \in I$, 
+receive a value of sort $S_i$ with message label $\ell_i$ and continue with $\tlt_i$.
+Similarly, $\ltrec{\prt{p}}{\ell_i(\S_i).\tlt_i}_{i \in I}$ represents a role that may choose
+to send a value of sort $S_i$ with message label $\ell_i$ and continue with $\tlt_i$ for any $i \in I$.
+$\mu \textbf{t}.\tlt$ represents a recursive type where $\textbf{t}$ is a type variable. 
+We assume that the indexing sets $I$ are always non-empty. We also assume that recursion is
+always guarded.
+
+We employ an equirecursive approach based on the standard techniques from \cite{pierce2002types}
+where $\mu \textbf{t}.\tlt$ is considered to be equivalent to its unfolding
+$\tlt[\mu \textbf{t}.\tlt/\textbf{t}]$. This enables us to identify a recursive type 
+with the possibly infinite local type tree obtained by fully unfolding its recursive subterms.
+
+\begin{definition}
+Local type trees are defined coinductively with the following syntax: 
+\begin{align*}
+    \T &::= \quad \tend 
+     \SEP \procinset{\prt{p}}{\ell_i(\S_i)}{\T_i}{i \in I}
+     \SEP \procoutset{\prt{p}}{\ell_i(\S_i)}{\T_i}{i \in I}
+    \end{align*}
+    The corresponding Coq definition is given below.
+\begin{tcb}{Coq}
+    CoInductive ltt: Type :=
+  | ltt_end : ltt
+  | ltt_recv: part -> list (option(sort*ltt)) -> ltt
+  | ltt_send: part -> list (option(sort*ltt)) -> ltt.
+\end{tcb}
+\end{definition}
+Note that in Coq we represent the continuations using a \lstin{list} of \lstin{option} types. 
+In a continuation \lstin{gcs : list (option(sort*ltt))}, index \lstin{k} (using zero-indexing) being equal to 
+\lstin{Some (s_k, T_k)} means that $\ell_k (S_k).\T_k$ is available in the continuation.
+Similarly index \lstin{k} being equal to \lstin{None} or being out of bounds of the list means 
+that the message label $\ell_k$ is not present in the continuation. 
+Below are some of the constructions we use when working with option lists.
+\begin{enumerate}
+  \item \lstin{SList xs}: A function that is equal to \lstin{True} if 
+  \lstin{xs} represents a continuation that has at least one element 
+  that is not \lstin{None}, and \lstin{False} otherwise.
+  \item \lstin{onth k xs}: A function that returns \lstin{Some x} 
+  if the element at index \lstin{k} (using 0-indexing) of \lstin{xs} is \lstin{Some x},
+  and returns \lstin{None} otherwise. Note that the function returns \lstin{None}
+  if \lstin{k} is out of bounds for \lstin{xs}.
+  \item \lstin{Forall, Forall2} and \lstin{Forall2R} : \lstin{Forall} and \lstin{Forall2}
+  are predicates from the Coq Standard Library \cite[List]{coqstl} that are used to quantify 
+  over elements of one list and pairwise elements of two lists, respectively.
+  \lstin{Forall2R} is a weaker version of \lstin{Forall2} that might hold 
+  even if one parameter is shorter than the other. We frequently use 
+  \lstin{Forall2R} to express subset relations on continuations.
+\end{enumerate}
+\begin{remark}
+  Note that Coq allows us to create types such as \lstin{ltt_send q []} which 
+  don't correspond to well-formed local types as the continuation is empty.
+  In our implementation we define a predicate \lstin{wfltt : ltt -> Prop} capturing that 
+  all the continuations in the local type tree are non-empty. Henceforth we assume that all local types
+  we mention satisfy this property.
+\end{remark}
+\begin{example}
+  Let local type $\tlt=\mu \textbf{t}.\ltsend{\prt{q}}{\ell_0(\tint).\tend , \ell_2(\tbool).\textbf{t}}$.
+  This is equivalent to the following infinite local type tree:
+
+  \begin{tikzcd}
+   & {\prt{q}\sendsign } \arrow[ld, "\ell_0(\tint)"] \arrow[rd, "\ell_2(\tbool)"] &                          &     \\
+   \tend &                  & {\prt{q}\sendsign} \arrow[ld, "\ell_0(\tint)"] \arrow[rd, "\ell_2(\tbool)"] &     \\
+   & \tend                       &                          & ...
+\end{tikzcd}
+
+and the following Coq code
+\begin{tcb}{Coq}
+CoFixpoint T := ltt_send q [Some (sint, ltt_end), None, Some (sbool, T)]
+\end{tcb}
+\end{example}
+We omit the details of the translation between local types and local type trees, the technicalities of
+our approach is explained in \cite{SynchronousSubtyping}, and the Coq implementation of translation
+is detailed in \cite{srpaper}. From now on we work exclusively on local type trees.
+\begin{remark}
+  We will occasionally be talking about equality (\lstin{=}) between coinductively
+  defined trees in Coq. Coq's Leibniz equality is not strong enought to treat 
+  as equal the types that we will deem to be the same. To do that, we define a coinductive predicate \lstin{lttIsoC} that captures
+  isomorphism between coinductive trees and take as an axiom that \lstin{lttIsoC T1 T2 -> T1=T2}. 
+  Technical details can be found in \cite{srpaper}. 
+\end{remark}
+\subsection{Subtyping}
+We define the subsorting relation on sorts and the subtyping relation on local type trees.
+\begin{definition}[Subsorting and Subtyping] \label[definition]{def:subtyping}
+  Subsorting $\subso$ is the least reflexive binary relation that satisfies $\tnat \subso \tint$. 
+  Subtyping $\subtp$ is the largest relation between local type trees coinductively defined by the following rules:
+  \[
+  \begin{array}[t]{@{}c@{}}
+    \cinferrule[]{
+    }{
+    \tend \subtp \tend
+    }
+    \enspace \rulesubend
+    \quad
+  \cinferrule[]{
+    \forall i \in I: \qquad S'_i \subso S_i \qquad \T_i \subtp \T'_i
+  }
+  {
+    \procinset{p}{\ell_i(S_i)}{\T_i}{i \in I \cup J} \subtp 
+    \procinset{p}{\ell_i(S'_i)}{\T'_i}{i \in I}
+  }
+  \enspace \rulesubin
+  \\\\
+  \cinferrule[]{
+    \forall i \in I: \qquad S_i \subso S'_i \qquad \T_i \subtp \T'_i
+  }
+  {
+    \procoutset{p}{\ell_i(S_i)}{\T_i}{i \in I}
+    \subtp
+    \procoutset{p}{\ell_i(S'_i)}{\T'_i}{i \in I \cup J}
+    }
+  \enspace \rulesubout
+  \end{array}
+  \]
+\end{definition}
+Intutively, $\T_1 \subtp \T_2$ means that a role of type $\T_1$ can be supplied anywhere 
+a role of type $\T_2$ is needed.
+$\rulesubin$ captures the fact that we can supply a role that is able to receive 
+more labels than specified, and $\rulesubout$ captures that we can supply a role
+that has fewer labels available to send. Note the contraviance of the sorts in $\rulesubin$,
+if the supertype demands the ability to receive an $\tnat$ then the subtype can 
+receive $\tnat$ or $\tint$.
+
+In Coq we express coinductive relations such as subtyping using the Paco library \cite{paco}.
+The idea behind Paco is to formulate the coinductive predicate as the greatest fixpoint of an
+inductive relation parameterised by another relation \lstin{R} representing the "accumulated knowledge"
+obtained during the course of the proof. Hence our subtyping relation looks like the following:
+\begin{tcb}{Coq}
+Inductive subtype (R: ltt -> ltt -> Prop): ltt -> ltt -> Prop :=
+  | sub_end: subtype R ltt_end ltt_end
+  | sub_in : forall p xs ys,
+                    wfrec subsort R ys xs ->
+                    subtype R (ltt_recv p xs) (ltt_recv p ys)
+  | sub_out : forall p xs ys,
+                     wfsend subsort R xs ys ->
+                     subtype R (ltt_send p xs) (ltt_send p ys).
+
+Definition subtypeC l1 l2 := paco2 subtype bot2 l1 l2.
+\end{tcb}
+In definition of the inductive relation \lstin{subtype}, constructors \lstin{sub_in} and \lstin{sub_out}
+correspond to $\rulesubin$ and $\rulesubout$ with \lstin{wfrec} and \lstin{wfsend} 
+expressing the premises of those rules.
+Then \lstin{subtypeC} defines the coinductive subtyping relation as a greatest fixed point. 
+Given that the relation \lstin{subtype} is monotone (proven in \cite{srpaper}), \lstin{paco2 subtype bot2} 
+generates the greatest fixed point of \lstin{subtype} with the 
+"accumulated knowledge" parameter set to the empty relation \lstin{bot2}. The \lstin{2} at the end
+of \lstin{paco2} and \lstin{bot2} stands for the arity of the predicates.
+
+\subsection{Global Types and Type Trees}
+While local types specify the behaviour of one role in a protocol, 
+global types give a bird's eye view of the whole protocol.
+\begin{definition}[Global type]
+  \label[definition]{def:global_types}
+  We define global types inductively as follows: 
+  \begin{align*}
+    \mathbb{G} &::= \quad \tend 
+     \SEP \GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\mathbb{G}_i}_{i\in I}
+     \SEP \textbf{t}
+     \SEP \mu \textbf{t}.\mathbb{G}
+    \end{align*}
+
+    We further inductively define the function $\funprt(\mathbb{G})$ that denotes the participants of type $\mathbb{G}$:
+    \begin{align*}
+      &\funprt(\tend)=\funprt(\textbf{t})=\emptyset\\
+      &\funprt(\GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\mathbb{G}_i}_{i\in I})=
+      \{\prt{p},\prt{q}\} \cup \bigcup _{i \in I} {\funprt(\mathbb{G}_i)}\\
+      &\funprt(\mu \textbf{T}.\mathbb{G})=\funprt(\mathbb{G})
+    \end{align*}
+\end{definition}
+$\tend$ denotes a protocol that has ended, $\GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\mathbb{G}_i}_{i\in I}$
+denotes a protocol where for any $i \in I$, participant $\pp$ may send a value of sort 
+$S_i$ to another participant $\pq$ via message label $\ell_i$, after which the protocol continues as $\mathbb{G}_i$.
+
+As in the case of local types, we adopt an equirecursive approach and work exclusively on possibly infinite 
+global type trees.
+\begin{definition}[Global type trees]
+  \label[definiton]{def:global_type_trees}
+  We define global type trees coinductively as follows: 
+  \begin{align*}
+    \G &::= \quad \tend 
+     \SEP \GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\G_i}_{i\in I}
+    \end{align*}
+    with the corresponding Coq code
+    \begin{tcb}{Coq} 
+    CoInductive gtt: Type :=
+    | gtt_end    : gtt
+    | gtt_send   : part -> part -> list (option (sort*gtt)) -> gtt.
+    \end{tcb}
+
+    We extend the function $\funprt$ onto trees by defining $\funprt(\G)=\funprt(\mathbb{G})$
+    where the global type $\mathbb{G}$ corresponds to the global type tree $\G$. Technical details 
+    of this definition such as well-definedness can be found in \cite{srpaper,SynchronousSubtyping}. 
+    
+    In Coq $\funprt$ is captured with the 
+    predicate \lstin{isgPartsC : part -> gtt -> Prop}, where \lstin{isgPartsC p G} 
+    denotes $\prt{p} \in \funprt(\G)$.  
+\end{definition}
+
+\subsection{Projection}
+We give definitions of projections with plain merging. 
+\begin{definition}[Projection] \label[definition]{def:projections}
+    The projection of a global type tree onto a participant ${\prt{r}}$ is the largest relation $\upharpoonright_{\prt{r}}$ between global type trees and
+    local type trees such that, whenever $\G\proj{r}\T$:
+    \begin{itemize}
+      \item ${\prt{r}} \notin \participant{\G}$ implies $\T = \tend$; \hfill {\ruleprojend}
+      \item $\G = \GvtPair{\prt{p}}{\prt{r}}{\ell_i(S_i).\G_i}_{i \in I}$ implies 
+      $\T = \procinset{\prt{p}}{\ell_i(\S_i)}{\T_i}{i \in I}$ and $\forall i \in I, \G\proj{r}\T_i $ \hfill {\ruleprojin}
+      \item $\G = \GvtPair{\prt{r}}{\prt{q}}{\ell_i(S_i).\G_i}_{i \in I}$ implies 
+      $\T = \procoutset{\prt{q}}{\ell_i(\S_i)}{\T_i}{i \in I}$ and $\forall i \in I, \G\proj{r}\T_i $ \hfill {\ruleprojout}
+      \item $\G = \GvtPair{\prt{p}}{\prt{q}}{\ell_i(S_i).\G_i}_{i \in I} \text{and } {\prt{r}} \notin \{{\prt{p}},{\prt{q}}\}$ implies 
+      that there are $\T_i, i \in I$ such that $\T = \sqcap_{i \in I} \T_i$ and $\forall i \in I, \G\proj{r}\T_i $ \hfill {\ruleprojcont}
+    \end{itemize}
+    where $\sqcap$ is the merging operator. 
+    We also define plain merge $\sqcap$  as
+    \[
+    \T_1 \sqcap \T_2 = 
+    \begin{cases}
+    \T_1 & \text{if} \enspace \T_1 = \T_2\\
+    \text{undefined} & \text{otherwise}
+    \end{cases}
+    \]
+\end{definition}
+\begin{remark}
+   In the MPST literature there exists a more powerful merge operator named 
+   full merging, defined as 
+    \[
+    \T_1 \sqcap \T_2 = 
+    \begin{cases}
+    \T_1 & \text{if} \enspace \T_1 = \T_2\\
+    \T_3 & \text{if}  \enspace \exists I, J: 
+      \begin{cases}
+        \T_1 = \procinset{{\prt{p}}}{\ell_i(\S_i)}{\T_i}{i \in I} & \text{and}\\
+        \T_2 = \procinset{{\prt{p}}}{\ell_j(\S_J)}{\T_j}{j \in J} & and\\
+        \T_3 = \procinset{{\prt{p}}}{\ell_k(\S_k)}{\T_k}{k \in {I \cup J}}
+      \end{cases}\\
+    \text{undefined} & \text{otherwise}
+    \end{cases}
+    \]
+    Indeed, one of the papers we base this work on \cite{LessIsMoreRevisited} uses 
+    full merging. However we used plain merging in our formalisation and consequently
+    in this work as it was already implemented in \cite{srpaper}. Generally speaking,
+    the results we proved can be adapted to a full merge setting, see the proofs in \cite{LessIsMoreRevisited}.
+\end{remark}
+Informally, the projection of a global type tree $\G$ onto a participant $\prt{r}$
+extracts a specification for participant  $\prt{r}$ from the protocol whose bird's-eye view 
+is given by $\G$. \ruleprojend expresses that if $\prt{r}$ is not a participant of $\G$ then
+$\prt{r}$ does nothing in the protocol. \ruleprojin and \ruleprojout handle the cases where $\prt{r}$
+is involved in a communication in the root of $\G$. $\ruleprojcont$ says that, if $\prt{r}$ is not
+involved in the root communication of $\G$, then the only way it knows its role in the protocol 
+is if there is a role for it that works no matter what choices $\pp$ and $\pq$ make in their communication.
+This "works no matter the choices of the other participants" property is captured by the merge operations.
+
+In Coq these constructions are expressed with the inductive \lstin{isMerge} and the coinductive
+\lstin{projectionC}.
+\begin{tcb}{Coq}
+Inductive isMerge : ltt -> list (option ltt) -> Prop :=
+  | matm : forall t, isMerge t (Some t :: nil)
+  | mconsn : forall t xs, isMerge t xs -> isMerge t (None :: xs) 
+  | mconss : forall t xs, isMerge t xs -> isMerge t (Some t :: xs). 
+\end{tcb}
+\lstin{isMerge t xs} holds if the plain merge of the types in \lstin{xs} is equal to 
+\lstin{t}.
+\begin{tcb}{Coq}
+Variant projection (R: gtt -> part -> ltt -> Prop): gtt -> part -> ltt -> Prop :=
+| proj_end : forall g r, 
+                (isgPartsC r g -> False) -> 
+                projection R g r (ltt_end)
+| proj_in  : forall p r xs ys,
+                p <> r ->
+                (isgPartsC r (gtt_send p r xs)) ->
+                List.Forall2 (fun u v => (u = None /\ v = None) \/ (exists s g t, u = Some(s, g) /\ v = Some(s, t) /\ R g r t)) xs ys ->
+                projection R (gtt_send p r xs) r (ltt_recv p ys)
+| proj_out : ...
+| proj_cont: forall p q r xs ys t,
+                p <> q ->
+                q <> r ->
+                p <> r ->
+                (isgPartsC r (gtt_send p q xs)) ->
+                List.Forall2 (fun u v => (u = None /\ v = None) \/ 
+                (exists s g t, u = Some(s, g) /\ v = Some t /\ R g r t)) xs ys ->
+                isMerge t ys ->
+                projection R (gtt_send p q xs) r t.
+Definition projectionC g r t := paco3 projection bot3 g r t.
+\end{tcb}
+As in the definition of \lstin{subtypeC}, \lstin{projectionC} is defined as a parameterised greatest fixed point
+using Paco. The premises of the rules $\ruleprojin, \ruleprojout$ and $\ruleprojcont$
+are captured using the Coq standard library predicate 
+\lstin{List.Forall2 : forall A B : Type, (P:A -> B -> Prop) (xs:list A) (ys:list B) :Prop} 
+that holds if \lstin{P x y} holds for every \lstin{x, y} where the index of 
+\lstin{x} in \lstin{xs} is the same as the index of \lstin{y} in the index of 
+\lstin{ys}. 
+
+We have the following fact about projections that lets us regard it as a partial
+function:
+\begin{lemma} \label[lemma]{lem-proj-func} If \lstin{projectionC G p T} and 
+\lstin{projectionC G p T'} then \lstin{T = T'}.  
+\end{lemma}
+We write $\projfn{\G}{\pr}=\T$ when $\G\proj{\pr}\T$. Furthermore we will be frequently
+be making assertions about subtypes of projections of a global type e.g.
+$\T \subtp \projfn{\G}{\pr}$. In our Coq implementation we define the predicate \lstin{issubProj}
+as a shorthand for this.
+\begin{tcb}{Coq}
+  Definition issubProj (t:ltt) (g:gtt) (p:part) := 
+    exists tg, projectionC g p tg /\ subtypeC t tg.
+\end{tcb}
+\subsection{Balancedness, Global Tree Contexts and Grafting}
+We introduce an important constraint on the types of global type trees we will consider, balancedness.
+
+\begin{definition}[Balanced Global Type Trees]\label[definition]{def-balance}
+A global tree $\G$ is balanced if for any subtree $\G'$ of $\G$, there exists $k$ such that
+for all $\pp \in \funprt(\G')$, $\pp$ occurs on every path from the root of $\G'$ of length at 
+least $k$.
+
+In Coq balancedness is expressed with the predicate \lstin{balancedG (G : gtt)}
+\end{definition}
+We omit the technical details of this definition and the Coq implementation, they can be found in 
+\cite{SynchronousSubtyping} and \cite{srpaper}.
+\begin{example}\label{example-balance}
+The global type tree $\G$ given below is unbalanced as 
+constantly following the left branch gives an infinite 
+path where $\pr$ doesn't occur despite being a participant of the tree. There is no such path for
+$\G_2$, hence $\G_2$ is balanced.
+\\\\
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQAdDtNAAi4BOUAMb9uARxABfUuky58hFAEZSy6nSat2XHmKGjdkmXOx4CRAMxqNDFm0ScJ+kWLQDpskBjOKrpYlstByccGDAoT1MFCxRyAKD7dgA6VKjveXMlZFVAmjttRyMXQ24PEwzfWJzSS0TC0PDIip8Y7NUqfOCdDgBxRxbMvxQAFgp6kK5egH1iAa9WrKIAVnGupKLuPkFXI3TF4eRV9XWG3W2OAzdyhaHqgDYbU8nnHdL3fbvs1bzNDac9G9rp8qtlHr8Ci80OISsDBqCVrUJik0vC2kRHnVnijktINDAoABzeBEUAAMwEEAAtkh4iAcBAkKo-mcODBGIxpuQABRcPBgHAASnSFOpTJoDKQYxZL3ZnJ5fKwAuFFVFNMQzMliFWMp6cumyl5HH5QpFlPVOq1j11m31xCNJpVXjVtIljMQZBtTn1hsVyrNYo9bqQ1i9XDtDqVptV5qQAE5gxq6ZC9RyuZH-TRGPQAEbsgAKX3YAiwhIAFjgA+rlHStcpPSnbWn7X7o87YxrPXXpY3vc2M23yR2E-T3cpmb3w2nfcao06h4Hx4nlKHJ2y05YB-OQC6NaG6zq1-rN62VZQpEA
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZAJgBoAGAXVJADcBDAGwFcYkQAdDtNAAi4BOUAMb9uARxABfUuky58hFAEZSy6nSat2XHmKGjdkmXOx4CRAMxqNDFm0ScJ+kWLQDpskBjOKrpYlstByccGDAoT1MFCxRyAKD7dgA6VKjveXMlZFVAmjttRyMXQ24PEwzfWJzSS0TC0PDIip8Y7NUqfOCdDgBxRxbMvxQAFgp6kK5egH1iAa9WrKIAVnGupKLuPkFXI3TF4eRV9XWG4p3S932h6tW8zQ2nNHESt3KFm+zVutOQ1OTrlVsmMTg8zltXrp3tElqMEr8enoLm9AW0iGMfmC-mkpBoYFAAObwIigABmAggAFskPEQDgIEhVFiejBGIxpuQABRcPBgHAASnS5KpjJo9KQY2Zm1Z7K5PKwfMFFWF1MQTPFiFWUqcMumym5HF5AqFFNVWo1ADYEdK2bMDUalV4VTSxQzEGRtVxdfr5YqTSL3a6kNZPRxdcR7QrjcrTUgAJxBtW0gqTMO2n2GqOCmiMegAI1ZAAVPuxGDBSTh-arlLSNcomSmWbbLJG-TGA-XE8oPY2beyW77o07Y4gE3S3coQ72dba5Zm-Tn80WS44BFgCQALSvt6shuuS6de20RweOskj5SSutaw9p9kn+fRyhSIA
+\begin{tikzcd}
+    & \G:                                                                 & \pp \rdc \pq \arrow[ld, "\ell_0(\tint)"] \arrow[rd, "\ell_1(\tint)"] &                                         & \G_2:                                   & \pp \rdc \pq \arrow[d, "\ell_1(\tint)"] \arrow[ld, "\ell_0(\tint)"'] \\
+    & \pp \rdc \pq \arrow[ld, "\ell_0(\tint)"] \arrow[d, "\ell_1(\tint)"] &                                                                      & \pq \rdc \pr \arrow[d, "\ell_2(\tint)"] & \pp \rdc \pr \arrow[d, "\ell_2(\tint)"] & \pq \rdc \pr \arrow[d, "\ell_3(\tint)"]                              \\
+... & \pq \rdc \pr \arrow[d, "\ell_2(\tint)"]                             &                                                                      & \tend                                   & \pp \rdc \pr \arrow[d, "\ell_2(\tint)"] & \pq \rdc \pr \arrow[d, "\ell_3(\tint)"]                              \\
+    & \tend                                                               &                                                                      &                                         & ...                                     & ...                                                                 
+\end{tikzcd}
+\end{example}
+
+Intutively, balancedness is a regularity condition that imposes a notion of \textit{liveness} on the protocol
+described by the global type tree. For example, $\G$ in Example \ref{example-balance} describes a defective
+protocol as it possible for $\pp$ and $\pq$ to constantly communicate through $\ell_0$ and leave 
+$\pr$ waiting to receive from $\pq$ a communication that will never come. We will be exploring these liveness
+properties from \cref{sec:lts} onwards. 
+
+One other reason for formulating balancedness is that it allows 
+us to use the "grafting" technique, turning proofs by coinduction on infinite trees to proofs by induction
+on finite global type tree contexts.
+
+\begin{definition}[Global Type Tree Context]\label{def:global-ctx}
+  Global type tree contexts are defined inductively with the following syntax:
+  \begin{align*}
+    \Gcx &::= \quad \GvtPair{p}{q}{\ell_i(S_i).\Gcx_i}_{i \in I} 
+   \SEP \hole_i
+  \end{align*}
+  In Coq global type tree contexts are represented by the type \lstin{gtth}
+  \begin{tcb}{Coq}
+Inductive gtth: Type :=
+  | gtth_hol    : fin -> gtth
+  | gtth_send   : part -> part -> list (option (sort * gtth)) -> gtth.
+  \end{tcb} 
+  We additionally define $\funprt$ and \lstin{ishParts} on contexts analogously 
+  to $\funprt$ and \lstin{isgPartsC} on trees. 
+\end{definition}
+A global type tree context can be thought of as the finite prefix of a global type 
+tree, where holes $\hole_i$ indicate the cutoff points. Global type tree contexts
+are related to global type trees with the grafting operation.
+\begin{definition}[Grafting]
+  Given a global type tree context $\Gcx$ whose holes are in the indexing set $I$
+  and a set of global types $\{\G_i\}_{i \in I}$,  the grafting $\Gcx[\G_i]_{i \in I}$ denotes 
+  the global type tree obtained by substituting $\hole_i$ with $\G_i$ in $Gcx$.
+
+  In Coq the indexed set $\{\G_i\}_{i \in I}$ is represented using a \lstin{list (option gtt)}.
+  Grafting is expressed by the following inductive relation: 
+  \begin{tcb}{Coq}
+Inductive typ_gtth : list (option gtt) -> gtth -> gtt -> Prop.
+  \end{tcb}
+  \lstin{typ_gtth gs gcx gt} means that the grafting of the set of global type trees 
+  \lstin{gs} onto the context \lstin{gcx} results in the tree \lstin{gt}.
+\end{definition}
+
+Furthermore, we have the following lemma that relates global type tree contexts to balanced
+global type trees.
+\begin{lemma}[Proper Grafting Lemma, \cite{srpaper}]\label[lemma]{lem-grafting}
+If \lstin{G} is a balanced global type tree and \lstin{isgPartsC p G}, then there is 
+a global type tree context \lstin{Gctx} and an option list of global type trees 
+\lstin{gs} such that \lstin{typ_gtth gs Gctx G}, \lstin{\~ ishParts p Gctx} and every \lstin{Some} element of \lstin{gs}
+is of shape \lstin{gtt_end}, \lstin{gtt_send p q} or \lstin{gtt_send q p}. 
+\end{lemma}
+\ref{lem-grafting} enables us to represent a coinductive global type tree featuring
+participant $\pp$ as the grafting of 
+a context that doesn't contain $\pp$ with a list of trees that are all of a certain structure.
+If \lstin{typ_gtth gs Gctx G}, \lstin{\~ ishParts p Gctx} and every \lstin{Some} element of \lstin{gs}
+is of shape \lstin{gtt_end}, \lstin{gtt_send p q} or \lstin{gtt_send q p}, then we call 
+the pair \lstin{gs} and \lstin{Gctx} as the $\pp$-grafting of \lstin{G}, expressed in Coq as
+\lstin{typ_p_gtth gs Gctx p G}. When we don't care about the contents of \lstin{gs} we may just say
+that \lstin{G} is \lstin{p}-grafted by \lstin{Gctx}.
+\begin{remark}
+  From now on, all the global type trees we will be referring to are assumed to be balanced.
+  When talking about the Coq implementation, any \lstin{G : gtt} we mention is assumed
+  to satisfy the predicate \lstin{wfgC G}, expressing that \lstin{G} corresponds to some global type
+  and that \lstin{G} is balanced. 
+
+  Furthermore, we will often require that a global type is projectable onto all its participants. 
+  This is captured by
+  the predicate \lstin{projectableA G = forall p, exists T, projectionC G p T}. As with \lstin{wfgC}, 
+  we will be assuming that all types we mention are projectable. 
+\end{remark}

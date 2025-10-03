@@ -1,0 +1,34 @@
+\section{Conclusion}
+\subsection{Summary}
+In this work, we have provided a typing system based on coinductive trees (\cref{sec:types}) 
+for a simple synchoronous session calculus (\cref{sec-procs}).
+We then defined local type contexts, provided a transition system for them,
+and defined association between local type contexts and global types. 
+In \cref{sec-props} we stated 
+the safety and liveness properties for local type contexts based on this transition system,
+and proved that these properties hold for associated types.
+Then in \cref{sec:proc-props} we gave the typing rules for our session calculus,
+formulated a liveness property for sessions, and showed that typeable sessions satisfy this property.
+We have also mechanised many of the results in Coq, with the soundness proof being the most involved
+of them.  
+\subsection{Future Work}
+As far as the Coq implementation is concerned, an obvious next step would be to actually finish 
+the mechanisation. We believe that the definitions we provided are scalable and provide a good foundation
+for future formalisation efforts. Beyond the verification of proofs, a full formalisation 
+of the results of this paper would allow us to extract Coq programs that are certifiably live,
+which could have practical applications in error-sensitive settings. An example of this 
+approach is the Zooid DSL \cite{zooid}.
+
+One other possible future point of interest would be to extend our formalisation to use full merge instead of
+plain merge. Time and again, proofs of properties such as subject reduction in settings
+using full merge were shown to be flawed \cite{LessIsMore}, and formal verification of such proofs
+would aid future research greatly. 
+
+Another avenue for future efforts would be to investigate different flavours of fairness and 
+liveness using the "association" framework we employed. There are dozens of fairness 
+properties in the wider concurrency theory literature \cite{fairness}, with different fairness 
+assumptions being useful for different liveness properties \cite{fairnesslock}. It could be interesting
+to approach these notions of fairness from a MPST point of view and show how a specific typing discipline
+relates to these properties. In particular, it would be nice to see variations on the balancedness (\cref{def-balance})
+property we imposed on our type trees and see which of our results still hold, and what liveness
+properties the new balancedness assumptions relate to.

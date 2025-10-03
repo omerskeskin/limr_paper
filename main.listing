@@ -1,0 +1,6 @@
+Variant path_assoc (R:local_path -> global_path -> Prop): local_path -> global_path -> Prop :=
+  | path_assoc_nil : path_assoc R conil conil
+  | path_assoc_xs : forall g gamma l xs ys, assoc gamma g -> R xs ys ->
+  path_assoc R (cocons (gamma, l) xs) (cocons (g, l) ys).
+
+Definition path_assocC := paco2 path_assoc bot2.

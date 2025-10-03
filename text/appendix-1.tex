@@ -1,0 +1,470 @@
+
+\section{Proofs}
+\label{appx:proof}
+\subsection{Semantics of typing contexts}
+\begin{lemma}[Domain Preservation; \path{src/lcontext.v}, dom\_preservation\_6\_9]
+  If \lstin{tctxR gamma l gamma'} then \lstin{M.Eqdom gamma gamma'}.
+\end{lemma}
+\begin{proof}
+  By induction on \lstin{tctxR gamma l gamma'}.
+\end{proof}
+\begin{lemma}[Context Reduction Weakening; \path{src/lcontext.v}, tctxR\_weakening]
+  \label[lemma]{lem-weakening}
+  For contexts \lstin{tc,tc'} and \lstin{tc''} and label \lstin{l}, 
+  if \lstin{tctxR tc l tc'} and \lstin{tc''} is disjoint from \lstin{tc} and 
+  \lstin{tc'}, then \lstin{tctxR (disj_merge tc tc'' _) l (disj_merge tc' tc'' _)}
+  (where the underscores indicate the proofs of disjointness).
+\end{lemma}
+\begin{proof}
+  By induction on the context \lstin{tc''} using the induction principle \lstin{MF.map_induction} \cite{mmaps}.
+  \lstin{MF.map_induction} asserts that a finite map \lstin{m} is either empty, or it's equal to 
+  \lstin{M.add p t m'} for some key \lstin{p}, value \lstin{t} and finite map \lstin{m'}.
+  The proof then proceeds by routine rewrites.
+\end{proof}
+
+\begin{lemma}[Participant Relevancy; \path{src/lcontext.v}, lem\_6\_10] \label[lemma]{lem-not-subj-same}
+  For contexts \lstin{g} and \lstin{g'}, if \lstin{tctxR g l g'}, 
+  then for all participants \lstin{r} such that \lstin{\~ ispSubjl r l} we have 
+  \lstin{M.find r g = M.find r g'}.
+\end{lemma} 
+\begin{proof}
+  By routine induction on the reduction \lstin{tctxR g l g'}.
+\end{proof}
+
+\begin{lemma}[Local Typing Context Reduction Inversion; \path{src/lcontext.v}, lem\_6\_11*]
+  \label[lemma]{lem-ctx-red-inv}
+  For contexts \lstin{g g'}, participants \lstin{p q}, labels \lstin{ell} and sorts \lstin{s},
+  \begin{itemize}
+    \item  
+    if \lstin{tctxR g (lsend p q (Some s) ell) g'} then 
+    exists \lstin{xs Tp'} such that \lstin{M.find p g = Some (ltt_send q xs)} and 
+    \lstin{onth ell xs=Some (s, Tp')} and \lstin{M.find p g' = (Some Tp')}   
+    \item if \lstin{tctxR g (lrecv p q (Some s) ell) g'} then 
+    exists \lstin{xs Tp'} such that \lstin{M.find p g = Some (ltt_recv q xs)} and 
+    \lstin{onth ell xs=Some (s, Tp')} and \lstin{M.find p g' = (Some Tp')}
+    \item  if \lstin{tctxR g (lcomm p q) g'} then there are sorts \lstin{s s'}
+    such that \lstin{subsort s s'} and 
+    exists \lstin{xsp Tp'} such that \lstin{M.find p g = Some (ltt_send q xsp)} and 
+    \lstin{onth ell xsp=Some (s, Tp')} and \lstin{M.find p g' = (Some Tp')} and 
+    exists \lstin{xsq Tp'} such that \lstin{M.find q g = Some (ltt_recv q xsq)} and 
+    \lstin{onth ell xsq=Some (s, Tq')} and \lstin{M.find q g' = (Some Tq')}
+  \end{itemize}
+\end{lemma}
+\begin{proof}
+  By routine induction on the local typing context reduction.
+\end{proof}
+
+\begin{lemma}[Determinism of context reduction; \path{src/lcontext.v}, lem\_6\_12\_reduction\_determinism]
+If \lstin{tctxR gamma l gamma'} and \lstin{tctxR gamma l gamma''} then \lstin{M.Equal gamma' gamma''} 
+\end{lemma}
+\begin{proof}
+  Case analysis on \lstin{l}, applying \cref{lem-ctx-red-inv} and \cref{lem-not-subj-same} when needed.
+\end{proof}
+
+\begin{lemma} [Inversion of Projection and Subtyping; \path{src/assoc.v}, subproj\_inv\_*] \label[lemma]{lem-subproj-inv}
+  We have that
+  \begin{enumerate}
+  \item If \lstin{issubProj (ltt_send q xs) G p} then one of the following hold:
+  \begin{enumerate}[label=(\roman*)]
+    \item \lstin{G = gtt_send p q ys} for some \lstin{ys : list (option(sort*gtt))} and 
+    for all \lstin{k}, if \lstin{onth k xs = Some (s_x,T_x)} then 
+    there are \lstin{s_y, G_y} such that 
+    \lstin{onth k ys = Some (s_y,G_y)},
+    \lstin{subsort s_x s_y} and \lstin{issubProj T_x G_y p}.
+    \item There exist \lstin{s, t : part} and \lstin{ys : list (option(sort*gtt))}
+    such that \lstin{G=gtt_send s t ys}, \lstin{p <> s}, \lstin{p <> t} and 
+    whenever \lstin{onth k ys= Some (s_y,G_y)}, we have 
+    \lstin{issubProj (ltt_send q xs) G_y p}.
+  \end{enumerate} 
+  \item If \lstin{issubProj (ltt_recv q xs) G p} then one of the following hold:
+  \begin{enumerate}[label=(\roman*)]
+    \item \lstin{G = gtt_send q p ys} for some \lstin{ys : list (option(sort*gtt))} and 
+    for all \lstin{k}, if \lstin{onth k ys = Some (s_y,G_y)} then 
+    there are \lstin{s_x, T_x} such that 
+    \lstin{onth k xs = Some (s_x, T_x)},
+    \lstin{subsort s_y s_x} and \lstin{issubProj T_x G_y p}.
+    \item There exist \lstin{s, t : part} and \lstin{ys : list (option(sort*gtt))}
+    such that \lstin{G=gtt_send s t ys}, \lstin{p <> s}, \lstin{p <> t} and 
+    whenever \lstin{onth k ys= Some (s_y,G_y)}, we have 
+    \lstin{issubProj (ltt_recv q xs) G_y p}.
+  \end{enumerate} 
+  \item If \lstin{issubProj ltt_end G p} then \lstin{ \~ isgPartsC p G}.  
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+  By inverting \lstin{subtypeC} and \lstin{projectionC}. Additionally, 
+  when proving statements 
+  containing \lstin{Forall, Forall2 } or \lstin{Forall2R} we induct on
+  \lstin{xs} or \lstin{ys}. 
+\end{proof}
+\begin{lemma}[Simultaneous Inversion of Projections; \path{src/assoc.v}, lem\_6\_16\_simul\_subproj]\label[lemma]{lem-simul-subproj-inv}
+  If \lstin{issubProj (ltt_send q xp) G p} and 
+  \lstin{issubProj (ltt_recv p xq) G q} then whenever 
+  \lstin{onth k xp = Some (s_p, T_p)}, we have 
+  \lstin{onth k xq = Some (s_q, T_q)} where \lstin{subsort s_p s_q}.
+\end{lemma}
+\begin{proof}
+  By induction on the global tree context \lstin{gcx} 
+  given by grafting \lstin{G} with \lstin{p}.
+\end{proof}
+\subsection{Association}
+\begin{lemma}[Inversion of association] \label[lemma]{lem-inv-assoc}
+  Let \lstin{assoc gamma G}.
+  \begin{enumerate}
+  \item If \lstin{M.find p gamma= (ltt_send q xs)} then one of the following hold:
+  \begin{enumerate}[label=(\roman*)]
+    \item \lstin{G = gtt_send p q ys} for some \lstin{ys : list (option(sort*gtt))} and 
+    for all \lstin{k}, if \lstin{onth k xs = Some (s_x,T_x)} then 
+    there are \lstin{s_y, G_y} such that 
+    \lstin{onth k ys = Some (s_y,G_y)},
+    \lstin{subsort s_x s_y} and \lstin{issubProj T_x G_y p}.
+    \item There exist \lstin{s, t : part} and \lstin{ys : list (option(sort*gtt))}
+    such that \lstin{G=gtt_send s t ys}, \lstin{p <> s}, \lstin{p <> t} and 
+    whenever \lstin{onth k ys= Some (s_y,G_y)}, we have 
+    \lstin{issubProj (ltt_send q xs) G_y p}.
+  \end{enumerate} 
+  \item If \lstin{M.find p gamma= (ltt_recv q xs)} then one of the following hold:
+  \begin{enumerate}[label=(\roman*)]
+    \item \lstin{G = gtt_send q p ys} for some \lstin{ys : list (option(sort*gtt))} and 
+    for all \lstin{k}, if \lstin{onth k ys = Some (s_y,G_y)} then 
+    there are \lstin{s_x, T_x} such that 
+    \lstin{onth k xs = Some (s_x, T_x)},
+    \lstin{subsort s_y s_x} and \lstin{issubProj T_x G_y p}.
+    \item There exist \lstin{s, t : part} and \lstin{ys : list (option(sort*gtt))}
+    such that \lstin{G=gtt_send s t ys}, \lstin{p <> s}, \lstin{p <> t} and 
+    whenever \lstin{onth k ys= Some (s_y,G_y)}, we have 
+    \lstin{issubProj (ltt_recv q xs) G_y p}.
+  \end{enumerate} 
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+  Follows from the definition of association and \cref{lem-subproj-inv}.
+\end{proof}
+\begin{lemma}[Simultaneous Inversions of Association] \label[lemma]{sim-inv-assoc}
+Let $\Gamma \assoc \G$. If $\Gamma(\pp)=\procoutset{q}{\ell_i(S_i)}{\T_i}{i \in I_p}$ and 
+   $\Gamma(\pq)=\procinset{p}{\ell_i(S'_i)}{\T'_i}{i \in I_q}$, then either
+   \begin{enumerate}
+    \item \label{sim-inv-assoc1} $\G=\GvtPair{\pp}{\pq}{\ell_i(S''_i).\G_i}_{i \in I}$ where $I_p \subseteq I \subseteq I_q, \forall i \in I_p: S_i \subso S''_i$,
+    $\forall i \in I: S''_i \subso S'_i$, $\forall i \in I_p, \T_i \subtp \projfn{G_i}{\pp}$ and
+    $\forall i \in I: \T'_i \subtp \projfn{G_i}{\pq}$; or,
+    \item \label{sim-inv-assoc2} $\G=\GvtPair{\prt{s}}{\prt{t}}{\ell_j(S''_j).\G_j}_{j \in J}$ where $\forall j \in J: \Gamma(\pp) \subtp \projfn{\G_j}{\pp},
+    \Gamma(\pq) \subtp \projfn{\G_j}{\pq}$ and $\{\pp,\pq\}\cap \{\prt{s},\prt{t}\}=\emptyset$.
+   \end{enumerate}
+\end{lemma}
+\begin{proof}
+  By case analysis on \cref{lem-inv-assoc}.
+\end{proof}
+\subsection{Soundness of Association}
+To prove soundness we prove the following stronger lemma:
+\begin{lemma}[Soundness Lemma, \path{lemma/correspond.v}, assoc\_soundness'] \label[lemma]{lem-sound-lemma}
+  Suppose for a local type context \lstin{gamma}, global type trees \lstin{G} and \lstin{G'}, 
+  message labels \lstin{ell} and \lstin{ell'}, and participants \lstin{p} and \lstin{q}, the following hold:
+  \begin{enumerate}[label=(\roman*)]
+    \item \lstin{isgPartsC p G} \label{sound-i}
+    \item \lstin{M.find p gamma = Some (ltt_send q xs)} \label{sound-ii}
+    \item \lstin{assoc gamma G} \label{sound-iii}
+    \item \lstin{gttstepC G G' p q ell} \label{sound-iv}
+    \item \lstin{onth ell' xs <> None} \label{sound-v}
+  \end{enumerate} 
+  Then there exists a local type context \lstin{gamma'} and a global type tree \lstin{G''}
+  such that \lstin{gttstepC G G'' p q ell'},  \lstin{assoc gamma' G''} and 
+  \lstin{tctxR gamma (lcomm p q ell') gamma'}.
+\end{lemma}
+\begin{proof}
+  We start by leveraging \cref{lem-grafting} to generalise the statement 
+  over global type contexts. That is, we prove that if the statement is true for any \lstin{G}
+  that can be grafted with \lstin{p}, then \cref{lem-grafting} means that the statement holds 
+  for any \lstin{G} that has \lstin{p} among its participants.
+
+  Now suppose \lstin{typ_gtth gs Gctx G} where \lstin{\~ ishParts p Gctx} and 
+  every \lstin{Some} element of \lstin{gs} is of form either \lstin{gtt_end}, 
+  \lstin{gtt_send p q} or \lstin{gtt_send q p}. We proceed by induction on the global tree context
+  \lstin{Gctx}.
+  \begin{itemize}
+    \item Case \lstin{Gctx=gtth_hol n}: Then some element of \lstin{gs} fills the hole,
+    hence by the $\pp$-grafting property of \lstin{gs} and \ref{sound-iv} \lstin{G=gtt_send p q gcs}
+    for some \lstin{gcs : list(option(sort*gtt))}. 
+    Then \lstin{M.find q gamma}
+    must be of shape \lstin{ltt_recv p ys} for some \lstin{ys}. Hence \cref{lem-simul-subproj-inv} gives that
+    for any index $i$, if \lstin{onth i xs = Some (s_1,T_p)} then \lstin{onth i ys = Some (s_2,T_q)}
+    and \lstin{subsort s_1 s2}. By \ref{sound-v}, let \lstin{onth ell' xs = Some (s_1,T_p)},
+    then we get \lstin{onth ell' ys = Some (s_2,T_q)} for some \lstin{s_2,T_q}.
+    By inverting the projections we get that \lstin{onth ell' gcs=Some (s',G'')} for some \lstin{s', G''}
+    and hence \lstin{gttstepC (gtt_send p q gcs) G'' p q ell'}.
+    
+    Now we construct a local type context
+    \lstin{gamma'} such that \lstin{assoc gamma' G''} and \lstin{tctxR gamma (lcomm p q ell') gamma'}.
+    Let \lstin{gamma' = M.add p Tp (M.add q Tq (M.remove p (M.remove q gamma)))} i.e. the typing context
+    obtained by changing the entry for \lstin{p} into \lstin{T_p} and \lstin{q} into \lstin{T_q}.
+    Then by applying \lstin{Rsend, Rrecv, Rcomm} and \lstin{tctxR_weakening} we get that 
+    \lstin{tctxR gamma (lsend p q ell') gamma'}. Now all that remains is to show that \lstin{assoc gamma' G''}.
+
+    \lstin{issubProj T_p G'' p} and \lstin{issubProj T_q G'' q} follows from the definitions of 
+    \lstin{proj_in} and \lstin{proj_out}. For \lstin{r <> p, q}, 
+    we have \lstin{M.find r gamma = M.find r gamma'}. We also have by the definition of plain merging
+    that \lstin{projectionC G'' r T_r <-> projectionC G r T_r} for all \lstin{T_r}. 
+    The transition \lstin{gttstepC (gtt_send p q gcs) G_ell' p q ell'} doesn't involve \lstin{r}, 
+    hence if \lstin{\~ isgPartsC r G''} then  \lstin{\~ isgPartsC r G} as well, so 
+    \lstin{M.find r gamma' = M.find r gamma = None} or \lstin{Some gtt_end} as needed.
+    Similarly, if \lstin{ isgPartsC r G''} then  \lstin{isgPartsC r G} as well, so 
+    {M.find r gamma} is not \lstin{None} and is a subtype of the projection of \lstin{G} onto \lstin{r},
+    hence {M.find r gamma'} is a subtype of the projection of \lstin{G''} as well. 
+    Hence \lstin{assoc gamma' G''}.
+
+    \item Case \lstin{Gctx = gtth_send s t ghs}: First, by \lstin{p} not being a part of \lstin{Gctx}
+    and \ref{sound-iv} we have that $\{\prt{s},\prt{t}\} \cap \{\prt{p},\prt{q}\} = \emptyset$.
+    We also have that \lstin{G=gtt_send s t gcs} for some \lstin{gcs}. 
+    Suppose \lstin{onth k gcs =Some (s_k, G_k)}. 
+    Let \lstin{projectionC G_k s Tks}
+    and \lstin{projectionC G_k t Tkt}, and
+    \lstin{gamma_k = M.add s Tks (M.add t Tkt (M.remove s (M.remove t gamma)))}
+    i.e. \lstin{gamma_k} is \lstin{gamma} except that the types of 
+    \lstin{s} and \lstin{t} are updated to be their projections in \lstin{G_k}.
+    We have that \lstin{assoc gamma_k G_k}, and by \ref{sound-iv} and \lstin{proj_cont}
+    we have that \lstin{gttstepC G_k G'_k p q ell}. Then by applying the induction hypothesis
+    we get that \lstin{gttstepC G_k G''_k p q ell'}, \lstin{assoc gamma'_k G''_k}
+    and \lstin{tctxR gamma_k (lsend p q ell') gamma'_k}.
+
+    Now let \lstin{gtt_send s t gcs''} be the global type tree obtained by 
+    mapping every \lstin{onth k gcs =Some (s_k, G_k)} to 
+    \lstin{onth k gcs =Some (s_k, G''_k)} where \lstin{G''_k} is generated as above.
+    Now \lstin{proj_cont} gives that \lstin{gttstepC (gtt_send s t gcs) (gtt_send s t gcs'') p q ell'}.
+    Now let \lstin{gamma'} be the context such that \lstin{tctxR gamma (lsend p q ell') gamma'}, which exists 
+    by inverting the association, the global type reduction and \ref{sound-v}.
+    It suffices to show that \lstin{assoc gamma' (gtt_send s t gcs'')}. As in the base case,
+    for \lstin{r <> p,q} the association condition holds by \lstin{assoc gamma G},
+    and for \lstin{p} and \lstin{q} the condition holds by case analysis.
+  \end{itemize}
+\end{proof}
+\begin{theorem}[Soundness of Association, \path{lemma/correspond.v}, assoc\_soundness] \label{theo-soundness}
+  If \lstin{assoc gamma G} and \lstin{gttStepC G G' p q ell}, then there is a local type context \lstin{gamma'},
+  a global type tree \lstin{G''} and a message label \lstin{ell'} such that 
+  \lstin{gttStepC G G'' p q ell'}, \lstin{assoc gamma' G''} and 
+  \lstin{tctxR gamma (lcomm p q ell') gamma'}. 
+\end{theorem}
+\begin{proof}
+  We invert the global type reduction and the association to get
+  \lstin{isgPartsC p G},
+  \lstin{M.find p gamma = Some (ltt_send q xs)}, and 
+  for some \lstin{ell'}, \item \lstin{onth ell' xs <> None}. 
+  Then the results follows from applying \cref{lem-sound-lemma} 
+\end{proof}
+\begin{theorem} [Completeness of Association] \label{theo-completeness}
+    Given global type $\G$ and typing context $\Gamma$ such that $\Gamma \assoc \G$. 
+    If $\lbltrans{\Gamma}{\lblsync{p}{q}{\ell_k}}{\Gamma'}$  then there exists 
+    $\G'$ such that $\Gamma' \assoc \G'$ and $\lbltrans{\G}{\lblsync{p}{q}{\ell_k}}{\G'}$. 
+\end{theorem}
+\begin{proof}
+  We give a sketch of the proof, the details can be found in \cite{LessIsMoreRevisited}.
+  The proof is by induction on the typing context reduction $\lbltrans{\G}{\lblsync{p}{q}{\ell}}{\G'}$.
+  Because of the shape of the transition label the only rule we care about is \ruleredsync.
+  Then the proof proceeds by inverting $\lbltrans{\G}{\lblsync{p}{q}{\ell}}{\G'}$ by \cref{lem-ctx-red-inv}
+  and applying case analysis on \cref{sim-inv-assoc}.
+  \begin{itemize}
+    \item For case \cref{sim-inv-assoc}.\ref{sim-inv-assoc1}, 
+    we have $\G=\GvtPair{\pp}{\pq}{\ell_i(S''_i).\G_i}_{i \in I}$.
+     Then applying \rulegredsendrec gives 
+    $\lbltrans{\G}{\lblsync{p}{q}{\ell_k}}{\G_k}$. 
+    Now $\Gamma' \assoc \G_k$ 
+    follows from case analysis on participant $\pr \in \dom{\Gamma'}$, applying \cref{lem-inv-assoc}.
+    and \cref{lem-not-subj-same} where needed. 
+    \item For case \cref{sim-inv-assoc}.\ref{sim-inv-assoc2}, we have $\G=\GvtPair{\prt{s}}{\prt{t}}{\ell_j(S''_j).\G_j}_{j \in J}$ 
+    where $\forall j \in J: \Gamma(\pp) \subtp \projfn{\G_j}{\pp},
+    \Gamma(\pq) \subtp \projfn{\G_j}{\pq}$ and $\{\pp,\pq\}\cap \{\prt{s},\prt{t}\}=\emptyset$.
+    The proof then proceeds by constructing $\Gamma_j$ and $\Gamma'_j$ such that 
+    $\Gamma_j \assoc \G_j$ and $\lbltrans{\Gamma_j}{\lblsync{p}{q}{\ell_k}}{\Gamma'_j}$.
+    Then the induction hypothesis is applied to create $\G'_j$ such that $\Gamma'_j \assoc \G'_j$.
+    Now \rulegredctx gives 
+    $\lbltrans{\GvtPair{s}{t}{\ell_j(S''_j).\G_j}_{j \in J}}
+    {\lblsync{p}{q}{\ell_k}}
+    {\GvtPair{s}{t}{\ell_j(S''_j).\G'_j}_{j \in J}}$. Then the induction hypotheses show that 
+    $\Gamma' \assoc \GvtPair{s}{t}{\ell_j(S''_j).\G'_j}_{j \in J}$ as needed.
+  \end{itemize}
+\end{proof}
+
+\subsection{Properties by Association}
+\begin{theorem}[Safety by Association] \label{theo-assoc-safe}
+  If $\Gamma \assoc \G$ then $\Gamma$ is safe.
+\end{theorem}
+\begin{proof}
+  We give a sketch of the proof as it's nearly identical to the one in 
+  \cite{LessIsMoreRevisited}, (Lem. 26).
+  The proof is by considering the set 
+  $\varphi =\{\Gamma' \; | \; \exists \G', \Gamma' \assoc \G' \;\text{and}\;
+  \G \rightarrow^* \G'
+  \}$ and showing that $\varphi$ satisfies the rules \rulesafesync and \rulesafereduce. 
+  $\varphi$ satisfies \rulesafesync by \cref{lem-ctx-red-inv} and \cref{lem-inv-assoc},
+  and \rulesafereduce by \cref{theo-completeness}.
+\end{proof}
+
+We now give a proof of liveness by association, for which we first define some new constructs.
+\begin{definition}[Height of a context]
+  $\hgt$ is a function on global tree contexts defined as follows:
+  \begin{itemize}
+    \item $\hgt(\hole)=0$
+    \item $\hgt(\GvtPair{p}{q}{\ell_i(S_i).\Gcx_i}_{i \in I})$=$\max(\hgt(\Gcx_i))_{i \in I} +1$
+  \end{itemize}
+\end{definition}
+The height of a global tree context is the maximum number of edges in the path from the root to 
+any node of the tree, as commonly defined in literature e.g. \cite{clrs}.
+
+When talking about different graftings of the same tree it's convenient to talk about 
+\textit{tree prefixes}.
+\begin{definition}[Prefixes of a Global Type Tree Context]  
+  For two global type tree contexts $\Gcx_1$ and $\Gcx_2$ that graft the same global type tree,
+  we say that $\Gcx_1$ is a proper prefix of $\Gcx_2$ if every leaf in $\Gcx_1$ is in the position of 
+  an ancestor of a leaf in $\Gcx_2$.
+  We say that $\Gcx_1$ is a prefix if we also allow leaves in $\Gcx_1$ to be in the position of
+  leaves of $\Gcx_2$.
+\end{definition}
+
+
+We also extend our global type tree contexts to local type trees.
+To avoid confusion with local type contexts we name them local type tree holes.
+\begin{definition}[Local type tree holes]
+  Local type tree holes are defined inductively with the following syntax   
+  \begin{align*}
+    \Tcx &::= \quad \ltsend{p}{\ell_i(S_i).\Gcx_i}_{i \in I} 
+    \SEP \ltrec{p}{\ell_i(S_i).\Tcx_i}_{i \in I}
+   \SEP \hole_i
+  \end{align*}
+  We also define the grafting of a local tree hole $\Tcx$ by a set of local type trees $\{\T_i\}$,
+  analogously to the grafting operation on global tree contexts.
+  We say that $\Tcx, \{\T_i\}$ is a $\pp\sendsign$-grafting of $\T$
+  if $\Tcx[\T_i]=\T$ and every type in $\{T_i\}$ is of shape 
+  $\ltsend{\pp}{...}$. $\pp\andsign$ is defined similarly.
+\end{definition}
+Local type tree holes enable us to formalise statements such as "$\pp$ necessarily interacts with 
+$\pq$ after some amount of steps", which is what we want to prove in liveness. We don't need to 
+pose additional balancedness assumptions on local type trees, the balancedness property of 
+global type trees assures the graftability of the projected local types, as shown in the following lemma:
+\begin{lemma}[Multigrafting Lemma]\label[lemma]{lem-multigraft}
+  We have that
+  \begin{enumerate}
+    \item If $\Gamma \assoc \G$ and $\Gamma \lts{\lblsend{p}{q}{\ell_k}}$ then 
+      \begin{enumerate}[label=(\roman*)]
+        \item There is a $\pp$-grafting of $\G$, given by $\Gcx_p$ and $\{\G^p_i\}_{i \in I_p}$. 
+        \item There is a $\pq$-grafting of $\G$, given by $\Gcx_q$ and $\{\G^q_i\}_{i \in I_q}$.
+        \item There is a $\pp\andsign$-grafting of $\Gamma(\pq)$, 
+        given by $\Tcx$ and $\{T^q_i\}_{i \in I}$. Furthermore, if $\Tcx=\hole$ then $\Gcx_p=\Gcx_q$,
+        and if $\Tcx \neq \hole$ then $\Gcx_q$ is a proper prefix of $\Gcx_p$. 
+      \end{enumerate}
+    
+      \item If $\Gamma \assoc \G$ and $\Gamma \lts{\lblrec{p}{q}{\ell_k}}$ then 
+      \begin{enumerate}[label=(\roman*)]
+        \item There is a $\pp$-grafting of $\G$, given by $\Gcx_p$ and $\{\G^p_i\}_{i \in I_p}$. 
+        \item There is a $\pq$-grafting of $\G$, given by $\Gcx_q$ and $\{\G^q_i\}_{i \in I_q}$.
+        \item There is a $\pp\sendsign$-grafting of $\Gamma(\pq)$, 
+        given by $\Tcx$ and $\{T^q_i\}_{i \in I}$. Furthermore, if $\Tcx=\hole$ then $\Gcx_p=\Gcx_q$,
+        and if $\Tcx \neq \hole$ then $\Gcx_q$ is a proper prefix of $\Gcx_p$. 
+      \end{enumerate}
+  \end{enumerate}
+  
+\end{lemma}
+\begin{proof}
+  We prove only case (1), case (2) is proven similarly.
+  Applying \cref{lem-ctx-red-inv} gives that $\Gamma(\pp)=\ltsend{\pq}{...}$. Then inverting 
+  $\Gamma \assoc \G$ gives that $\pp \in \funprt(\G)$. Then \cref{lem-grafting}
+  gives a global tree context $\Gcx_p$ and $\{\G^p_i\}_{i \in I_p}$ as the $\pp$-grafting of $\G$.
+  Furthermore, note that all $G^p_i$ must be of shape $\pp \rightarrow \pq$, as otherwise 
+  $\Gamma(p) \subtp \projfn{\G}{\pp}$ wouldn't hold. This gives $\pq \in \funprt(\G)$ and hence 
+  there is a $\pq$-grafting $\{\G^q_i\}_{i \in I_q}$ of $\G$. This proves item (i) and (ii).
+  
+  For item (iii), we first have that $\Gcx_q$ is a prefix of $\Gcx_p$: assume otherwise,
+  then we would have that $\Gcx_q$ contains a child of one of the holes in $\Gcx_p$, but we have that
+  all the holes in $\Gcx_p$ are filled with $\pp \rightarrow \pq$ types, which would mean 
+  that $\pq$ is a participant in $\Gcx_q$, which contradicts \cref{lem-grafting}.
+   
+  Now (iii) can be proved by bottom-up induction on $\Gcx_p$. Our leaf nodes are $\hole$ which 
+  are all filled with $\pp \rightarrow \pq$ types, whose projections to $\pq$ are of the form 
+  $\pp\andsign\{...\}$ and hence they can be $\pp\andsign$-grafted with $\Tcx=\hole$.
+  For the internal nodes, if the node is $\pq \rdc \pr$ then by \ruleprojout 
+  its subtree's projection onto $\pq$ is $\pr \andsign\{\ell_i(S_i).(\projfn{\G_i}{\pq})\}$ 
+  where $\T_i$ are the children of the node, hence the projection can be grafted by 
+  $\pr \andsign \{\ell_i(S_i).\Tcx_i\}$ where $\Tcx_i$ is the $\pp\andsign$-grafting of child $i$
+  that exists by the induction hypothesis. The case when the node is $\pr \sendsign \pq$ is similar.
+  If the node doesn't involve $\pq$ then the projection of its subtree on $\pq$ is, 
+  by \ruleprojcont 
+  and plain merge, equal to the projection of any of its children, which are $\pp\andsign$-graftable
+  by the induction hypothesis.
+  
+  This proves the first statement in (iii). It also proves the second, as we have shown that 
+  if the grafting of the tree is not just $\hole$ then there is a node involving $\pq$ in $\Gcx_p$,
+  which means that $\Gcx_q$ is a prefix of $\Gcx_p$.
+\end{proof}
+\begin{theorem}\label{theo-assoc-live}
+  If $\Gamma \assoc \G$ then $\Gamma$ is live.
+\end{theorem}
+\begin{proof}
+  We proceed by contradiction. Suppose $\Gamma \assoc \G$ and $\Gamma$ is not live.
+  Then there should be a fair path $\Gamma = \Gamma_0 \rdc \Gamma_1 \rdc ..$ and a 
+  $k$ such that $\lbltrans{\Gamma_k}{\alpha}$ where 
+  $\alpha$ is either (i) $\lblsend{p}{q}{\ell(S)}$ or (ii) $\lblrec{q}{p}{\ell(S)}$
+  and for all $k_1 \geq k$, we don't have 
+  $\lbltrans{\Gamma_{k_1}}{\lblsync{p}{q}{\ell'}}{\Gamma_{k_1+1}}$.
+  We write down the proof only for the send case (i), the proof for (ii) is similar.
+
+  First, by completeness we have that $\Gamma_k \assoc \G_k$ for some $\G_k$.
+  Now we have by \cref{lem-ctx-red-inv} and association that $\pp \in \participant{\G_k}$. 
+  Therefore, as we did in \cref{theo-soundness}, we can proceed by 
+  generalising the statement over $\pp$-graftings of $\G_k$. 
+  
+  Applying \cref{lem-multigraft} gives $\Gcx_p$ and $\{\G^p_i\}_{i \in I_p}$
+  that forms a $\pp$-grafting of $\G_k$,
+  $\Gcx_q$ and $\{\G^q_i\}_{i \in I_q}$
+  that forms a $\pq$-grafting of $\G_k$,
+  and $\Tcx$ and $\{T_j\}_{j \in J}$ that is 
+  a $\pp\andsign$-grafting of $\Gamma_k(\pq)$. Now we apply (strong) induction on the height of $\Gcx_p$:
+  \begin{enumerate}
+    \item $\hgt(\Gcx_p)=0$: Then $\Gcx_p=\hole$, so $\G_k=\GvtPair{p}{q}{...}$.
+    Then applying \cref{lem-simul-subproj-inv} gives the existence of 
+    $\lbltrans{\Gamma_k}{\lblsend{p}{q}{\ell'(S)}}{}$
+    and $\lbltrans{\Gamma_k}{\lblrec{q}{p}{\ell'(S')}}{}$ for some $\ell'$, which gives 
+    $\lbltrans{\Gamma_k}{\lblsend{p}{q}{\ell'}}{}$. Hence by fairness we eventually have 
+    $\Gamma_{k_1} \lts{\lblsync{p}{q}{\ell'}} \Gamma_{k_1+1}$ for some $k_1 \geq k$, 
+    which contradicts our assumption.
+    
+    \item $\hgt(\Gcx_p)=n+1$: 
+    Our induction hypothesis (IH1) is the following: 
+    
+    Let $\Gcx'$ be the $\pp$-grafting of $\G'$. If  $\hgt(\Gcx') \leq n$, 
+      and $\Gamma' \assoc \G'$ for some $\Gamma'$,
+      $\Gamma'=\Gamma'_0 \rdc \Gamma'_1..$ is a fair path, 
+      and  
+      $\Gamma'_{k'_1} \lts{\lblsend{r}{s}{\ell_m(S_m)}}$ for some 
+      $r,s,k'_1, m$, then we have 
+      $\Gamma'_{k'_2} \lts{\lblsync{r}{s}{\ell_m'}} \Gamma'_{k'_2+1}$ for some $m'$ and $k'_2 > k'1$.  
+    
+    We once again do induction, this time on the structure of the local tree hole $\Tcx$,
+    which is the $\pp\andsign$-grafting of $\Gamma_k(\pq)$.
+    
+    In the base case, if $\Tcx=\hole$ then $\Gamma_k(\pq)=\ltrec{p}{...}$, so as in the previous case
+    applying \cref{lem-simul-subproj-inv} gives 
+    $\lbltrans{\Gamma_k}{\lblsync{p}{q}{\ell'}}{}$.
+    Then by fairness we eventually have $\Gamma_{k_1} \lts{\lblsync{p}{q}{\ell'}} \Gamma_{k_1+1}$ 
+    for some $k_1 \geq k$, which is a contradiction.   
+  
+    If $\Tcx \neq \hole$, assume without loss of generality that 
+    $\Tcx=\ltsend{r}{\ell_i(S_i).\Tcx_i}_{i \in I}$ for some $\pr \neq \pp$ 
+    (The proof for the receive case is similar and omitted). 
+    Our inductive hypothesis (IH2) is the following:
+    
+    If for some $k_1$, $\Gamma_{k_1}(\pq)$ is $\pp\andsign$-grafted by $\Tcx_i$, then 
+    $\Gamma_{k_2} \lts{\lblsync{p}{q}{\ell'}} \Gamma_{k_2+1}$ for some $k_2 \geq k_1$.
+
+    We have 
+    $\Gamma_k \lts{\lblsend{q}{r}{\ell}}$. 
+    By \cref{lem-multigraft} (iii) we have that 
+    $\Gcx_q$ is a proper prefix of $\Gcx_p$, and hence has a smaller height. 
+    Therefore we can apply the induction hypothesis (IH1)
+    and conclude that $\Gamma_{k_1} \lts{\lblsync{q}{r}{\ell''}} \Gamma_{k_1+1}$ for some
+    $k_1 \geq k$ and $\ell''$. 
+    After this transition we have that $\Gamma_{k_1+1}(\pq)$ is $\pp\andsign$-grafted by 
+    some $\Tcx_i$. Hence we can apply (IH2)
+    and say that $\Gamma_{k_2} \lts{\lblsync{p}{q}{\ell'}} \Gamma_{k_2+1}$ for
+    some $\ell', k_2 \geq k_1+1 \geq k$, which gives the desired contradiction.    
+  \end{enumerate}
+\end{proof}
+% raggedbottom means that the bottom of the page is a bit flexible, since the line spacing inside
+% the code listing is very rigid and there can be some warnings when they don't properly line up
+\raggedbottom

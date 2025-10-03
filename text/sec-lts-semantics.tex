@@ -1,0 +1,343 @@
+\section{LTS Semantics}
+\label{sec:lts}
+In this section we introduce local type contexts, and define Labelled Transition System 
+semantics on these constructs.
+\subsection{Typing Contexts} 
+We start by defining typing contexts as finite mappings of participants to local type trees.
+\begin{definition}[Typing Contexts]\label[definition]{def-type-ctx}
+  \[
+  \Gamma \;::=\;%
+  \emptyset \SEP \Gamma, {\prt{p}}:\T
+\]
+\end{definition}
+
+Intuitively, p : {\T} means that participant p is associated with a process that has the type tree T. 
+We write $\dom{\Gamma}$ to denote the set of participants occuring in $\Gamma$. We write $\Gamma(\pp)$ for the type of $\pp$ in $\Gamma$. 
+We define the composition $\Gamma_1,\Gamma_2$ iff $\dom{\Gamma_1} \cap \dom{\Gamma_2}=\emptyset$.
+
+In the Coq implementation we implement local typing contexts as finite maps of 
+participants, which are represented as natural numbers, and local type trees.
+\begin{tcb}{Coq}
+Module M := MMaps.RBT.Make(Nat).
+Module MF := MMaps.Facts.Properties Nat M.
+Definition tctx: Type := M.t ltt.
+\end{tcb}
+In our implementation, we extensively use the MMaps library \cite{mmaps}, which defines finite maps using
+red-black trees and provides many useful functions and theorems about them. 
+We give some of the most important ones below:
+\begin{itemize}
+  \item \lstin{M.add p t g}: Adds value \lstin{t} with the key \lstin{p} to the finite map 
+  \lstin{g}.
+  \item \lstin{M.find p g}: If the key \lstin{p} is in the finite map \lstin{g} and is associated with the value \lstin{t}, 
+   returns \lstin{Some t}, else returns \lstin{None}.   
+  \item \lstin{M.In p g}: A \lstin{Prop} that holds iff \lstin{p} is in \lstin{g}.
+  \item \lstin{M.mem p g}: A \lstin{bool} that is equal to \lstin{true} if \lstin{p} is in \lstin{g}, and \lstin{false} otherwise.
+  \item \lstin{M.Equal g1 g2}: Unfolds to \lstin{forall p, M.find p g1 = M.find p g2}.
+  For our purposes, if \lstin{M.Equal g1 g2} then \lstin{g1} and \lstin{g2} are indistinguishable.
+  This is made formal in the MMaps library with the assertion that \lstin{M.Equal} forms a setoid,
+  and theorems asserting that most functions on maps respect \lstin{M.Equal} 
+  by showing that they form \lstin{Proper} morphisms 
+  \cite[Generalized Rewriting]{coqmanual}. 
+  \item \lstin{M.merge f g1 g2} where \lstin{f: key -> option value -> option value -> option value}:
+  Creates a finite map whose keys are the keys in \lstin{g1} or \lstin{g2},
+  where the value of the key \lstin{p} is defined as \lstin{f p (M.find p g1) (M.find p g2)}.    
+  \item \lstin{MF.Disjoint g1 g2}: A \lstin{Prop} that holds iff the keys of \lstin{g1} and \lstin{g2} are disjoint. 
+  \item \lstin{M.Eqdom g1 g2}: A \lstin{Prop} that holds iff \lstin{g1} and \lstin{g2} have the same domains.
+\end{itemize}
+One important function that we define is \lstin{disj_merge},
+which merges disjoints maps and is used to represent the composition of typing contexts. 
+\begin{tcb}{Coq}
+Definition both (z: nat) (o:option ltt) (o':option ltt) :=
+ match o,o' with 
+   | Some _, None   => o
+   | None, Some _   => o'
+   | _,_            => None
+ end.
+
+Definition disj_merge (g1 g2:tctx) (H:MF.Disjoint g1 g2) : tctx := 
+  M.merge both g1 g2.  
+\end{tcb}
+
+We give LTS semantics to typing contexts, for which we first define the transition labels.
+\begin{definition}[Transition labels] A transition label $\alpha$ has the following form:
+  \begin{align*}
+    \alpha ::&= \lblrec{p}{q}{\ell(S)}  && \text{(${\prt{p}}$ receives $\ell(S)$ from ${\prt{q}}$)}\\
+    & \SEP \lblsend{p}{q}{\ell(S)} && \text{(${\prt{p}}$ sends $\ell(S)$ to ${\prt{q}}$)}\\
+    & \SEP \lblsync{p}{q}{\ell} && \text{($\ell$ is transmitted from ${\prt{p}}$ to ${\prt{q}}$)}\\
+  \end{align*}
+  and in Coq
+  \begin{tcb}{Coq}
+Notation opt_lbl := nat.
+Inductive label: Type :=
+  | lrecv: part -> part -> option sort -> opt_lbl -> label
+  | lsend: part -> part -> option sort -> opt_lbl -> label
+  | lcomm: part -> part -> opt_lbl -> label.
+  \end{tcb}
+  \newcommand{\subj}{\mathtt{subject}}
+  We also define the function $\subject{\alpha}$ as \enspace 
+  $\subject{\lblrec{p}{q}{\ell(S)}}=\subject{\lblsend{p}{q}{\ell(S)}}=\{\pp\}$ and $\subject{\lblsync{p}{q}{\ell}}=\{\pp,\prt{q} \}$.
+
+  In Coq we represent $\subject{\alpha}$ with the predicate \lstin{ispSubjl p alpha} that holds 
+  iff $\prt{p} \in \subject{\alpha}$.
+  \begin{tcb}{Coq}
+Definition ispSubjl r l :=
+  match l with 
+    | lsend p q _ _ => p=r
+    | lrecv p q _ _=> p=r
+    | lcomm p q _ => p=r \/ q=r 
+  end. 
+  \end{tcb}
+\end{definition}
+\begin{remark}
+From now on, we assume the all the types in the local type contexts always have non-empty continuations.
+In Coq terms, if \lstin{T} is in context \lstin{gamma} then \lstin{wfltt T} holds. This is expressed by the predicate
+\lstin{wfltt: tctx -> Prop}.
+\end{remark}
+\subsection{Local Type Context Reductions}
+Next we define labelled transitions for local type contexts.
+\begin{definition}[Typing context reductions] \label[definition]{def-ctx-red}
+The typing context transition $\lts{\alpha}$ is defined inductively by the following rules:
+  \[
+\begin{array}[t]{@{}c@{}}
+\inferrule[]{
+     k \in I }{
+      \lbltrans
+    {\prt{p} : \procinset{\prt{q}}{\ell_i(\S_i)}{\T_i}{i \in I}} 
+    {\lblrec{p}{q}{\ell_k(S_k)}}
+    {\prt{p} : \T_k}
+    }
+    \enspace \rulename{ $\Gamma$ - \andsign}
+  \\\\
+  \inferrule[]{
+     k \in I }{
+      \lbltrans
+      {\prt{p} : \procoutset{\prt{q}}{\ell_i(\S_i)}{\T_i}{i \in I}} 
+      {\lblsend{p}{q}{\ell_k(S_k)}}
+      {\prt{p} : \T_k}
+    }
+    \enspace \rulename{ $\Gamma$ - $\oplus$}
+\qquad
+    \inferrule[]{
+  \lbltrans{\Gamma}{\alpha}{\Gamma'}}
+  {
+    \lbltrans{\Gamma, \prt{p} : \T}
+     {\alpha} {\Gamma', {\prt{p}} : \T} 
+  }
+  \enspace \rulename{$\Gamma$ -,}
+  \\\\
+  \inferrule[]{
+    \lbltrans{\Gamma_1}{\lblsend{\prt{p}}{\prt{q}}{\ell(S)}}{\Gamma'_1}
+    \qquad  
+    \lbltrans{\Gamma_2}{\lblrec{\prt{q}}{\prt{p}}{\ell(S')}}{\Gamma'_2}
+    \qquad S \subso \S'
+    }{
+    \lbltrans{\Gamma_1, \Gamma_2 }
+    {\lblsync{p}{q}{\ell}}
+    {\Gamma'_1, \Gamma'_2}
+    }
+    \enspace \rulename{$\Gamma$ - $\oplus$\andsign}
+    \\\\
+\end{array}
+\]
+We write $\Gamma \lts{\alpha}$ if there exists $\Gamma'$ such that $\Gamma\lts{a}\Gamma'$.  
+We define a reduction $\Gamma\lts{}\Gamma'$ that holds iff \; $\lbltrans{\Gamma}{\lblsync{\prt{p}}{\prt{q}}{\ell}}{\Gamma'}$ for some ${\prt{p}}$, ${\prt{q}}$, $\ell$. We write $\Gamma\lts{}$ iff \; $\Gamma\lts{}\Gamma'$ for some $\Gamma'$. 
+We write $\lts{}^*$ for the reflexive transitive closure of $\lts{}$.
+\end{definition}
+$\ruleredsend$ and $\ruleredrec$, express a single participant sending or receiving.
+$\ruleredsync$ expresses a synchronized communication where one participant sends while another receives,
+and they both progress with their continuation. $\ruleredvar$ shows how to extend a context.  
+
+In Coq typing context reductions are defined the following way:
+\begin{tcb}[\small]{Coq}
+Inductive tctxR: tctx -> label -> tctx -> Prop :=
+  | Rsend: forall p q xs n s T,
+            p <> q ->
+            onth n xs = Some (s, T) ->
+            tctxR (M.add p (ltt_send q xs) M.empty) (lsend p q (Some s) n) (M.add p T M.empty)
+  | Rrecv: ...  
+  | Rcomm: forall p q g1 g1' g2 g2' s s' n (H1: MF.Disjoint g1 g2) (H2: MF.Disjoint g1' g2'), 
+            p <> q ->
+            tctxR g1 (lsend p q (Some s) n) g1'  ->
+            tctxR g2 (lrecv q p (Some s') n) g2' ->
+            subsort s s' ->
+            tctxR (disj_merge g1 g2 H1) (lcomm p q n) (disj_merge g1' g2' H2)
+  | RvarI: forall g l g' p T,
+            tctxR g l g' ->
+            M.mem p g = false ->
+            tctxR (M.add p T g) l (M.add p T g')
+  | Rstruct: forall g1 g1' g2 g2' l, tctxR g1' l g2' ->
+    M.Equal g1 g1' ->
+    M.Equal g2 g2' ->
+    tctxR g1 l g2.
+\end{tcb}
+
+\lstin{Rsend}, \lstin{Rrecv} and \lstin{RvarI} are straightforward 
+translations of $\rulename{ $\Gamma$ - \andsign}$,
+$\rulename{ $\Gamma$ - $\sendsign$}$ and 
+$\rulename{$\Gamma$ -,}$. \lstin{Rcomm} captures $\rulename{$\Gamma-\sendsign\andsign $}$
+using the \lstin{disj_merge} function we defined for the compositions, and requires a proof 
+that the contexts given are disjoint to be applied. \lstin{RStruct} captures the indistinguishability
+of local contexts under \lstin{M.Equal}. 
+
+
+\noindent We give an example to illustrate typing context reductions.
+\begin{example}\label{exam:reductions}
+  Let
+  \begin{align*}
+  \T_{\prt{p}} &= \procoutmult{\prt{q}}{\ell_0(\tint).\T_{\prt{p}}\;,\;\ell_1(\tint).\tend}\\
+  \T_{\prt{q}} &= \procinmult{\prt{p}}{\ell_0(\tint).\T_{\prt{q}}\;,  \; \ell_1(\tint).\procoutsingle{\prt{r}}{\ell_3(\tint)}{\tend}}\\
+  \T_{\prt{r}} &= \procinmult{\prt{q}}{\ell_2(\tint).\tend}\\
+\end{align*}
+
+and $\Gamma = {\prt{p}}:\T_{\prt{p}}, \; {\prt{q}} : \T_{\prt{q}},\; {\prt{r}}: \T_{\prt{r}}$. We have the following one step reductions from $\Gamma$:
+
+\begin{align} 
+  \label{eq:red1} \Gamma \qquad&\lts{\lblsend{p}{q}{\ell_0(\tint)}} && \Gamma\\
+  \label{eq:red2} \Gamma \qquad& \lts{\lblrec{\prt{q}}{\prt{p}}{\ell_0(\tint)}} && \Gamma\\
+  \label{eq:red3} \Gamma \qquad&\lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}} && \Gamma\\
+  \label{eq:red4} \Gamma \qquad&\lts{\lblrec{\prt{r}}{\prt{q}}{\ell_2(\tint)}} && {\prt{p}} : \T_{\prt{p}}, \; {\prt{q}}: \T_{\prt{q}}, {\prt{r}} : \tend \\
+  \label{eq:red5} \Gamma \qquad&\lts{\lblsend{\prt{p}}{\prt{q}}{\ell_1(\tint)}} && {\prt{p}} : \tend, \; {\prt{q}}: \T_{\prt{q}}, {\prt{r}} : \T_{\prt{r}} \\
+  \label{eq:red6} \Gamma \qquad& \lts{\lblrec{\prt{q}}{\prt{p}}{\ell_1(\tint)}} && {\prt{p}} : \T_{\prt{p}}, \; {\prt{q}}: \procoutsingle{\prt{r}}{\ell_3(\tint)}{\tend}, {\prt{r}} : \T_{\prt{r}}\\
+  \label{eq:red7} \Gamma \qquad& \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_1}} && {\prt{p}} : \tend, \; {\prt{q}}: \procoutsingle{\prt{r}}{\ell_3(\tint)}{\tend}, {\prt{r}} : \T_{\prt{r}}
+\end{align}
+
+\noindent and by \eqref{eq:red3} and \eqref{eq:red7} we have the synchronized reductions 
+ $\Gamma \lts{} \Gamma$ and 
+$\\ \Gamma \lts{} \Gamma' = {\prt{p}} : \tend, \; {\prt{q}}: \procoutsingle{\prt{r}}{\ell_2(\tint)}{\tend}, {\prt{r}} : \T_{\prt{r}}$. Further reducing $\Gamma'$ we get
+
+\begin{align} 
+  \label{eq:red8} \Gamma' \qquad&\lts{\lblsend{\prt{q}}{\prt{r}}{\ell_2(\tint)}} && {\prt{p}} : \tend, \; {\prt{q}}: \tend, {\prt{r}} : \T_{\prt{r}}\\
+  \label{eq:red9} \Gamma' \qquad&\lts{\lblrec{\prt{r}}{\prt{q}}{\ell_2(\tint)}} && {\prt{p}} : \tend, \; {\prt{q}}: \procoutsingle{\prt{r}}{\ell_3(\tint)}{\tend}, {\prt{r}} : \tend\\
+  \label{eq:red10} \Gamma' \qquad&\lts{\lblsync{\prt{q}}{\prt{r}}{\ell_2}} && {\prt{p}} : \tend, \; {\prt{q}}: \tend, {\prt{r}} : \tend
+\end{align}
+and by \eqref{eq:red10} we have the reduction $\Gamma' \lts{} {\prt{p}} : \tend, \; {\prt{q}}: \tend, {\prt{r}} : \tend = \Gamma_\tend$, which results in a context that can't be reduced any further.
+
+In Coq, $\Gamma$ is defined the following way:
+\begin{tcb}{Coq}
+Definition prt_p:=0.
+Definition prt_q:=1.
+Definition prt_r:=2.
+CoFixpoint T_p := ltt_send prt_q [Some (sint,T_p); Some (sint,ltt_end); None].
+CoFixpoint T_q := ltt_recv prt_p [Some (sint,T_q); Some (sint, ltt_send prt_r [None;None;Some (sint,ltt_end)]); None].
+Definition T_r := ltt_recv prt_q [None;None; Some (sint,ltt_end)].
+Definition gamma := M.add prt_p T_p (M.add prt_q T_q (M.add prt_r T_r M.empty)).
+\end{tcb}
+
+Now \cref{eq:red1} can be stated with the following piece of Coq
+\begin{tcb}{Coq}
+Lemma red_1 : tctxR gamma (lsend prt_p prt_q (Some sint) 0) gamma.
+\end{tcb}
+\end{example}
+
+\subsection{Global Type Reductions}
+As with local typing contexts, we can also define reductions for global types.
+\begin{definition}[Global type reductions]
+  The global type transition $\lts{\alpha}$ is defined coinductively as follows.
+  \[
+\begin{array}[t]{@{}c@{}}
+\cinferrule[]{
+     k \in I }{
+      \lbltrans
+    {\GvtPair{p}{q}{\ell_i(S_i).\G_i}_{i \in I}} 
+    {\lblsync{p}{q}{\ell_k}}
+    {\G_k}
+    }
+    \enspace \rulename{GR-$ \sendsign \andsign$}
+    \\\\
+    \cinferrule[]{
+     \forall i \in I \enspace \lbltrans{\G_i}{\alpha}{\G'_i} \qquad
+     \subject{\alpha} \cap \{\prt{p},\prt{q}\} = \emptyset
+     \qquad \forall i \in I \enspace \{\prt{p},\prt{q}\} \subseteq \participant{\G_i}
+     }{
+      \lbltrans
+    {{\GvtPair{p}{q}{\ell_i(S_i).\G_i}_{i \in I}}} 
+    {\alpha}
+    {{\GvtPair{p}{q}{\ell_i(S_i).\G'_i}_{i \in I}}}
+    }
+    \enspace \rulename{GR-Ctx}
+\end{array}
+\]
+In Coq $\lbltrans{\G}{\lblsync{p}{q}{\ell_k}}{\G'}$ is expressed with the coinductively defined (via Paco)
+predicate \lstin{gttstepC G G' p q k}.
+\end{definition}
+\rulegredsendrec says that a global type tree with root $\pp \rightarrow \pq$ can
+transition to any of its children corresponding to the message label choosen by $\pp$. 
+\rulegredctx says that if the subjects of $\alpha$ are disjoint from the root and all its children
+can transition via $\alpha$, then the whole tree can also transition via $\alpha$, with the root remaining 
+the same and just the subtrees of its children transitioning.
+
+\subsection{Association Between Local Type Contexts and Global Types}
+We have defined local type contexts which specifies protocols bottom-up 
+by directly describing the roles of every participant,
+and global types, which give a top-down view of the whole protocol, and the transition relations on them.
+We now relate these local and global definitions by defining \textit{association} between local type
+context and global types.
+\begin{definition}[Association]\label[definition]{def-assoc}
+A local typing context $\Gamma$ is associated with a global type tree $\G$, written $\Gamma \assoc \G$,
+if the following hold:
+\begin{itemize}
+  \item For all $\pp \in \funprt(\G)$, $\pp \in \dom{\Gamma}$ and $\Gamma(\pp) \subtp \G \projf{\pp}$.
+  \item For all $\pp \notin \funprt(\G)$, either $\pp \notin \dom{\Gamma}$ or $\Gamma(\pp)=\tend$. 
+\end{itemize}
+In Coq this is defined with the following:
+\begin{tcb}{Coq}
+Definition assoc (g: tctx) (gt:gtt) := 
+    forall p, (isgPartsC p gt -> exists Tp, M.find p g=Some Tp /\  
+        issubProj Tp gt p) /\
+         (~ isgPartsC p gt -> forall Tpx, M.find p g = Some Tpx -> Tpx=ltt_end).
+\end{tcb}
+\end{definition} 
+Informally, $\Gamma \assoc \G$ says that the local type trees in $\Gamma$ 
+obey the specification described by the global type tree $\G$. 
+\begin{example}\label{exam:assoc}
+  In Example \ref{exam:reductions},
+  we have that $\Gamma \assoc \G$ where
+  \begin{align*}
+  \G := \GvtPair{\prt{p}}{\prt{q}}{\ell_0(\tint).\G,\ell_1(\tint).\GvtPair{\prt{q}}{\prt{r}}{\ell_2(\tint).\tend}}
+  \end{align*}
+  Note that $\G$ is the global type that was shown to be unbalanced in Example \ref{example-balance}.
+  In fact, we have $\Gamma(\ps) = \projfn{\G}{\ps}$ for $\ps \in \{\prt{p},\pq,\pr\}$. 
+  Similarly, we have $\Gamma' \assoc \G'$ where
+  \begin{align*}
+    \G' := \GvtPair{\prt{q}}{\prt{r}}{\ell_2(\tint).\tend}
+  \end{align*}
+\end{example}
+
+It is desirable to have the association
+be preserved under local type context and global type reductions, that is, 
+when one of the associated constructs "takes a step" so should the other. We formalise this property with 
+soundness and completeness theorems.
+
+\begin{theorem}[Soundness of Association]\label{theo-soundness} 
+  If \lstin{assoc gamma G} and \lstin{gttstepC G G' p q ell}, then there is a local type context \lstin{gamma'},
+  a global type tree \lstin{G''} and a message label \lstin{ell'} such that 
+  \lstin{gttStepC G G'' p q ell'}, \lstin{assoc gamma' G''} and 
+  \lstin{tctxR gamma (lcomm p q ell') gamma'}.
+\end{theorem}
+\begin{proof}
+\end{proof}
+
+\begin{theorem}[Completeness of Association] \label{theo-completeness}
+  If \lstin{assoc gamma G} and \lstin{tctxR gamma (lcomm p q ell) gamma'}, 
+  then there exists a global type tree \lstin{G'} such that 
+  \lstin{assoc gamma' G'} and \lstin{gttstepC G G' p q ell}. 
+\end{theorem}
+\begin{proof}
+\end{proof}
+\begin{remark}
+  Note that in the statement of soundness we allow the message label for the local type context reduction 
+  to be different to the message label for the global type reduction. 
+  This is because our use of subtyping in association causes the entries in the local type context
+  to be less expressive than the types obtained by projecting the global type. For example consider
+  \begin{align*}
+    \Gamma = \pp : \ltsend{q}{\ell_0(\tint).\tend}, \; \pq : \ltrec{p}{\ell_0(\tint).\tend, \ell_1(\tint).\tend}  
+  \end{align*}
+  and 
+  \begin{align*}
+    \G= \GvtPair{p}{q}{\ell_0(\tint).\tend, \ell_1(\tint).\tend}
+  \end{align*}
+  We have $\Gamma \assoc \G$ and $\G \lts{\lblsync{p}{q}{\ell_1}}$.
+  However $\Gamma \lts{\lblsync{p}{q}{\ell_1}}$ is not a valid transition.
+  Note that soundness still requires that $\Gamma \lts{\lblsync{p}{q}{\ell_x}}$ for some $x$,
+  which is satisfied in this case by the valid transition  $\Gamma \lts{\lblsync{p}{q}{\ell_0}}$.
+\end{remark}

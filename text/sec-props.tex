@@ -1,0 +1,542 @@
+\section{Properties of Local Type Contexts} \label{sec-props}
+We now use the LTS semantics to define some desirable properties on type contexts and their 
+reduction sequences. Namely, we formulate
+safety, liveness and fairness properties based on the definitions in \cite{LessIsMoreRevisited}. 
+\subsection{Safety}
+We start by defining safety:
+\begin{definition}[Safe Type Contexts] \label[definition]{def:safety}
+  We define $\safe$ coinductively as the largest set of type contexts such that whenever we have $\Gamma \in \safe$:
+  \begin{align}
+    \label{saferule:sendrec} \tag*{\rulesafesync} & \quad \lbltrans{\Gamma}{\lblsend{p}{q}{\ell(S)}}{} \; and \; \lbltrans{\Gamma}{\lblrec{q}{p}{\ell'(S')}} \; implies 
+    \; \lbltrans{\Gamma}{\lblsync{p}{q}{\ell}}\\
+    \label{saferule:reduce} \tag*{\rulesafereduce} & \quad  \lbltrans{\Gamma}{}{\Gamma'} \;implies\; \Gamma' \in \safe
+  \end{align}
+  We write $\safe(\Gamma)$ if \;$\Gamma \in \safe$.
+\end{definition}
+Informally, safety says that if $\pp$ and $\pq$ communicate with each other and $\pp$ requests to 
+send a value using message label $\ell$, then $\pq$ should be able to receive that message label.
+Furthermore, this property should be preserved under any typing context reductions. 
+Being a coinductive property, to show that $\safe(\Gamma)$ it suffices to give a set
+$\varphi$ such that $\Gamma \in \varphi$ and $\varphi$ satisfies \rulesafesync and \rulesafereduce.
+This amounts to showing that every element of $\Gamma'$ of the set of reducts of $\Gamma$,
+defined
+$\varphi := \{\Gamma' \; | \; \Gamma \lts{}^* \Gamma' \}$, satisfies \rulesafesync. 
+We illustrate this with some examples:
+\begin{example}\label{exam:safe}
+   Let $\Gamma_A=\prt{p}:\tend$, then $\Gamma_A$ is safe: the set of reducts is $\{\Gamma_A\}$ and this set respects \rulename{S- $\sendsign \andsign$} as its elements can't reduce, and it respects \rulename{S-$\lts{}$} as it's closed with respect to $\lts{}$.
+   
+   Let $\Gamma_B=\prt{p}:\procoutsingle{q}{\ell_0(\tint)}{\tend},\prt{q}:\procinsingle{p}{\ell_0(\tnat)}{\tend} $. 
+   $\Gamma_B$ is not safe as as we have $\lbltrans{\Gamma_B}{\lblsend{p}{q}{\ell_0}}{}$ and 
+   $\lbltrans{\Gamma_B}{\lblrec{q}{p}{\ell_0}}{}$ 
+   but we don't have $\lbltrans{\Gamma_B}{\lblsync{p}{q}{\ell_0}}$ as $\tint \nleqslant \tnat $.
+   
+   Let $\Gamma_C=\prt{p}:\procoutsingle{q}{\ell_1(\tint)}{\procoutsingle{q}{\ell_0(\tint)}{\tend}},
+  \prt{q}:\procinsingle{p}{\ell_1(\tint)}{\procinsingle{p}{\ell_0(\tnat)}{\tend}}$. $\Gamma_C$ is not safe as 
+  we have $\lbltrans{\Gamma_C}{\lblsync{p}{q}{\ell_1}}{\Gamma_B}$ and $\Gamma_B$ is not safe.
+  
+  Consider $\Gamma$ from Example \ref{exam:reductions}.  All the reducts satisfy \rulesafesync, hence $\Gamma$ is safe.
+\end{example}
+
+Being a coinductive property, $\safe$ can be expressed in Coq using Paco:
+\begin{tcb}{Coq}
+Definition weak_safety (c: tctx) :=
+forall p q s s'  k k', tctxRE (lsend p q (Some s) k) c -> tctxRE (lrecv q p (Some s') k') c ->
+  tctxRE (lcomm p q k) c.
+Inductive safe (R: tctx -> Prop): tctx -> Prop :=
+  | safety_red :  forall c, weak_safety c -> (forall p q c' k, 
+    tctxR c (lcomm p q k) c' -> (weak_safety c' /\ (exists c'', M.Equal c' c'' /\ R c''))) 
+    ->  safe R c.
+
+Definition safeC c := paco1 safe bot1 c.
+\end{tcb}
+\lstin{weak_safety} corresponds \rulesafesync where \lstin{tctxRE l c} is shorthand for
+\lstin{exists c', tctxR c l c'}. 
+In the inductive \lstin{safe}, the constructor \lstin{safety_red} corresponds to 
+\rulesafereduce. Then \lstin{safeC} is defined as the greatest fixed point of \lstin{safe}.
+
+We have that local type contexts with associated global types are always safe.
+\begin{theorem}[Safety by Association]
+  If \lstin{assoc gamma g} then \lstin{safeC gamma}.
+\end{theorem}
+\begin{proof}
+  todo
+\end{proof}
+\subsection{Linear Time Properties}
+We now focus our attention to fairness and liveness. 
+In this paper we have defined LTS semantics on three types of constructs: 
+sessions, local type contexts and global types. 
+We will appropriately define liveness properties on all three of these systems, 
+so it will be convenient to define a general notion of valid reduction paths
+(also known as \textit{runs} or \textit{executions} \cite[2.1.1]{baier}) 
+along with a general statement of some 
+Linear Temporal Logic \cite{pnueli1977temporal} constructs.
+
+We start by defining the general notion of a reduction path \cite[Def. 2.6]{baier} using possibly infinite cosequences.
+\begin{definition}[Reduction Paths]
+  A finite reduction path is an alternating sequence of states and labels 
+  $S_0 \lambda_0 S_1 \lambda_1 ...S_n$ such that $S_i \xrightarrow{\lambda_i} S_{i+1}$ for all $0 \leq i < n$.
+  An infinite reduction path is an alternating sequence of states and labels  $S_0 \lambda_0 S_1 \lambda_1 ...S_n$
+  such that $S_i \xrightarrow{\lambda_i} S_{i+1}$ for all $0 \leq i$. 
+\end{definition}
+We won't be distinguishing between finite and infinite reduction paths and refer to them both as just 
+\textit{(reduction) paths}. Note that the above definition is general for LTSs,by \textit{state} we will 
+be referring to local type contexts, global types or sessions, depending on the contexts.
+
+In Rocq, we define reduction paths using possibly infinite cosequences of pairs of states 
+(which will be \lstin{tctx}, \lstin{gtt} or \lstin{session} in this paper) and \lstin{option label}:
+\begin{tcb}{Coq}
+CoInductive coseq (A: Type): Type :=
+  | conil : coseq A
+  | cocons: A -> coseq A -> coseq A.
+Notation local_path := (coseq (tctx*option label)).
+Notation global_path := (coseq (gtt*option label)).
+Notation session_path := (coseq (session*option label)).
+\end{tcb}
+Note the use of \lstin{option label}, where we employ \lstin{None} to represent transitions into the end of the list, \lstin{conil}.
+For example, $S_0 \xrightarrow{\lambda_0} \S_1 \xrightarrow{\lambda_1} S_2$ would be represented in Rocq as
+\lstin{cocons (s_0, Some lambda_0) (cocons (s_1, Some lambda_1) (cocons (s_2,None) conil))}, and 
+\lstin{cocons (s_1, Some lambda) conil} would not be considered a valid path.
+
+Note that this definition doesn't require the transitions in the \lstin{coseq} to actually be valid.
+We achieve that using the coinductive predicate \lstin{valid_path_GC {A:Type} (V: A-> label -> A-> Prop)},
+where the parameter \lstin{V} is a \textit{transition validity predicate}, capturing if a one-step transition is 
+valid. 
+For all \lstin{V}, \lstin{valid_path_GC V conil} and 
+\lstin{forall x, valid_path_GC V (cocons (x, None) conil)} hold, and 
+\lstin{valid_path_GC V cocons (x, Some l) (cocons (y, l') xs) } holds if
+the transition validity predicate \lstin{V x l y} and 
+\lstin{valid_path_GC V (cocons (y, l') xs)} hold. We use different \lstin{V} based on our application,
+for example in the context of local type context reductions the predicate is defined as follows:
+\begin{tcb}{Coq}
+Definition local_path_vcriteria := (fun x1 l  x2  =>
+  match (x1,l,x2) with 
+    | ((g1,lcomm p q ell),g2) => tctxR g1 (lcomm p q ell) g2
+    | _ => False 
+  end
+).
+\end{tcb}     
+That is, we only allow synchronised communications in a valid local type context reduction path.
+
+We can now define fairness and liveness on paths. We first restate the definition of fairness and liveness for 
+local type context paths from \cite{LessIsMoreRevisited}, and use that to motivate our use of more general LTL constructs.
+\begin{definition}[Fair, Live Paths] \label[definition]{def-fair-live}
+We say that a local type context path $\Gamma_0 \xrightarrow{\lambda_0} \Gamma_1 \xrightarrow{\lambda_2} ..$ is fair if,
+for all $n \in N: 
+\Gamma_n \lts{\lblsync{\prt{p}}{\prt{q}}{\ell}}$ implies 
+$\exists k,\ell'$ such that $N \ni k \ge n$ and 
+$\lambda_k = \lblsync{\prt{p}}{\prt{q}}{\ell'}$, and therefore
+$\Gamma_k \lts{\lblsync{\prt{p}}{\prt{q}}{\ell'}} \Gamma_{k+1}$.
+We say that a path $(\Gamma_n)_{n \in N}$ is live iff, $\forall n \in N$:
+\begin{enumerate}
+  \item $\forall n \in N: \Gamma_n \lts{\lblsend{\prt{p}}{\prt{q}}{\ell(S)}}$ implies $\exists k,\ell'$ such that $N \ni k \ge n$ and $\Gamma_k \lts{\lblsync{\prt{p}}{\prt{q}}{\ell'}} \Gamma_{k+1}$
+  \item $\forall n \in N: \Gamma_n \lts{\lblrec{\prt{q}}{\prt{p}}{\ell(S)}}$ implies $\exists k,\ell'$ such that $N \ni k \ge n$ and $\Gamma_k \lts{\lblsync{\prt{p}}{\prt{q}}{\ell'}} \Gamma_{k+1}$
+\end{enumerate}
+\end{definition}
+\begin{definition}[Live Local Type Context]\label[definition]{def-live-ctx}
+  A local type context $\Gamma$ is live if whenever $\Gamma \rdc^{*} \Gamma'$,
+  every fair path starting from $\Gamma'$ 
+  is also live.
+\end{definition}
+In general, fairness assumptions are used so that only the reduction sequences that are
+"well-behaved" in some sense are considered when formulating other properties \cite{fairness}. 
+For our purposes we define fairness such that, 
+in a fair path, if at any point $\pp$ attempts to send to $\pq$ \textit{and} $\pq$ attempts to send to 
+$\pp$ then eventually a communication between $\pp$ and $\pq$ takes place. Then live paths 
+are defined to be paths such that whenever $\pp$ attempts to send to $\pq$ \textit{or} 
+$\pq$ attempts to send to $\pp$, eventually a $\pp$ to $\pq$ communication takes place.
+Informally, this means that every communication request is eventually answered.
+Then live typing contexts are defined to be the $\Gamma$ where 
+all fair paths that start from  $\Gamma$ are also live.
+
+
+\begin{example}\label[examples]{exam:live}
+  Consider the contexts $\Gamma, \Gamma'$ and  $\Gamma_\tend$ from 
+  Example \ref{exam:reductions}. One possible reduction path is 
+  $\Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}} \Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}} \dots$. 
+  Denote this path as $(\Gamma_n)_{n \in \mathbb{N}}$, where $\Gamma_n = \Gamma$ for all $n \in \mathbb{N}$. 
+  By reductions (\ref{eq:red3}) and (\ref{eq:red7}), we have $\forall n, \Gamma_n \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}}$ and 
+  $\Gamma_n \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_1}}$ as the only possible synchronised reductions from $\Gamma_n$.
+  Accordingly, we also have $\forall n, \Gamma_n \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}} \Gamma_{n+1}$ in the path so this path is fair.
+  However, this path is not live as we have by reduction (\ref{eq:red4}) that $\Gamma_1 \lts{\lblrec{\prt{r}}{\prt{q}}{\ell_2(\tint)}}$ but there is no $n, 
+  \ell'$ with $\Gamma_n \lts{\lblsync{\prt{q}}{\prt{r}}{\ell'}} \Gamma_{n+1}$ in the path.
+  Consequently, $\Gamma$ is not a live type context.
+  %FIX
+
+  Now consider the reduction path $\Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}} \Gamma 
+  \lts{\lblsync{p}{q}{\ell_0}}  \Gamma' \lts{\lblsync{\prt{q}}{\prt{r}}{\ell_2}} 
+  \Gamma_\tend$, denoted by ${(\Gamma'_n)}_{n \in \{1..4\}}$. 
+  This path is fair with respect to reductions from $\Gamma'_1$ and $\Gamma'_2$ as shown above, and it's fair with respect to reductions from $\Gamma'_3$ 
+  as reduction (\ref{eq:red10}) is the only one available from $\Gamma'_3$ and 
+  we have $\Gamma'_3 \lts{\lblsync{\prt{q}}{\prt{r}}{\ell_2}} \Gamma'_4$ as needed.
+  Furthermore, this path is live: the reduction $\Gamma_1 \lts{\lblrec{\prt{r}}{\prt{q}}{\ell_2(\tint)}}$ that causes $(\Gamma_n)$ to fail liveness is handled by the reduction 
+  $\Gamma'_3 \lts{\lblsync{\prt{q}}{\prt{r}}{\ell_2}} \Gamma'_4$ in this case.   
+\end{example}
+
+
+\cref{def-fair-live} , while intuitive, is not really convenient for a Coq formalisation due to 
+the existential statements contained in them. It would be ideal if these properties could
+be expressed as a least or greatest fixed point, which could then be formalised via Coq's 
+inductive or coinductive (via Paco) types. To do that, we turn to Linear Temporal Logic (LTL) 
+\cite{pnueli1977temporal}.
+\newcommand{\until}{\mathcal{U}}
+\newcommand{\wntil}{\mathcal{W}}
+\begin{definition}[Linear Temporal Logic]
+  The syntax of LTL formulas $\psi$ are defined inductively with boolean connectives $\land, \lor, \lnot$,
+  atomic propositions $P, Q, ..$, and temporal operators $\square$ (\textit{always}), $\lozenge$ (\textit{eventually}),
+  $\ocircle$ \textit{next} and $\mathcal{U}$. 
+  Atomic propositions are evaluated over pairs of states and transitions $(S,i, \lambda_i)$ 
+  (for the final state $S_n$ in a finite reduction path we take that there is a null transition 
+  from $S_n$, corresponding to a \lstin{None} transition in Rocq) while 
+  LTL formulas are evaluated over reduction paths 
+  \footnote{These semantics assume that the reduction paths are infinite. In our implementation we do a 
+  sleight-of-hand and, for the purposes of the $\square$ operator, 
+  treat a terminating path as entering a dump state $S_{\bot}$ (which corresponds to \lstin{conil} in Rocq)
+  and looping there infinitely.}. 
+  The satisfaction relation $\rho \models \psi$
+  (where $\rho=S_0 \xrightarrow{\lambda_0} S_1 ..$ is a reduction path, 
+  and $\rho_i$ is the suffix of $\rho$ starting from index $i$) 
+  is given by the following:
+  \begin{itemize}
+    \item $\rho \models P \iff (S_0, \lambda_0) \models P$.
+    \item $\rho \models \psi_1 \land \psi_2 \iff 
+    \rho \models \psi_1$ and $\rho \models \psi_2$ 
+    \item $\rho \models \lnot \psi_1  \iff$ 
+    not $\rho \models \psi_1$
+    \item $\rho \models \ocircle \psi_1 \iff \rho_1 \models \psi_1$
+    \item $\rho \models \lozenge \psi_1 \iff \exists k \geq 0, \rho_k \models \psi_1$
+    \item $\rho \models \square \psi_1 \iff \forall k \geq 0, \rho_k \models \psi_1$
+    \item $\rho \models \psi_1 \until \psi_2 \iff \exists k \geq 0, \rho_k \models \psi_2$ and 
+    $\forall j < k, \rho_j \models \psi_1$
+  \end{itemize}
+\end{definition}
+
+Fairness and liveness for local type context paths \cref{def-fair-live} can be defined in Linear Temporal Logic (LTL). 
+Specifically, define atomic propositions $\mathtt{enabledComm}_{\prt{p},\prt{q},\ell}$ such that
+$(\Gamma, \lambda) \models \mathtt{enabledComm}_{\prt{p},\prt{q},\ell} \iff 
+\Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell}}$, 
+and $\mathtt{headComm}_{\prt{p},\prt{q}}$ that holds iff 
+$\lambda = \lblsync{\pp}{\pq}{\ell}$ for some $\ell$.
+Then
+\begin{itemize}
+  \item Fairness can be expressed in LTL with: for all $\pp,\pq$, 
+  \begin{align*}
+  \square(\mathtt{enabledComm}_{\prt{p},\prt{q},\ell} \implies 
+  \lozenge(\mathtt{headComm}_{\prt{p},\prt{q}}))
+  \end{align*}
+  \item Similarly, by defining $\mathtt{enabledSend}_{\prt{p},\prt{q},\ell,S}$ that holds iff
+  $\Gamma \lts{\lblsend{\prt{p}}{\prt{q}}{\ell(S)}}$ and analogously $\mathtt{enabledRecv}$,
+  liveness can be defined as 
+  \begin{align*}
+  \square((\mathtt{enabledSend}_{\prt{p},\prt{q},\ell,S} \implies \lozenge(\mathtt{headComm}_{\prt{p},\prt{q}}))
+    \land \\
+    (\mathtt{enabledRecv}_{\prt{p},\prt{q},\ell,S} \implies \lozenge(\mathtt{headComm}_{\prt{q},\prt{p}})))
+  \end{align*}
+\end{itemize}
+
+The reason we defined the properties using LTL properties is that the operators 
+$\lozenge$ and $\square$ can be characterised as least and greatest fixed points using their expansion laws \cite[Chapter 5.14]{baier}:
+\begin{itemize}
+  \item $\lozenge P$ is the least solution to $\lozenge P \equiv P \lor \ocircle (\lozenge P)$
+  \item $\square P $ is the greatest solution to $\square P \equiv P \land \ocircle (\square P)$
+  \item $P \until Q$ is the least solution to $P \until Q \equiv Q \lor (P \land \ocircle (P \until Q))$
+\end{itemize}
+Thus fairness and liveness correspond to greatest fixed points, which can be defined coinductively.
+
+In Coq, we implement the LTL operators $\lozenge$ and $\square$ inductively and coinductively (with Paco), 
+in the following way:
+\begin{tcb}{Coq}
+Inductive eventually {A: Type} (F: coseq A -> Prop): coseq A -> Prop :=
+  | evh: forall xs, F xs -> eventually F xs
+  | evc: forall x xs, eventually F xs -> eventually F (cocons x xs).
+
+Inductive until {A:Type} (F: coseq A -> Prop) (G: coseq A -> Prop) : coseq A -> Prop:= 
+  | untilh : forall xs, G xs -> until F G xs
+  | untilc: forall x xs, F (cocons x xs) -> until F G xs -> until F G (cocons x xs).
+
+Inductive alwaysG {A: Type} (F: coseq A -> Prop) (R: coseq A -> Prop): coseq A -> Prop :=
+  | alwn: F conil -> alwaysG F R conil
+  | alwc: forall x xs, F (cocons x xs) -> R xs -> alwaysG F R (cocons x xs).
+
+Definition alwaysCG {A:Type} (F: coseq A -> Prop) := paco1 (alwaysG F) bot1.
+\end{tcb}
+Note the use of the constructor \lstin{alwn} in the definition \lstin{alwaysG} to handle finite paths.
+
+Using these LTL constructs we can define fairness and liveness on paths.
+\begin{tcb}{Coq}
+Definition fair_path_local_inner (pt: local_path): Prop :=
+  forall p q n, to_path_prop (tctxRE (lcomm p q n)) False pt ->  eventually (headComm p q) pt.
+Definition fair_path := alwaysCG fair_path_local_inner.
+Definition live_path_inner (pt: local_path) : Prop := forall p q s n, 
+(to_path_prop (tctxRE (lsend p q (Some s) n)) False pt -> eventually (headComm p q) pt) /\
+(to_path_prop (tctxRE (lrecv p q (Some s) n)) False pt -> eventually (headComm q p) pt).
+Definition live_path := alwaysCG live_path_inner.
+\end{tcb}
+
+For instance, the fairness of the first reduction path for $\Gamma$ given in Example \ref{exam:live} 
+can be expressed with the following:
+\begin{tcb}{Coq}
+CoFixpoint inf_pq_path := cocons (gamma,(lcomm prt_p prt_q) 0) inf_pq_path.
+Theorem inf_pq_path_fair : fairness inf_pq_path.
+\end{tcb}
+\subsection{Rocq Proof of Liveness by Association}
+We now detail the Rocq Proof that associated local type contexts are also live.
+\begin{remark}
+  We once again emphasise that all global types mentioned are assumed to be balanced (\cref{def-balance}).
+  Indeed association with non-balanced global types doesn't guarantee liveness. 
+  As an example, consider $\Gamma$ from Example \ref{exam:reductions}, which is associated with 
+  $\G$ from Example \ref{exam:assoc}. Yet we have shown in Example \ref{exam:live} that $\Gamma$
+  is not a live type context. This is not surprising as Example \ref{example-balance} shows
+  that $\G$ is not balanced.  
+\end{remark}
+Our proof proceeds in the following way:
+\begin{enumerate}
+  \item Formulate an analogue of fairness and liveness for global type reduction paths.
+  \item Prove that all global types are live for this notion of liveness.
+  \item Show that if \lstin{G : gtt} is live and \lstin{assoc gamma G}, then \lstin{gamma} is also live. 
+\end{enumerate}
+First we define fairness and liveness for global types, analogous to \cref{def-fair-live}.
+\begin{definition}[Fairness and Liveness for Global Types]\label{def-fair-live-global}
+We say that the label $\lambda$ is enabled at $\G$ if the context 
+$\{ \pp_i : \G \proj{\pp_i} \SEP \pp_i \in \participant{\G}\}$ can transition via 
+$\lambda$. More explicitly, and in Rocq terms,
+\begin{tcb}{Coq}
+Definition global_label_enabled l g:= match l with 
+  | lsend p q (Some s) n => exists xs g',
+    projectionC g p  (ltt_send q xs) /\ onth n xs=Some (s,g')
+  | lrecv p q (Some s) n => exists xs g',
+    projectionC g p  (ltt_recv q xs) /\ onth n xs=Some (s,g')
+  | lcomm p q n => exists g', gttstepC g g' p q n
+  | _ => False end.
+\end{tcb}
+With this definition of \textit{enabling}, fairness and liveness are defined exactly as in 
+\cref{def-fair-live}. 
+A global type reduction path is fair if the following holds:
+\begin{align*}
+  \square(\mathtt{enabledComm}_{\prt{p},\prt{q},\ell} \implies 
+  \lozenge(\mathtt{headComm}_{\prt{p},\prt{q}}))
+  \end{align*}
+ and liveness is expressed with the following:
+  \begin{align*}
+  \square((\mathtt{enabledSend}_{\prt{p},\prt{q},\ell,S} \implies \lozenge(\mathtt{headComm}_{\prt{p},\prt{q}}))
+    \land \\
+    (\mathtt{enabledRecv}_{\prt{p},\prt{q},\ell,S} \implies \lozenge(\mathtt{headComm}_{\prt{q},\prt{p}})))
+  \end{align*}
+where \lstin{enabledSend}, \lstin{enabledRecv} and \lstin{enabledComm} correspond to the match arms in the definition of 
+\lstin{global_label_enabled} (Note that the names \lstin{enabledSend} and 
+\lstin{enabledRecv} are chosen for consistency with \cref{def-fair-live}, there aren't actually any 
+transitions with label $\lblsend{p}{q}{\ell(S)}$ in the transition system for global types). A global type $\G$ is live if whenever 
+$\G \lts{}^* \G'$, any fair path starting from $\G'$ is also live.
+\end{definition}
+Now our goal is to prove that all (well-formed, balanced, projectable) $\G$ 
+are live under this definition. This is where the notion of  grafting (\cref{def-balance}) 
+becomes important, as the proof essentially proceeds by well-founded induction on the height of the 
+tree obtained by grafting.
+
+We first introduce some definitions on global type tree contexts (\cref{def:global-ctx}).
+\begin{definition}[Global Type Context Equality, Proper Prefixes and Height]
+We consider two global type tree contexts to be equal if they are the 
+same up to the relabelling the indices of their leaves. More precisely,
+\begin{tcb}{Coq}
+Inductive gtth_eq: gtth -> gtth -> Prop :=
+  | gtth_eq_hol : forall n m, gtth_eq (gtth_hol n) (gtth_hol m)
+  | gtth_eq_send : forall xs ys p q , 
+    Forall2 (fun u v => (u=None /\ v=None) \/ (exists s g1 g2, u=Some (s,g1) /\ v=Some (s,g2) /\ gtth_eq g1 g2)) xs ys ->
+    gtth_eq (gtth_send p q xs) (gtth_send p q ys).
+\end{tcb}  
+\todo{this section is wrong, fix it}Informally, we say that the global type context $\mathbb{G'}$ is a \textit{proper prefix} of 
+$\mathbb{G}$ if any path to a leaf in $\mathbb{G'}$ is a proper prefix of a path in 
+$\mathbb{G}$. 
+Alternatively, we can characterise it as akin to \lstin{gtth_eq} except where the 
+context holes in $\mathbb{G'}$ are assumed to be "jokers" that can be matched with any global type context 
+that's not just a context hole. In Rocq: 
+\begin{tcb}{Coq}
+Inductive is_tree_proper_prefix : gtth -> gtth -> Prop :=
+  | tree_proper_prefix_hole : forall n p q xs, is_tree_proper_prefix (gtth_hol n) (gtth_send p q xs)
+  | tree_proper_prefix_tree : forall p q xs ys,
+    Forall2 (fun u v => (u=None /\ v=None)
+      \/ exists s g1 g2, u=Some (s, g1) /\ v=Some (s,g2) /\
+                is_tree_proper_prefix g1 g2
+    ) xs ys ->
+    is_tree_proper_prefix (gtth_send p q xs) (gtth_send p q ys).
+\end{tcb}
+\todo{give examples}
+
+We also define a function \lstin{gtth_height : gtth -> Nat} that computes the 
+height \cite{clrs} of a global type tree context.
+\begin{tcb}{Coq}
+Fixpoint gtth_height (gh : gtth) : nat :=
+  match gh with
+  | gtth_hol n => 0 
+  | gtth_send p q xs =>
+    list_max (map (fun u=> match u with 
+        | None => 0
+        | Some (s,x) => gtth_height x end) xs) + 1 end.
+\end{tcb}
+\end{definition}
+\lstin{gtth_height}, \lstin{gtth_eq} and \lstin{is_tree_proper_prefix} interact in the expected way.
+\begin{lemma}\label{lem-eq-height}
+ If \lstin{gtth_eq gx gx'} then \lstin{gtth_height gx = gtth_height gx'}. 
+\end{lemma}
+\begin{lemma}\label{lem-prefix-height}
+ If \lstin{is_tree_proper_prefix gx gx'} then \lstin{gtth_height gx < gtth_height gx'}. 
+\end{lemma}
+Our motivation for introducing these constructs on global type tree contexts is the 
+following \textit{multigrafting} lemma:
+\begin{lemma}[Multigrafting]\label{lem-multigraft}
+Let \lstin{projectionC g p (ltt_send q xsp)} or \lstin{projectionC g p (ltt_recv q xsp)},
+\lstin{projectionC g q Tq}, \lstin{g} is $\pp$-grafted by
+\lstin{ctx_p} and \lstin{gs_p}, and \lstin{g} is $\pq$-grafted by 
+\lstin{ctx_q} and \lstin{gs_q}. Then either 
+\lstin{is_tree_proper_prefix ctx_q ctx_p} or \lstin{gtth_eq ctx_p ctx_q}.
+Furthermore, if \lstin{gtth_eq ctx_p ctx_q} then 
+\lstin{projectionC g q (ltt_send p xsq)} or \lstin{projectionC g q (ltt_recv p xsq)} for some \lstin{xsq}.
+\end{lemma}
+\begin{proof}
+  By induction on the global type context \lstin{ctx_p}.
+\end{proof}
+\todo{example}
+We also have that global type reductions that don't involve participant \lstin{p} can't increase the 
+height of the \lstin{p}-grafting, established by the following lemma:
+\begin{lemma}\label{lem-graft-step}
+Suppose \lstin{g : gtt} is \lstin{p}-grafted by \lstin{gx : gtth}
+and {gs : list (option gtt)}, \lstin{gttstepC g g' s t ell} where \lstin{p <> s} and  \lstin{p <> t}, 
+and \lstin{g'} is 
+\lstin{p}-grafted by \lstin{gx'} and \lstin{gs'}. Then 
+\begin{enumerate}[(i)]
+  \item If \lstin{ishParts s gx} or \lstin{ishParts t gx} , then 
+  \lstin{gtth_height gx' < gtth_height gx}
+  \item In general, \lstin{gtth_height gx' <= gtth_height gx}   
+\end{enumerate}
+\end{lemma}    
+\begin{proof}
+  We define a inductive predicate \lstin{gttstepH : gtth -> part -> part -> part -> gtth -> Prop}
+  with the property that if \lstin{gttstepC g g' p q ell} for some \lstin{r <> p, q},
+  and tree contexts \lstin{gx} and \lstin{gx'} \lstin{r-}graft \lstin{g} and \lstin{g'} respectively,
+  then \lstin{gttstepH gx p q ell gx'} (\lstin{gttstepH_consistent}). 
+  The results then follow by induction on the relation \lstin{gttstepH gx s t ell gx'}.  
+\end{proof}
+We can now prove the liveness of global types. The bulk of the work goes in to proving the following lemma:
+\begin{lemma}\label{lem-liveness-global-helper}
+Let \lstin{xs} be a fair global type reduction path starting with \lstin{g}. 
+  \begin{enumerate}[(i)]
+    \item If \lstin{projectionC g p (ltt_send q xsp)} for some \lstin{xsp}, then 
+    a \lstin{lcomm p q ell} transition takes place in \lstin{xs} for some message label \lstin{ell}. 
+    \item If \lstin{projectionC g p (ltt_recv q xsp)} for some \lstin{xsp}, then 
+    a \lstin{lcomm q p ell} transition takes place in \lstin{xs} for some message label \lstin{ell}.
+  \end{enumerate} 
+\end{lemma}
+\begin{proof}
+    We outline the proof for (i), the case for (ii) is symmetric. 
+    
+    Rephrasing slightly, we prove the following: forall \lstin{n : nat} and global type reduction path \lstin{xs},
+    if the head \lstin{g} of \lstin{xs} is \lstin{p}-grafted by \lstin{ctx_p} and \lstin{gtth_height ctx_p = n},
+    the lemma holds.
+    We proceed by strong induction on \lstin{n}, that is, the tree context height 
+    of \lstin{ctx_p}. 
+
+    Let \lstin{(ctx_q, gs_q)} be the \lstin{q}-grafting of \lstin{g}. 
+     By \cref{lem-multigraft} we have that either 
+    \lstin{gtth_eq ctx_q ctx_p} (a) or \lstin{is_tree_proper_prefix ctx_q ctx_p} (b).
+    In case (a), we have that \lstin{projectionC g q (ltt_recv p xsq)}, 
+    hence by (cite simul subproj or something here) and fairness of \lstin{xs},
+    we have that a \lstin{lcomm p q ell} transition eventually occurs in \lstin{xs}, as required.
+
+    In case (b), by \cref{lem-prefix-height} we have 
+    \lstin{gtth_height ctx_q < gtth_height ctx_p}, so by the induction hypothesis a transition involving 
+    \lstin{q}
+    eventually happens in \lstin{xs}. Assume wlog that this transition has label \lstin{lcomm q r ell}, 
+    or, in the pen-and-paper notation, $(\pq,\pr)\ell$. 
+    Now consider the prefix of \lstin{xs} where the transition happens:
+    \lstin{g} $\lts{\lambda}$ \lstin{g_1} $\rdc ..$ \lstin{g'} $\lts{(\pq,\pr)\ell}$ \lstin{g''}.
+    Let \lstin{g'} be \lstin{p}-grafted by the global tree context \lstin{ctx'_p}, and 
+    \lstin{g''} by \lstin{ctx''_p}. 
+    By \cref{lem-graft-step}, 
+    \lstin{gtth_height ctx''_p < gtth_height ctx'_p <= gtth_height ctx_p}. 
+    Then, by the induction hypothesis, the suffix of 
+    \lstin{xs} starting with \lstin{g''} must eventually have a transition \lstin{lcomm p q ell'} for some 
+    \lstin{ell'}, therefore \lstin{xs} eventually has the desired transition too.
+\end{proof}
+\cref{lem-liveness-global-helper} proves that any fair global type reduction path is also a live path, 
+from which 
+the liveness of global types immediately follows.
+\begin{corollary} All global types are live.
+\end{corollary}
+We can now leverage the simulation established by \cref{theo-completeness} to 
+prove the liveness (\cref{def-fair-live}) of local typing context reduction paths.
+
+We start by lifting association (\cref{def-assoc}) to reduction paths.
+\begin{definition}[Path Association]
+Path association is defined coinductively by the following rules:
+\begin{enumerate}[(i)]
+  \item The empty path is associated with the empty path.
+  \item If $\Gamma \lts{\lambda_0} \rho$ is path-associated with $\G \lts{\lambda_1} \rho'$ 
+  where ($\rho$ and $\rho'$ are local and global reduction paths, respectively), 
+  then $\lambda_0=\lambda_1$ and $\rho$ is path-associated with $\rho'$.
+\end{enumerate}
+\begin{tcb}{Coq}
+Variant path_assoc (R:local_path -> global_path -> Prop): local_path -> global_path -> Prop :=
+  | path_assoc_nil : path_assoc R conil conil
+  | path_assoc_xs : forall g gamma l xs ys, assoc gamma g -> R xs ys ->
+  path_assoc R (cocons (gamma, l) xs) (cocons (g, l) ys).
+ 
+Definition path_assocC := paco2 path_assoc bot2.
+\end{tcb}
+\end{definition}
+Informally, a local type context reduction path is path-associated with a global type reduction path if
+their matching elements are associated and have the same transition labels.
+
+We show that reduction paths starting with associated local types can be path-associated.
+\begin{lemma}\label{lem-path-assoc-exists}
+If \lstin{assoc gamma g}, then any local type context reduction path starting with \lstin{gamma}
+is associated with a global type reduction path starting with \lstin{g}.
+\end{lemma} 
+\begin{proof}
+  \todo{maybe just give the definition as a cofixpoint?}
+  Let the local reduction path be \lstin{gamma} $\lts{\lambda}$ 
+  \lstin{gamma_1} $\lts{\lambda_1} ...$. We construct a path-associated global reduction path.
+  By \cref{theo-completeness} there is a \lstin{g_1 : gtt} such that 
+  \lstin{g} $\lts{\lambda}$ \lstin{g_1} and \lstin{assoc gamma_1 g_1}, hence the path-associated 
+  global type reduction path starts with \lstin{g} $\lts{\lambda}$ \lstin{g_1}. We can 
+  repeat this procedure to the remaining path starting with \lstin{gamma_1} $\lts{\lambda_1} ...$
+  to get \lstin{g_2 : gtt} such that \lstin{assoc gamma_2 g_2} and \lstin{g_1} $\lts{\lambda_1}$ \lstin{g_2}.
+  Repeating this, we get \lstin{g} $\lts{\lambda}$ \lstin{g_1} $\lts{\lambda_1} ..$ as the 
+  desired path associated with \lstin{gamma} $\lts{\lambda}$ 
+  \lstin{gamma_1} $\lts{\lambda_1} ...$.  
+\end{proof}
+\begin{remark}
+In the Rocq implementation the construction above is implemented as a \lstin{CoFixpoint}
+returning a \lstin{coseq}. \cref{theo-completeness} is implemented as an \lstin{exists} statement
+that lives in \lstin{Prop}, hence we need to use the \lstin{constructive_indefinite_description} axiom
+to obtain the witness to be used in the construction.
+\end{remark}
+We also have the following correspondence between fairness and liveness
+properties for associated global and local reduction paths.
+\begin{lemma}\label{lem-fair-reflect}
+For a local reduction path \lstin{xs} and global reduction path \lstin{ys}, if 
+\lstin{path_assocC xs ys} then
+\begin{enumerate}[(i)]
+  \item If \lstin{xs} is fair then so is \lstin{ys}
+  \item If \lstin{ys} is live then so is \lstin{xs}
+\end{enumerate}  
+\end{lemma}
+As a corollary of \cref{lem-fair-reflect}, \cref{lem-path-assoc-exists} and \cref{lem-liveness-global-helper}
+we have the following:
+\begin{corollary} \label{lem-livectx-helper}
+  If \lstin{assoc gamma g}, then any fair local reduction path starting from \lstin{gamma}
+  is live.
+\end{corollary}
+\begin{proof}
+  Let \lstin{xs} be the local reduction path starting with \lstin{gamma}.
+  By \cref{lem-path-assoc-exists} there is a global path \lstin{ys} associated with it.
+  By \cref{lem-fair-reflect} (i) \lstin{ys} is fair, and by \cref{lem-liveness-global-helper}
+  \lstin{ys} is live, so by \cref{lem-fair-reflect} (ii) xs is also live. 
+\end{proof}
+Liveness of contexts follows directly from \cref{lem-livectx-helper}.
+\begin{theorem}
+If \lstin{assoc gamma g} then \lstin{gamma} is live.  
+\end{theorem}
+\begin{proof}
+Suppose \lstin{gamma} $\rdc^*$ \lstin{gamma'}, then by \cref{theo-completeness}
+\lstin{assoc gamma' g'} for some \lstin{g'}, and hence by \cref{lem-livectx-helper} any
+fair path starting from \lstin{gamma'} is live, as needed. 
+\end{proof}

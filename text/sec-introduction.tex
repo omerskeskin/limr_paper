@@ -1,0 +1,101 @@
+\section{Introduction}
+\label{sec:introduction}
+\subsection{Background}
+Communicating concurrent systems are ubiquitous in their applications and they fre
+quently appear in settings where failure can have disastrous consequences. As such,
+it is important to have mathematical models of concurrent processes which can then
+be used to formulate desirable properties and then verify that these properties hold
+for a particular system. 
+
+In one approach to this task, systems are modelled using a process calculus such as 
+$\pi$-calculus \cite{milner} and then endowed with types such that typeable processes 
+are \textit{correct by construction}. Multiparty Session Types (MPST) \cite{honda} 
+are emblematic of this approach. Top-down MPST typically operates in the following fashion:
+\begin{enumerate}[label=(\roman*)]
+    \item It is proven that if a system is typeable then certain desirable properties hold for it. 
+    \item A bird's-eye view of the whole protocol is specified via a \textit{global type}.
+    \item The global type is \textit{projected} on to the end-points in the system, producing 
+    for each role in the system a \textit{local type} that describes that role's local behaviour.
+    \item The processes making up the system are typed using the local types, which proves by 
+     (i) that the desirable properties hold for that system. 
+\end{enumerate}  
+In this work, the class of desirable properties we focus on is \textit{liveness} \cite{lamport82}, which can informally be 
+described as "something good eventually happens". For example, 
+"every communication request is eventually answered" is a liveness property. 
+
+One problem with this approach is that the human produced proofs of (i) might turn out to be unsound
+due to the arguments involved being finicky, hard to get right and tedious to construct and check.
+A solution for this is to mechanise the results in a proof assistant such as 
+Coq\footnote{During the course of the project Coq was renamed to Rocq. 
+We stick with Coq for consistency.} \cite{coq}. Then we can be sure that proofs certified as correct by
+the proof assistant are, indeed, correct. 
+
+\subsection{Contributions}
+In this work, we present a typing system with equirecursive types represented as 
+coinductive \cite{sangiorgi2011introduction} trees, and prove a liveness property for sessions
+typed by this system.
+Our work is built upon three previous works in particular:
+\begin{itemize}
+    \item Ghilezan et al.'s treatment of session types 
+    as coinductive trees with coinductive projections \cite{SynchronousSubtyping} 
+    \item Hou and Yoshida's recent work that uses \textit{association} between 
+    inductively defined global types and local type contexts to provide guarantees about the 
+    behaviour of typeable $\pi$-calculus terms \cite{LessIsMoreRevisited} 
+    \item Kamegai et al.'s recent formalisation of \cite{SynchronousSubtyping} in the 
+    Coq proof assistant \cite{srpaper}
+\end{itemize}
+The structure of our work closely mirrors that of \cite{LessIsMoreRevisited}.
+The main difference is that our work uses coinductive types with coinductive projections (with plain merging) 
+as in \cite{SynchronousSubtyping}, as opposed to the inductive full merging used in \cite{LessIsMoreRevisited}
+(a survey of different types of projection can be found in \cite{projsurvey}).
+This results in most of the proofs in \cite{LessIsMoreRevisited} no longer holding and needing to be reproved,
+which we do in this work. However, some proofs in \cite{LessIsMoreRevisited} hold in our setting with minor changes.
+For such proofs we generally just give a sketch of the proof and direct the reader to \cite{LessIsMoreRevisited}
+for the details. Another key difference in our work is that, while \cite{LessIsMoreRevisited} operates on 
+synchoronous multiparty $\pi$-calculus, we instead work on a much simpler synchoronous session calculus \cite{SynchronousSubtyping}. 
+This is results in some of our definitions being simpler and more amenable to mechanisation.
+
+In \cref{sec-procs} we introduce the simple synchoronous session calculus
+used in \cite{SynchronousSubtyping} and provide its operational semantics based off \cite{srpaper}.
+In \cref{sec:types} we introduce a type system for the calculus. This type system, based off 
+the ones in \cite{SynchronousSubtyping,srpaper}, represents recursive types as coinductive 
+type trees and accordingly uses coinductive projections. In \cref{sec:lts} we define local type tree contexts 
+and give them Labelled Transition System (LTS) semantics analogous to the ones in \cite{LessIsMoreRevisited}. 
+We then 
+define LTS semantics for global type trees based on \cite{srpaper}, and then we extend 
+the definition of association from \cite{LessIsMoreRevisited} to our setting to 
+in order to relate local type tree contexts to global type trees. In \cref{sec-props} we state 
+the safety and liveness properties for local type contexts from \cite{LessIsMoreRevisited} and
+prove that local type tree contexts related to a global type tree by association conform to 
+these properties. Finally in \cref{sec:proc-props} we give the typing rules for our session calculus
+based on \cite{srpaper}, and additionally formulate a standard liveness property for sessions.
+We then show that typeable sessions satisfy this liveness property. In the code submitted 
+alongside
+this report, we also present
+a formalisation of some of the results in the Coq proof assistant.
+
+Our contributions can be divided into two categories:
+ the new theoretical results we prove in this report,
+and the formalisation of existing and new results in Coq.
+On the purely theoretical side of things, our significant contributions are the following:
+\begin{itemize}
+    \item We present an extension of association \cite{LessIsMoreRevisited} to coinductively defined 
+    types with coinductive projections (\cref{sec:lts}). 
+    \item We give a novel proof of soundness for this setting (\cref{theo-soundness}).
+    \item We give a novel proof of liveness of associated local type tree contexts. 
+\end{itemize} 
+
+Our contribution to the Coq mechanisation consists of extending the library from \cite{srpaper} 
+with the following:
+\begin{itemize}
+    \item Definition of local type tree contexts and their LTS semantics via finite maps 
+    (\cref{sec:lts})
+    \item Lemmas on local type tree contexts (\cref{appx:proof})
+    \item Definition of association, and a proof of the soundness of association (\cref{sec:lts})
+    \item Definitions of safety and liveness (\cref{sec-props})  
+\end{itemize}
+In particular, the major result we have mechanised is the soundness of association (\cref{theo-soundness}).
+Generally, when stating proofs that we have formalised, we give a link to the relevant file and write the 
+statement using Coq syntax, and the proof in a way that resembles the Coq proof. For unformalised
+results we generally use a mathematical notation. 
+Further notes on the Coq implementation can be found in \cref{appx:coq}.

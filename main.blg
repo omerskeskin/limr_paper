@@ -8,44 +8,48 @@ Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: references.bib
-You've used 1 entry,
+Warning--I didn't find a database entry for "weakbisim"
+Warning--I didn't find a database entry for "padovani"
+Warning--empty chapter and pages in pierce2002types
+You've used 13 entries,
             2943 wiz_defined-function locations,
-            643 strings with 5453 characters,
-and the built_in function-call counts, 651 in all, are:
-= -- 65
-> -- 30
-< -- 0
-+ -- 13
-- -- 10
-* -- 46
-:= -- 120
-add.period$ -- 4
-call.type$ -- 1
-change.case$ -- 8
+            718 strings with 7305 characters,
+and the built_in function-call counts, 5575 in all, are:
+= -- 582
+> -- 206
+< -- 1
++ -- 79
+- -- 62
+* -- 285
+:= -- 817
+add.period$ -- 47
+call.type$ -- 13
+change.case$ -- 67
 chr.to.int$ -- 0
-cite$ -- 1
-duplicate$ -- 13
-empty$ -- 50
-format.name$ -- 10
-if$ -- 151
+cite$ -- 14
+duplicate$ -- 153
+empty$ -- 542
+format.name$ -- 62
+if$ -- 1462
 int.to.chr$ -- 0
-int.to.str$ -- 1
-missing$ -- 1
-newline$ -- 9
-num.names$ -- 2
-pop$ -- 12
+int.to.str$ -- 13
+missing$ -- 11
+newline$ -- 74
+num.names$ -- 26
+pop$ -- 154
 preamble$ -- 1
-purify$ -- 7
+purify$ -- 57
 quote$ -- 0
-skip$ -- 34
+skip$ -- 387
 stack$ -- 0
-substring$ -- 30
-swap$ -- 3
-text.length$ -- 4
+substring$ -- 167
+swap$ -- 32
+text.length$ -- 11
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 4
-warning$ -- 0
-while$ -- 3
-width$ -- 2
-write$ -- 16
+type$ -- 46
+warning$ -- 1
+while$ -- 32
+width$ -- 15
+write$ -- 156
+(There were 3 warnings)
