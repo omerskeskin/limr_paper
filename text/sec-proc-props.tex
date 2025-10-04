@@ -130,7 +130,7 @@ If \lstin{typ_sess M gamma}, one of the following hold :
   \item Or there is a \lstin{M'} such that \lstin{betaP M M'}.
 \end{enumerate}
 \end{theorem}
-\begin{remark}
+\begin{remark}\label{remark-reactive-justif}
 Note that in \cref{theo-sub-red} one transition between sessions corresponds to exactly one transition
 between local type contexts with the same label. That is, every session transition is observed by the corresponding type.
 This is the main reason for our choice of 
@@ -168,6 +168,15 @@ and show that typable sessions have this property.
     \item ${\M}\longrightarrow^* {\M'} \Rrightarrow \pq \triangleleft \texternal \tin{\pp}{\ell_i}{x_i}.Q_i \;|\; \N$ implies 
     ${\M'}\longrightarrow^*{\M''} \Rrightarrow \pq \triangleleft Q_i[v/x_i] \;|\; \N'$ for some $\M'', \N', i, v.$ 
   \end{enumerate}
+  In Rocq we express this with the following:
+  \begin{tcb}{Coq}
+Definition live_sess Mp := forall M, betaRtc Mp M -> 
+  (forall p q ell e P' M', p <>q -> unfoldP M ( (p <-- p_send q ell e P') \|\|\| M') -> exists M'',
+  betaRtc M ((p <-- P')\|\|\|M''))
+  /\
+  (forall p  q llp M', p <>q -> unfoldP M ( (p <-- p_recv q llp) \|\|\| M') -> 
+    exists M'' P' e k, onth k llp = Some P' /\ betaRtc M ((p <-- subst_expr_proc P' e 0 0)\|\|\|M'')). 
+  \end{tcb}
 \end{definition}
 Session liveness, analogous to liveness for typing contexts (\cref{def-fair-live}), says that 
 when $\M$ is live, if $\M$ reduces to a session $\M'$ containing a participant that's attempting to send 
@@ -176,7 +185,7 @@ It's also called \textit{lock-freedom} in related work (\cite{fairnesslock,padov
 
 We now prove that typed sessions are live. Our proof follows the following steps:
 \begin{enumerate}
-  \item Formulate an analogue of fairness for typable sessions,
+  \item Formulate a "fairness" property for typable sessions,
   with the property that any finite session reduction path can be extended to a fair
   session reduction path.  
   \item Lift the typing relation to reduction paths, and show that fair session reduction paths
@@ -184,32 +193,104 @@ We now prove that typed sessions are live. Our proof follows the following steps
   \item Prove that a certain transition eventually happens in the local context reduction 
   path, and that this means the desired transition is enabled in the session reduction path.   
 \end{enumerate}
+We first state a "fairness" (the reason for the quotes is explained in \cref{remark-fairness-session})
+property for session reduction paths, analogous to fairness 
+for local type context reduction paths (\cref{def-fair-live}).  
+\begin{definition}["Fairness" of Sessions]\label{def-fair-sess}
+We say that a $(\pp,\pq)\ell$ transition is enabled at $\M$ if
+$\M \lts{(\pp,\pq)\ell} \M'$ for some $\M'$. A session reduction path is fair if the following LTL property holds:
+\begin{align*}
+  \square(\mathtt{enabledComm}_{\prt{p},\prt{q},\ell} \implies 
+  \lozenge(\mathtt{headComm}_{\prt{p},\prt{q}}))
+  \end{align*}
+\end{definition}
+\begin{remark}\label{remark-fairness-session}
+\cref{def-fair-sess} is not actually a sensible fairness property for our reactive semantics, 
+mainly because it doesn't satisfy 
+the \textit{feasibility} \cite{fairness} property stating that any finite execution can be extended 
+to a fair execution. Consider the following session:
+\begin{align*}
+  \M = \pp \triangleleft \kf{if} (\kf{true} \oplus \kf{false}) \; \kf{then} \;  \pq!\ell_1(true) 
+  \; \kf{else} \;
+  \pr!\ell_2(true).\bf{0} \mid \pq \triangleleft \pp?\ell_1(x).0  \mid \pr \triangleleft \pp?\ell_2(x).0
+\end{align*}
+We have that $\M \lts{(\pp,\pq)\ell_1} \M'$ where $\M'=\pp \triangleleft \bf{0}
+ \mid \pq \triangleleft \bf{0}  \mid \pr \triangleleft \pp?\ell_2(x).0
+$, 
+and  also $\M \lts{(\pp,\pr)\ell_2} \M''$ for another $\M''$. Now consider the reduction path 
+$\rho = \M \lts{(\pp,\pq)\ell_1} \M'$. $(\pp,\pr)\ell_2$ is enabled at $\M$ so in a fair path it should eventually 
+be executed, however no extension of $\rho$ can contain such a transition as $\M'$ has no remaining transitions.
+%With $\tau$ semantics we wouldn't have $(\pp,\pq)\ell_1$ and $(\pp,\pr)\ell_2$ transitions at the same state, 
+%as a $\pp$ would have to make a choice via a $\tau$ transition before a communication can be enabled.
+Nevertheless, it turns out that there is a fair reduction path starting from every
+typable session can (\cref{lem-fair-scheduling}), and this will be enough to prove our desired liveness property.
+\end{remark}
+We can now lift the typing relation to reduction paths, just like we did in \cref{def-assoc-path}. 
+\begin{definition}[Path Typing]
+[Path Typing]\label{def-typ-path}
+Path typing is a relation between session reduction paths and local type context reduction paths,
+defined coinductively by the following rules:
+\begin{enumerate}[(i)]
+  \item The empty path is typed with the empty path.
+  \item If $\M \lts{\lambda_0} \rho$ is typed by $\Gamma \lts{\lambda_1} \rho'$ 
+  where ($\rho$ and $\rho'$ are session and local type context reduction paths, respectively), 
+  then $\lambda_0=\lambda_1$ and $\rho$ is typed by $\rho'$.
+\end{enumerate}
+\end{definition}
+Similar to \cref{lem-path-assoc-exists}, we can show that if the head of the path is typable
+then so is the whole path.
+\begin{lemma}\label{lem-typ-path-exists}
+If \lstin{typ_sess M gamma}, then any session reduction path \lstin{xs} starting with \lstin{M}
+is typed by a local context reduction path \lstin{ys} starting with \lstin{gamma}.
+\end{lemma} 
+\begin{proof}
+We can construct a local context reduction path that types the session path. The construction
+exactly like \cref{lem-path-assoc-exists} but elements of the output stream are generated by 
+\cref{theo-sub-red} instead of \cref{theo-completeness}.
+\end{proof}
+We also have that typing path preserves fairness.
+\begin{lemma}\label{lem-typ-path-fair}
+If session path \lstin{xs} is typed by the local context path \lstin{ys}, and \lstin{xs} is fair, then so 
+is \lstin{ys}.   
+\end{lemma}
+The final lemma we need in order to prove liveness is that there exists a fair reduction path from
+every typable session.
+\begin{lemma}[Fair Path Existence]\label{lem-fair-scheduling}
+If \lstin{typ_sess M gamma}, then there is a fair session reduction path \lstin{xs} starting from
+\lstin{M}.
+\end{lemma}
+\begin{proof}
+We can construct a fair path starting from \lstin{M} with the following algorithm:  
+\end{proof}
 \begin{theorem}[Liveness by Typing]
-  If $\Gamma \vdashm \M$ then $\M$ is live.
+For a session \lstin{Mp}, if \lstin{exists gamma, typ_sess Mp gamma} then \lstin{live_sess Mp}.
 \end{theorem}
 \begin{proof}
-  We proceed by assuming that Item 1 of \cref{def-live-sess}
-  doesn't hold and showing a contradiction. The case for when Item 2 doesn't hold is similar.
-
-  Suppose  $\transcls{\M}{\M'} \Rrightarrow \pq \triangleleft \tout{\pp}{\ell_i}{x_i}.Q \;|\; \N$,
-  and there is no $\M''$ such that 
-  $\M'' \Rrightarrow \pq \triangleleft Q \;|\; \N'$. By subject reduction we have 
-  $\Gamma' \vdashm \M'$ for some $\Gamma'$. By inverting $\rulename{T-out}$ and subtyping
-  we get that $\Gamma'(\pq)=\ltsend{p}{\ell_i(S_i).\T_i}_{i \in I}$ for some $I$.
-  Therefore by \cref{def-ctx-red} we have that 
-  $\Gamma'
-  \lts{\lblsend{q}{p}{\ell_i}}$ for some $i$.
-  Furthermore by our assumption we don't ever have $\pp \triangleleft \texternal \tin{\pq}{\ell_i(x_i).\PT_i}$
-  in a session $\M'$ can reduce to, hence for all $\M''$ s.t. $\M' \longrightarrow^* \M''$
-  and $\Gamma'' \vdashm \M''$ we don't have $\Gamma''(\pp)=\ltrec{q}{...}$.
-  Thus we have that there is no reduction path from $\Gamma'$ that contains a $\lblsync{p}{q}{\ell_k}$
-  transition. Now suppose there exists a fair path from $\Gamma'$, then on this path 
-  we perpetually have $\Gamma'(\pq) \lts{\lblsend{q}{p}{\ell_i}}$ 
-  without ever transitioning via $\lts{\lblsync{p}{q}{\ell_k}}$, therefore this path is not live.
-  Therefore $\Gamma$ is not a live type context.
-  However, we have by \ref{theo-assoc-live} that $\Gamma$ is live, which is a contradiction.
-  
-  Now it suffices to show that there exists a fair path starting from $\Gamma'$. This 
-  path always exists as we can just "schedule" the available synchronous transitions so that
-  all of them are eventually executed e.g. in a round-robin-like way.  
+We detail the proof for the send case of \cref{def-live-sess}, the case for the receive is similar.
+Suppose that \lstin{betaRtc Mp M} and \lstin{unfoldP M ( (p <-- p_send q ell e P') \|\|\| M')}.
+Our goal is to show that there exists a \lstin{M''} such that
+\lstin{betaRtc M ((p <-- P')\|\|\|M'')}. 
+First, observe that it suffices to show that 
+\lstin{betaRtc ((p <-- p_send q ell e P') \|\|\| M') M''}
+for some \lstin{M''}. Also note that \lstin{typ_sess M gamma} for some \lstin{gamma}
+by \cref{theo-sub-red}, therefore 
+\lstin{typ_sess ((p <-- p_send q ell e P') \|\|\| M') gamma}
+by \cref{lem-typ-unfold}.
+Now let \lstin{xs} be the fair reduction path starting from \lstin{((p <-- p_send q ell e P') \|\|\| M')}, 
+which exists by \cref{lem-fair-scheduling}. Let \lstin{ys} be the
+local context reduction path starting with \lstin{gamma} that types \lstin{xs}, which exists by 
+\cref{lem-typ-path-exists}. Now \lstin{ys} is fair by \cref{lem-typ-path-fair}.
+Therefore by \cref{theo-ctx-live} \lstin{ys} is live, 
+so a \lstin{lcomm p q ell'} transition
+eventually occurs in \lstin{ys} for some \lstin{ell'}.
+Therefore  
+\lstin{ys} = \lstin{gamma} $\rdc^*$ \lstin{gamma_0} $\lts{(\pp,\pq)\ell'}$ \lstin{gamma_1} $\rdc ..$
+for some \lstin{gamma_0}, \lstin{gamma_1}. Now consider the session \lstin{M_0} typed by 
+\lstin{gamma_0} in \lstin{xs}. 
+We have \lstin{betaRtc ((p <-- p_send q ell e P') \|\|\| M'') M_0}
+by \lstin{M_0} being on a reduction path starting from \lstin{M}. We also have that 
+\lstin{M_0} $\lts{(\pp,\pq)\ell''}$ \lstin{M_1} for some $\ell''$, \lstin{M_1} by \cref{theo-sess-fid}.
+Now observe that \lstin{M_0}$\equiv$ \lstin{((p <-- p_send q ell e P') \|\|\| M'')} for some 
+\lstin{M''} as no transitions involving \lstin{p} have happened on the reduction path to \lstin{M_0}.
+Therefore $\ell=\ell''$, so \lstin{M_1} $\equiv$ \lstin{((p <-- P') \|\|\| M'')} for some \lstin{M''}, as needed.
 \end{proof}

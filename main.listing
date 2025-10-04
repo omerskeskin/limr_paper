@@ -1,6 +1,6 @@
-Variant path_assoc (R:local_path -> global_path -> Prop): local_path -> global_path -> Prop :=
-  | path_assoc_nil : path_assoc R conil conil
-  | path_assoc_xs : forall g gamma l xs ys, assoc gamma g -> R xs ys ->
-  path_assoc R (cocons (gamma, l) xs) (cocons (g, l) ys).
-
-Definition path_assocC := paco2 path_assoc bot2.
+Definition live_sess Mp := forall M, betaRtc Mp M ->
+  (forall p q ell e P' M', p <>q -> unfoldP M ( (p <-- p_send q ell e P') \|\|\| M') -> exists M'',
+  betaRtc M ((p <-- P')\|\|\|M''))
+  /\
+  (forall p  q llp M', p <>q -> unfoldP M ( (p <-- p_recv q llp) \|\|\| M') ->
+    exists M'' P' e k, onth k llp = Some P' /\ betaRtc M ((p <-- subst_expr_proc P' e 0 0)\|\|\|M'')).

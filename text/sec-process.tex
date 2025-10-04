@@ -44,7 +44,13 @@ Note that $\mathcal{O}$ is different than
 $\pp \triangleleft \textbf{0}$ as $\pp$ is a participant in the latter but not the former. 
 This differs from previous work, e.g. in \cite{SynchronousSubtyping} the unit of 
 parallel composition is 
-$\pp \triangleleft \textbf{0}$ while in \cite{srpaper} there is no unit. For a detailed discussion see \cref{rem:scong}.
+$\pp \triangleleft \textbf{0}$ while in \cite{srpaper} there is no unit. 
+The unitless appproach of cite{srpaper} results in a lot of repetition in the code, 
+for an example see their definition of \lstin{unfoldP} which contains two of every constructor:
+one for when the session is composed of exactly two processes, and one for when it's composed of three or more.
+Therefore we chose to add an unit element to parallel composition. However, we didn't make 
+that unit $\pp triangleleft \textbf{0}$ in order to reuse some of the lemmas from \cite{srpaper}
+that use the fact that structural congruence preserves participants.
 \end{remark} 
 \subsection{Structural Congruence and Operational Semantics}
 We define a structural congruence relation $\equiv$ on sessions which expresses the commutativity, associativity and 
@@ -73,6 +79,11 @@ unit of the parallel composition operator.
 \label{tbl:scong}
 \end{table}
 We now give the operational semantics for sessions by the means of a labelled transition system.
+We will be giving two types of semantics: one which contains silent $\tau$ transitions, and 
+another, \textit{reactive} semantics \cite{fairnesslock} which doesn't contain explicit $\tau$ reductions while still considering $\beta$ reductions
+up to silent actions. We will mostly be using the reactive semantics throughout this paper,
+for the advantages of this approaches see \cref{remark-reactive-justif}.
+\subsubsection{Semantics With Silent Transitions}
 We have two kinds of transitions, \textit{silent} ($\tau$) and 
 \textit{observable} $(\beta)$. Correspondingly, we have two kinds of \textit{transition labels}, 
 $\tau$ and $(\pp,\pq)\ell$ where $\pp, \pq$ are participants and $\ell$ is a message label.  

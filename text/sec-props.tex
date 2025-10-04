@@ -465,7 +465,7 @@ We can now leverage the simulation established by \cref{theo-completeness} to
 prove the liveness (\cref{def-fair-live}) of local typing context reduction paths.
 
 We start by lifting association (\cref{def-assoc}) to reduction paths.
-\begin{definition}[Path Association]
+\begin{definition}[Path Association]\label{def-assoc-path}
 Path association is defined coinductively by the following rules:
 \begin{enumerate}[(i)]
   \item The empty path is associated with the empty path.
@@ -532,7 +532,7 @@ we have the following:
   \lstin{ys} is live, so by \cref{lem-fair-reflect} (ii) xs is also live. 
 \end{proof}
 Liveness of contexts follows directly from \cref{lem-livectx-helper}.
-\begin{theorem}
+\begin{theorem}[Liveness by Association]\label{theo-ctx-live}
 If \lstin{assoc gamma g} then \lstin{gamma} is live.  
 \end{theorem}
 \begin{proof}
