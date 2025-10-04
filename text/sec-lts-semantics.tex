@@ -148,7 +148,7 @@ $\ruleredsync$ expresses a synchronized communication where one participant send
 and they both progress with their continuation. $\ruleredvar$ shows how to extend a context.  
 
 In Coq typing context reductions are defined the following way:
-\begin{tcb}[\small]{Coq}
+\begin{tcb}[\tiny]{Coq}
 Inductive tctxR: tctx -> label -> tctx -> Prop :=
   | Rsend: forall p q xs n s T,
             p <> q ->
@@ -314,16 +314,12 @@ soundness and completeness theorems.
   \lstin{gttStepC G G'' p q ell'}, \lstin{assoc gamma' G''} and 
   \lstin{tctxR gamma (lcomm p q ell') gamma'}.
 \end{theorem}
-\begin{proof}
-\end{proof}
 
 \begin{theorem}[Completeness of Association] \label{theo-completeness}
   If \lstin{assoc gamma G} and \lstin{tctxR gamma (lcomm p q ell) gamma'}, 
   then there exists a global type tree \lstin{G'} such that 
   \lstin{assoc gamma' G'} and \lstin{gttstepC G G' p q ell}. 
 \end{theorem}
-\begin{proof}
-\end{proof}
 \begin{remark}
   Note that in the statement of soundness we allow the message label for the local type context reduction 
   to be different to the message label for the global type reduction. 

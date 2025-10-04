@@ -260,8 +260,18 @@ If \lstin{typ_sess M gamma}, then there is a fair session reduction path \lstin{
 \lstin{M}.
 \end{lemma}
 \begin{proof}
-We can construct a fair path starting from \lstin{M} with the following algorithm:  
+We can construct a fair path starting from \lstin{M} by repeatedly cycling through all participants,
+checking if there is a transition involving that participant, and executing that transition if there is.   
 \end{proof}
+\begin{remark}
+The Rocq implementation of \cref{lem-fair-scheduling} computes a \lstin{CoFixpoint} corresponding to 
+the fair path constructed above. As in \cref{lem-path-assoc-exists}, we use \lstin{constructive_indefinite_description}
+to turn existence statements in \lstin{Prop} to dependent pairs. We also assume the informative law of excluded middle (\lstin{excluded_middle_informative})
+in order to carry out the "check if there is a transition" step in the algorithm above. 
+When proving that the constructed path is fair, we sometimes rely on the LTL constructs we outlined in \cref{subsec-ltl}
+reminiscent of the techniques employed in \cite{coqfilter}.
+\end{remark}
+We can now prove that typed sessions are live.
 \begin{theorem}[Liveness by Typing]
 For a session \lstin{Mp}, if \lstin{exists gamma, typ_sess Mp gamma} then \lstin{live_sess Mp}.
 \end{theorem}

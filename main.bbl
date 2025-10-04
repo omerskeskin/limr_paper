@@ -5,6 +5,11 @@ Christel Baier and Joost-Pieter Katoen.
 \newblock {\em Principles of Model Checking (Representation and Mind Series)}.
 \newblock The MIT Press, 2008.
 
+\bibitem{coqfilter}
+Yves Bertot.
+\newblock Filters on coinductive streams, an application to eratosthenes' sieve.
+\newblock In Pawe{\l} Urzyczyn, editor, {\em Typed Lambda Calculi and Applications}, pages 102--115, Berlin, Heidelberg, 2005. Springer Berlin Heidelberg.
+
 \bibitem{clrs}
 Thomas~H. Cormen, Charles~E. Leiserson, Ronald~L. Rivest, and Clifford Stein.
 \newblock {\em Introduction to Algorithms, Third Edition}.

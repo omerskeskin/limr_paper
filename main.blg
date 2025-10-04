@@ -11,45 +11,45 @@ Database file #1: references.bib
 Warning--I didn't find a database entry for "weakbisim"
 Warning--I didn't find a database entry for "padovani"
 Warning--empty chapter and pages in pierce2002types
-You've used 13 entries,
+You've used 14 entries,
             2943 wiz_defined-function locations,
-            718 strings with 7305 characters,
-and the built_in function-call counts, 5575 in all, are:
-= -- 582
-> -- 206
-< -- 1
-+ -- 79
-- -- 62
-* -- 285
-:= -- 817
-add.period$ -- 47
-call.type$ -- 13
-change.case$ -- 67
+            727 strings with 7506 characters,
+and the built_in function-call counts, 6154 in all, are:
+= -- 649
+> -- 218
+< -- 2
++ -- 83
+- -- 65
+* -- 310
+:= -- 893
+add.period$ -- 51
+call.type$ -- 14
+change.case$ -- 71
 chr.to.int$ -- 0
-cite$ -- 14
-duplicate$ -- 153
-empty$ -- 542
-format.name$ -- 62
-if$ -- 1462
+cite$ -- 15
+duplicate$ -- 176
+empty$ -- 600
+format.name$ -- 65
+if$ -- 1619
 int.to.chr$ -- 0
-int.to.str$ -- 13
-missing$ -- 11
-newline$ -- 74
-num.names$ -- 26
-pop$ -- 154
+int.to.str$ -- 14
+missing$ -- 12
+newline$ -- 79
+num.names$ -- 30
+pop$ -- 165
 preamble$ -- 1
-purify$ -- 57
+purify$ -- 60
 quote$ -- 0
-skip$ -- 387
+skip$ -- 430
 stack$ -- 0
-substring$ -- 167
-swap$ -- 32
-text.length$ -- 11
+substring$ -- 204
+swap$ -- 42
+text.length$ -- 12
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 46
+type$ -- 50
 warning$ -- 1
-while$ -- 32
-width$ -- 15
-write$ -- 156
+while$ -- 38
+width$ -- 16
+write$ -- 169
 (There were 3 warnings)

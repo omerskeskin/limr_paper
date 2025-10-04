@@ -45,11 +45,11 @@ $\pp \triangleleft \textbf{0}$ as $\pp$ is a participant in the latter but not t
 This differs from previous work, e.g. in \cite{SynchronousSubtyping} the unit of 
 parallel composition is 
 $\pp \triangleleft \textbf{0}$ while in \cite{srpaper} there is no unit. 
-The unitless appproach of cite{srpaper} results in a lot of repetition in the code, 
+The unitless appproach of \cite{srpaper} results in a lot of repetition in the code, 
 for an example see their definition of \lstin{unfoldP} which contains two of every constructor:
 one for when the session is composed of exactly two processes, and one for when it's composed of three or more.
 Therefore we chose to add an unit element to parallel composition. However, we didn't make 
-that unit $\pp triangleleft \textbf{0}$ in order to reuse some of the lemmas from \cite{srpaper}
+that unit $\pp \triangleleft \textbf{0}$ in order to reuse some of the lemmas from \cite{srpaper}
 that use the fact that structural congruence preserves participants.
 \end{remark} 
 \subsection{Structural Congruence and Operational Semantics}
@@ -71,7 +71,7 @@ unit of the parallel composition operator.
   \\\\
   \inferrule[\rulename{sc-o}]
   {}
-  {\pp \triangleleft \PT  \mid \pq \triangleleft \mathcal{O}  
+  {\pp \triangleleft \PT  \mid \mathcal{O}  
   \equiv \pp \triangleleft \PT } 
 \end{array}
 \]}
@@ -136,3 +136,59 @@ We write $\M \rightarrow \N$ if $\M \xrightarrow{\lambda} \N$ for some transitio
 We write $\rightarrow^*$ to denote the reflexive transitive closure of $\rightarrow$. We also write 
 $\M \Rrightarrow \N$ when $\M \equiv \N$ or $\M \rightarrow^* \N$ where all the transitions
 involved in the multistep reduction are $\tau$ transitions.
+\subsection{Reactive Semantics}
+In reactive semantics $\tau$ transitions are captured by an \textit{unfolding} relation $(\Rrightarrow)$,
+and $\beta$ reductions are defined up to this unfolding.
+\begin{table}[h]
+{\footnotesize
+\[
+\begin{array}{@{}l@{}}
+    \inferrule[\rulename{Unf-struct}]
+  {\M \equiv \N}
+  {\M \Rrightarrow \N}
+    \\[10mm]
+    \inferrule[\rulename{Unf-rec}]
+  {}
+  {\pp \triangleleft \mu \Xv.\PT \mid \N \ \ 
+  \Rrightarrow
+    \pp \triangleleft \PT[\mu \Xv.\PT / \Xv] \ \mid \ \N}  
+      \\[5mm]
+    \inferrule[\rulename{Unf-condt}]
+  {e \downarrow \text{true}}
+  {\pp \triangleleft \text{ if } e \text{ then } \PT \text{ else } \QT \ \mid \ \N \ \ 
+  \Rrightarrow \ \
+    \pp \triangleleft \PT \ \mid \ \N}    
+      \\[5mm]
+        \inferrule[\rulename{Unf-condf}]
+  {e \downarrow \text{false}}
+  {\pp \triangleleft \text{ if } e \text{ then } \PT \text{ else } \QT \ \mid \ \N \ \ 
+  \Rrightarrow \ \
+    \pp \triangleleft \QT \ \mid \ \N}  
+      \\[5mm]
+        \inferrule[\rulename{Unf-trans}]
+  {\M \Rrightarrow \M' \quad \M' \Rrightarrow \N }
+  {\M \Rrightarrow \N}  
+\end{array}
+\]}
+\caption{Unfolding of Sessions}
+\label{tbl:unf}
+\end{table}
+\begin{table}[h]
+{\footnotesize
+\[
+\begin{array}{@{}l@{}}
+    \inferrule[\rulename{R-comm}]
+  {j\in I \quad e \downarrow v}
+  {\pp \triangleleft \sum^{}_{i\in I} \tin\pq{\ell_i}{x_i}.\PT_i \ \mid \  \pq \triangleleft \tout{\pp}{\ell_j}{\kf{e}}.\QT \ \mid \ \N \ \ 
+  \xrightarrow{(\pp,\pq)\ell_j} \ \ 
+    \pp \triangleleft \PT_j[v/x_j] \ \mid \ \pq \triangleleft \QT \ \mid \ \N}
+    \\[10mm]
+    \inferrule[\rulename{R-unfold}]
+  {\M \Rrightarrow \M' \quad \M' \lts{\lambda} \N' \quad \N' \Rrightarrow \N}
+  {\M \lts{\lambda} \N}
+    \\[10mm]
+\end{array}
+\]}
+\caption{Reactive Semantics of Sessions}
+\label{tbl:srr-react}
+\end{table}
