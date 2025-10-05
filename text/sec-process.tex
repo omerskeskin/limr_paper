@@ -1,3 +1,4 @@
+\label{sec-procs}
 We introduce the simple synchronous session calculus that our type system will be used on. 
 \newcommand{\PT}{\mathsf P}
 \newcommand{\Xv}{\ensuremath{{\textbf{X}}}}
@@ -82,8 +83,8 @@ We now give the operational semantics for sessions by the means of a labelled tr
 We will be giving two types of semantics: one which contains silent $\tau$ transitions, and 
 another, \textit{reactive} semantics \cite{fairnesslock} which doesn't contain explicit $\tau$ reductions while still considering $\beta$ reductions
 up to silent actions. We will mostly be using the reactive semantics throughout this paper,
-for the advantages of this approaches see \cref{remark-reactive-justif}.
-\subsubsection{Semantics With Silent Transitions}
+for the advantages of this approach see \cref{remark-reactive-justif}.
+\subsubsection{Semantics With Silent Transitions}\label{subsec-tau}
 We have two kinds of transitions, \textit{silent} ($\tau$) and 
 \textit{observable} $(\beta)$. Correspondingly, we have two kinds of \textit{transition labels}, 
 $\tau$ and $(\pp,\pq)\ell$ where $\pp, \pq$ are participants and $\ell$ is a message label.  
@@ -106,8 +107,8 @@ expression $e$ evaluates to value $v$.
   {}
   {\pp \triangleleft \mu \Xv.\PT \mid \N \ \ 
   \taured \ \
-    \pp \triangleleft \PT[\mu \Xv.\PT / \Xv] \ \mid \ \N}  
-      \\[5mm]
+    \pp \triangleleft \PT[\mu \Xv.\PT / \Xv] \ \mid \ \N}
+    \quad  
     \inferrule[\rulename{R-condt}]
   {e \downarrow \text{true}}
   {\pp \triangleleft \text{ if } e \text{ then } \PT \text{ else } \QT \ \mid \ \N \ \ 
@@ -119,7 +120,7 @@ expression $e$ evaluates to value $v$.
   {\pp \triangleleft \text{ if } e \text{ then } \PT \text{ else } \QT \ \mid \ \N \ \ 
   \taured \ \
     \pp \triangleleft \QT \ \mid \ \N}  
-      \\[5mm]
+      \quad
         \inferrule[\rulename{R-struct}]
   {\N_1' \equiv \N_1 \quad \N_1 \xrightarrow{\lambda} \N_2 \quad \N_2 \equiv \N_2'}
   {\N'_1 \xrightarrow{\lambda} \N'_2}  
@@ -146,13 +147,13 @@ and $\beta$ reductions are defined up to this unfolding.
     \inferrule[\rulename{Unf-struct}]
   {\M \equiv \N}
   {\M \Rrightarrow \N}
-    \\[10mm]
-    \inferrule[\rulename{Unf-rec}]
+  \quad
+  \inferrule[\rulename{Unf-rec}]
   {}
   {\pp \triangleleft \mu \Xv.\PT \mid \N \ \ 
   \Rrightarrow
     \pp \triangleleft \PT[\mu \Xv.\PT / \Xv] \ \mid \ \N}  
-      \\[5mm]
+  \quad
     \inferrule[\rulename{Unf-condt}]
   {e \downarrow \text{true}}
   {\pp \triangleleft \text{ if } e \text{ then } \PT \text{ else } \QT \ \mid \ \N \ \ 
@@ -164,8 +165,8 @@ and $\beta$ reductions are defined up to this unfolding.
   {\pp \triangleleft \text{ if } e \text{ then } \PT \text{ else } \QT \ \mid \ \N \ \ 
   \Rrightarrow \ \
     \pp \triangleleft \QT \ \mid \ \N}  
-      \\[5mm]
-        \inferrule[\rulename{Unf-trans}]
+  \quad
+    \inferrule[\rulename{Unf-trans}]
   {\M \Rrightarrow \M' \quad \M' \Rrightarrow \N }
   {\M \Rrightarrow \N}  
 \end{array}
@@ -173,6 +174,9 @@ and $\beta$ reductions are defined up to this unfolding.
 \caption{Unfolding of Sessions}
 \label{tbl:unf}
 \end{table}
+
+$\M \Rrightarrow \N$ means that $\M$ can transition to $\N$ through some internal actions, or $\tau$ transitions in the semantics of 
+\cref{subsec-tau}. We say that $\M$ \textit{unfolds} to $\N$. 
 \begin{table}[h]
 {\footnotesize
 \[
@@ -192,3 +196,6 @@ and $\beta$ reductions are defined up to this unfolding.
 \caption{Reactive Semantics of Sessions}
 \label{tbl:srr-react}
 \end{table}
+
+\rulename{R-comm} captures communications between processes, and \rulename{R-unfold} lets us consider reductions up to
+unfoldings.

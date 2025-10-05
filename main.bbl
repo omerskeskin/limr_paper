@@ -17,8 +17,9 @@ Thomas~H. Cormen, Charles~E. Leiserson, Ronald~L. Rivest, and Clifford Stein.
 
 \bibitem{srpaper}
 Burak Ekici, Tadayoshi Kamegai, and Nobuko Yoshida.
-\newblock Formalising subject reduction and progress for multiparty session processes.
-\newblock Technical report, University of Oxford, 2025.
+\newblock {Formalising Subject Reduction and Progress for Multiparty Session Processes}.
+\newblock In Yannick Forster and Chantal Keller, editors, {\em 16th International Conference on Interactive Theorem Proving (ITP 2025)}, volume 352 of {\em Leibniz International Proceedings in Informatics (LIPIcs)}, pages 19:1--19:23, Dagstuhl, Germany, 2025. Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik.
+\newblock URL: \url{https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITP.2025.19}, \href {https://doi.org/10.4230/LIPIcs.ITP.2025.19} {\path{doi:10.4230/LIPIcs.ITP.2025.19}}.
 
 \bibitem{SynchronousSubtyping}
 Silvia Ghilezan, Svetlana Jak{\v s}i{\'c}, Jovanka Pantovi{\'c}, Alceste Scalas, and Nobuko Yoshida.
@@ -42,6 +43,18 @@ Chung-Kil Hur, Georg Neis, Derek Dreyer, and Viktor Vafeiadis.
 Pierre Letouzey and Andrew~W. Appel.
 \newblock {Modular Finite Maps over Ordered Types}.
 \newblock URL: \url{https://github.com/rocq-community/mmaps}.
+
+\bibitem{weakbisim}
+Robin MILNER.
+\newblock Chapter 19 - operational and algebraic semantics of concurrent processes.
+\newblock In JAN {VAN LEEUWEN}, editor, {\em Formal Models and Semantics}, Handbook of Theoretical Computer Science, pages 1201--1242. Elsevier, Amsterdam, 1990.
+\newblock URL: \url{https://www.sciencedirect.com/science/article/pii/B978044488074150024X}, \href {https://doi.org/10.1016/B978-0-444-88074-1.50024-X} {\path{doi:10.1016/B978-0-444-88074-1.50024-X}}.
+
+\bibitem{padovani}
+Luca Padovani.
+\newblock Deadlock and lock freedom in the linear pi-calculus.
+\newblock In {\em Proceedings of the Joint Meeting of the Twenty-Third EACSL Annual Conference on Computer Science Logic (CSL) and the Twenty-Ninth Annual ACM/IEEE Symposium on Logic in Computer Science (LICS)}, CSL-LICS '14, New York, NY, USA, 2014. Association for Computing Machinery.
+\newblock \href {https://doi.org/10.1145/2603088.2603116} {\path{doi:10.1145/2603088.2603116}}.
 
 \bibitem{pierce2002types}
 Benjamin~C Pierce.

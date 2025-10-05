@@ -318,7 +318,7 @@ Definition projectionC g r t := paco3 projection bot3 g r t.
 As in the definition of \lstin{subtypeC}, \lstin{projectionC} is defined as a parameterised greatest fixed point
 using Paco. The premises of the rules $\ruleprojin, \ruleprojout$ and $\ruleprojcont$
 are captured using the Coq standard library predicate 
-\lstin{List.Forall2 : forall A B : Type, (P:A -> B -> Prop) (xs:list A) (ys:list B) :Prop} 
+\lstin{List.Forall2 : forall A B : Type, (P:A -> B -> Prop) (xs:list A) (ys:list B) : Prop} 
 that holds if \lstin{P x y} holds for every \lstin{x, y} where the index of 
 \lstin{x} in \lstin{xs} is the same as the index of \lstin{y} in the index of 
 \lstin{ys}. 

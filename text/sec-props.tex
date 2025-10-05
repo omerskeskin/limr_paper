@@ -343,9 +343,9 @@ Inductive gtth_eq: gtth -> gtth -> Prop :=
     Forall2 (fun u v => (u=None /\ v=None) \/ (exists s g1 g2, u=Some (s,g1) /\ v=Some (s,g2) /\ gtth_eq g1 g2)) xs ys ->
     gtth_eq (gtth_send p q xs) (gtth_send p q ys).
 \end{tcb}  
-\todo{this section is wrong, fix it}Informally, we say that the global type context $\mathbb{G'}$ is a \textit{proper prefix} of 
-$\mathbb{G}$ if any path to a leaf in $\mathbb{G'}$ is a proper prefix of a path in 
-$\mathbb{G}$. 
+Informally, we say that the global type context $\mathbb{G'}$ is a \textit{proper prefix} of 
+$\mathbb{G}$ if we can obtain  $\mathbb{G'}$ by changing some subtrees of $\mathbb{G}$
+with context holes such that none of the holes in $\mathbb{G}$ are present in $\mathbb{G'}$.
 Alternatively, we can characterise it as akin to \lstin{gtth_eq} except where the 
 context holes in $\mathbb{G'}$ are assumed to be "jokers" that can be matched with any global type context 
 that's not just a context hole. In Rocq: 
@@ -362,7 +362,8 @@ Inductive is_tree_proper_prefix : gtth -> gtth -> Prop :=
 \todo{give examples}
 
 We also define a function \lstin{gtth_height : gtth -> Nat} that computes the 
-height \cite{clrs} of a global type tree context.
+height \cite{clrs} of a global type tree context. Context holes i.e. leaves have 
+height 0, and the height of an internal node is the maximum of the height of their children plus one.
 \begin{tcb}{Coq}
 Fixpoint gtth_height (gh : gtth) : nat :=
   match gh with

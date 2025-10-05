@@ -23,7 +23,8 @@ Module MF := MMaps.Facts.Properties Nat M.
 Definition tctx: Type := M.t ltt.
 \end{tcb}
 In our implementation, we extensively use the MMaps library \cite{mmaps}, which defines finite maps using
-red-black trees and provides many useful functions and theorems about them. 
+red-black trees and provides many useful functions and theorems about them.
+\todo{this section might go} 
 We give some of the most important ones below:
 \begin{itemize}
   \item \lstin{M.add p t g}: Adds value \lstin{t} with the key \lstin{p} to the finite map 
@@ -181,6 +182,7 @@ of local contexts under \lstin{M.Equal}.
 
 
 \noindent We give an example to illustrate typing context reductions.
+\todo{this can be cut}
 \begin{example}\label{exam:reductions}
   Let
   \begin{align*}

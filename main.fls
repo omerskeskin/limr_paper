@@ -611,11 +611,11 @@ INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmtti10.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmtt8.tfm
 INPUT main.listing
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmtk10.tfm
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc
 OUTPUT main.listing
 INPUT ./main.listing
 INPUT ./main.listing
 INPUT main.listing
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/lmmib10.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/lmmib7.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/lmmib5.tfm

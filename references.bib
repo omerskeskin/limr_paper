@@ -69,14 +69,59 @@ keywords = {deadlock-freedom, duality, liveness, session types}
       url={https://arxiv.org/abs/2402.16741}, 
 }
 
-
-@techreport{srpaper,
-  author      = {Burak Ekici and Kamegai, Tadayoshi and Nobuko Yoshida},
-  title       = {Formalising Subject Reduction and Progress for Multiparty Session Processes},
-  institution = {University of Oxford},
-  year        = {2025}
+@incollection{weakbisim,
+title = {CHAPTER 19 - Operational and Algebraic Semantics of Concurrent Processes},
+editor = {JAN {VAN LEEUWEN}},
+booktitle = {Formal Models and Semantics},
+publisher = {Elsevier},
+address = {Amsterdam},
+pages = {1201-1242},
+year = {1990},
+series = {Handbook of Theoretical Computer Science},
+isbn = {978-0-444-88074-1},
+doi = {https://doi.org/10.1016/B978-0-444-88074-1.50024-X},
+url = {https://www.sciencedirect.com/science/article/pii/B978044488074150024X},
+author = {Robin MILNER},
+abstract = {Publisher Summary
+This chapter presents a particular class of mathematical models for concurrent communicating processes, namely, the class of algebraic calculi. The chapter describes a small language whose constructions reflect simple operational ideas; the meaning of these constructions is presented by means of structured operational semantics. Congruence relation is interpreted as equality of processes. The essence of the congruence is that it is built upon the idea of observing a process, which is taken to mean communicating with it. The idea is that the processes are equal if they are indistinguishable in any experiment based upon observation. Observation equivalence is characterized by a simple modal logic.}
 }
 
+@inproceedings{padovani,
+author = {Padovani, Luca},
+title = {Deadlock and lock freedom in the linear pi-calculus},
+year = {2014},
+isbn = {9781450328869},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2603088.2603116},
+doi = {10.1145/2603088.2603116},
+abstract = {We study two refinements of the linear pi-calculus that ensure deadlock freedom (the absence of stable states with pending linear communications) and lock freedom (the eventual completion of pending linear communications). The main feature of both type systems is a new form of channel polymorphism that affects their accuracy in a significant way: they are the first of their kind that can deal with recursive processes connected by cyclic networks.},
+booktitle = {Proceedings of the Joint Meeting of the Twenty-Third EACSL Annual Conference on Computer Science Logic (CSL) and the Twenty-Ninth Annual ACM/IEEE Symposium on Logic in Computer Science (LICS)},
+articleno = {72},
+numpages = {10},
+keywords = {types, polymorphism, linear pi-calculus, deadlock},
+location = {Vienna, Austria},
+series = {CSL-LICS '14}
+}
+
+@InProceedings{srpaper,
+  author =	{Ekici, Burak and Kamegai, Tadayoshi and Yoshida, Nobuko},
+  title =	{{Formalising Subject Reduction and Progress for Multiparty Session Processes}},
+  booktitle =	{16th International Conference on Interactive Theorem Proving (ITP 2025)},
+  pages =	{19:1--19:23},
+  series =	{Leibniz International Proceedings in Informatics (LIPIcs)},
+  ISBN =	{978-3-95977-396-6},
+  ISSN =	{1868-8969},
+  year =	{2025},
+  volume =	{352},
+  editor =	{Forster, Yannick and Keller, Chantal},
+  publisher =	{Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik},
+  address =	{Dagstuhl, Germany},
+  URL =		{https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITP.2025.19},
+  URN =		{urn:nbn:de:0030-drops-246177},
+  doi =		{10.4230/LIPIcs.ITP.2025.19},
+  annote =	{Keywords: multiparty session types, type trees, subtyping, progress, subject reduction, non-stuck theorem, Coq}
+}
 
 @article{paco,
 author = {Hur, Chung-Kil and Neis, Georg and Dreyer, Derek and Vafeiadis, Viktor},
