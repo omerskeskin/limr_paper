@@ -1,3 +1,4 @@
+\section{The Session Calculus}
 \label{sec-procs}
 We introduce the simple synchronous session calculus that our type system will be used on. 
 \newcommand{\PT}{\mathsf P}
@@ -53,6 +54,23 @@ Therefore we chose to add an unit element to parallel composition. However, we d
 that unit $\pp \triangleleft \textbf{0}$ in order to reuse some of the lemmas from \cite{srpaper}
 that use the fact that structural congruence preserves participants.
 \end{remark} 
+In Rocq processes and sessions are expressed in the following way
+\begin{tcb}{Coq}
+Inductive process : Type := 
+  | p_send : part -> label -> expr -> process -> process
+  | p_recv : part -> list(option process) -> process 
+  | p_ite : expr -> process -> process -> process
+  | p_rec : process -> process
+  | p_var : nat -> process
+  | p_inact : process.
+
+Inductive session: Type :=
+  | s_ind : part   -> process -> session
+  | s_par : session -> session -> session
+  | s_zero : session.
+Notation "p '<--' P"   :=  (s_ind p P) (at level 50, no associativity).
+Notation "s1 '|||' s2" :=  (s_par s1 s2) (at level 50, no associativity).
+\end{tcb}
 \subsection{Structural Congruence and Operational Semantics}
 We define a structural congruence relation $\equiv$ on sessions which expresses the commutativity, associativity and 
 unit of the parallel composition operator.
@@ -177,6 +195,7 @@ and $\beta$ reductions are defined up to this unfolding.
 
 $\M \Rrightarrow \N$ means that $\M$ can transition to $\N$ through some internal actions, or $\tau$ transitions in the semantics of 
 \cref{subsec-tau}. We say that $\M$ \textit{unfolds} to $\N$. 
+In Rocq it's captured by the predicate \lstin{unfoldP : session -> session -> Prop}.
 \begin{table}[h]
 {\footnotesize
 \[
@@ -198,4 +217,8 @@ $\M \Rrightarrow \N$ means that $\M$ can transition to $\N$ through some interna
 \end{table}
 
 \rulename{R-comm} captures communications between processes, and \rulename{R-unfold} lets us consider reductions up to
-unfoldings.
+unfoldings. In Rocq, \lstin{betaP_lbl M lambda M'} denotes 
+$\M \lts{\lambda} \M'$. We write $\M \lts{} \M'$ if $\M \lts{\lambda} \M'$
+for some $\lambda$, which is written \lstin{betaP M M'} in Rocq.
+We write $\lts{}^*$ to denote the reflexive transitive closure of
+$\lts{}$, which is called \lstin{betaRtc} in Rocq. 

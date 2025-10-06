@@ -1,8 +1,6 @@
-We give a typing discipline for a simple synchronous session calculus where local and global types 
-are represented equirecursively
-using coinductive trees. We then define LTS semantics on our local type contexts. 
-Next we define a liveness property for sessions and, using our LTS semantics, prove that this property holds 
-for typed sessions. 
-We also present a mechanisation of some of the results in the Coq Proof Assistant, 
-the most important one being
-the soundness of local typing context transitions with respect to global type transitions.
+We mechanise a synchronous multiparty session type framework that guarantees liveness for typed processes.
+We type sessions using a context of local types, and use "association" with global types to denote a set of 
+well-behaved local type contexts. We give LTS semantics to local contexts and global types and 
+prove operational correspondences between the LTSs local context and their associated global types.
+We then prove that sessions typed by a local context that's associated with a global type
+are live.
