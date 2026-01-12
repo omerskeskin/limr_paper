@@ -1,4 +1,4 @@
-\section{Notes on the Coq Implementation}\label{appx:coq}
+\section{Notes on the Rocq Implementation}\label{appx:coq}
 \subsection{Structure of the Code}
 Our code extends Tadayoshi Kamegai's library \cite{srpaper} for subject reduction,
 which formalises most of the definitions in \cref{sec:types}.
@@ -32,7 +32,7 @@ and \lstin{projection_implies_slist_recv}, which state that well-formed global t
 project onto local types with non-empty continuations. The proof is tedious and divorced from the rest 
 of the formalised proofs, so we have left it as admitted. 
 Additionally, in  \path{lemma/example_3.v} we have admitted three lemmas which state that 
-certain types satisfy \rulesafesync (represented in Coq with \lstin{weak_safety}). Again, the 
+certain types satisfy \rulesafesync (represented in Rocq with \lstin{weak_safety}). Again, the 
 proofs are long and non-informative, our purpose in proving \lstin{gamma_safe} is to showcase 
 the coinductive definition of safety and show how it corresponds to checking that all reducts 
 satisfy \rulesafesync.

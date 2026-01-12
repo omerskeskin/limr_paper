@@ -11,8 +11,8 @@ and local types that will be used to type single processes.
     \begin{align*}
       \S &::= \quad \tint \SEP \tbool \SEP \tnat
       \end{align*}
-      and the corresponding Coq
-      \begin{tcb}{Coq}
+      and the corresponding Rocq
+      \begin{tcb}{Rocq}
 Inductive sort: Type :=
    | sbool: sort
    | sint : sort
@@ -51,19 +51,20 @@ Local type trees are defined coinductively with the following syntax:
      \SEP \procinset{\prt{p}}{\ell_i(\S_i)}{\T_i}{i \in I}
      \SEP \procoutset{\prt{p}}{\ell_i(\S_i)}{\T_i}{i \in I}
     \end{align*}
-    The corresponding Coq definition is given below.
-\begin{tcb}{Coq}
+    The corresponding Rocq definition is given below.
+\begin{tcb}{Rocq}
     CoInductive ltt: Type :=
   | ltt_end : ltt
   | ltt_recv: part -> list (option(sort*ltt)) -> ltt
   | ltt_send: part -> list (option(sort*ltt)) -> ltt.
 \end{tcb}
 \end{definition}
-Note that in Coq we represent the continuations using a \lstin{list} of \lstin{option} types. 
+Note that in Rocq we represent the continuations using a \lstin{list} of \lstin{option} types. 
 In a continuation \lstin{gcs : list (option(sort*ltt))}, index \lstin{k} (using zero-indexing) being equal to 
 \lstin{Some (s_k, T_k)} means that $\ell_k (S_k).\T_k$ is available in the continuation.
 Similarly index \lstin{k} being equal to \lstin{None} or being out of bounds of the list means 
 that the message label $\ell_k$ is not present in the continuation. 
+\todo{these may go}
 Below are some of the constructions we use when working with option lists.
 \begin{enumerate}
   \item \lstin{SList xs}: A function that is equal to \lstin{True} if 
@@ -74,14 +75,14 @@ Below are some of the constructions we use when working with option lists.
   and returns \lstin{None} otherwise. Note that the function returns \lstin{None}
   if \lstin{k} is out of bounds for \lstin{xs}.
   \item \lstin{Forall, Forall2} and \lstin{Forall2R} : \lstin{Forall} and \lstin{Forall2}
-  are predicates from the Coq Standard Library \cite[List]{coqstl} that are used to quantify 
+  are predicates from the Rocq Standard Library \cite[List]{coqstl} that are used to quantify 
   over elements of one list and pairwise elements of two lists, respectively.
   \lstin{Forall2R} is a weaker version of \lstin{Forall2} that might hold 
   even if one parameter is shorter than the other. We frequently use 
   \lstin{Forall2R} to express subset relations on continuations.
 \end{enumerate}
 \begin{remark}
-  Note that Coq allows us to create types such as \lstin{ltt_send q []} which 
+  Note that Rocq allows us to create types such as \lstin{ltt_send q []} which 
   don't correspond to well-formed local types as the continuation is empty.
   In our implementation we define a predicate \lstin{wfltt : ltt -> Prop} capturing that 
   all the continuations in the local type tree are non-empty. Henceforth we assume that all local types
@@ -97,17 +98,17 @@ Below are some of the constructions we use when working with option lists.
    & \tend                       &                          & ...
 \end{tikzcd}
 
-and the following Coq code
-\begin{tcb}{Coq}
+and the following Rocq code
+\begin{tcb}{Rocq}
 CoFixpoint T := ltt_send q [Some (sint, ltt_end), None, Some (sbool, T)]
 \end{tcb}
 \end{example}
 We omit the details of the translation between local types and local type trees, the technicalities of
-our approach is explained in \cite{SynchronousSubtyping}, and the Coq implementation of translation
+our approach is explained in \cite{SynchronousSubtyping}, and the Rocq implementation of translation
 is detailed in \cite{srpaper}. From now on we work exclusively on local type trees.
 \begin{remark}
   We will occasionally be talking about equality (\lstin{=}) between coinductively
-  defined trees in Coq. Coq's Leibniz equality is not strong enought to treat 
+  defined trees in Rocq. Rocq's Leibniz equality is not strong enought to treat 
   as equal the types that we will deem to be the same. To do that, we define a coinductive predicate \lstin{lttIsoC} that captures
   isomorphism between coinductive trees and take as an axiom that \lstin{lttIsoC T1 T2 -> T1=T2}. 
   Technical details can be found in \cite{srpaper}. 
@@ -154,11 +155,11 @@ that has fewer labels available to send. Note the contraviance of the sorts in $
 if the supertype demands the ability to receive an $\tnat$ then the subtype can 
 receive $\tnat$ or $\tint$.
 
-In Coq we express coinductive relations such as subtyping using the Paco library \cite{paco}.
+In Rocq we express coinductive relations such as subtyping using the Paco library \cite{paco}.
 The idea behind Paco is to formulate the coinductive predicate as the greatest fixpoint of an
 inductive relation parameterised by another relation \lstin{R} representing the "accumulated knowledge"
 obtained during the course of the proof. Hence our subtyping relation looks like the following:
-\begin{tcb}{Coq}
+\begin{tcb}{Rocq}
 Inductive subtype (R: ltt -> ltt -> Prop): ltt -> ltt -> Prop :=
   | sub_end: subtype R ltt_end ltt_end
   | sub_in : forall p xs ys,
@@ -213,21 +214,21 @@ global type trees.
     \G &::= \quad \tend 
      \SEP \GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\G_i}_{i\in I}
     \end{align*}
-    with the corresponding Coq code
-    \begin{tcb}{Coq} 
+    with the corresponding Rocq code
+    \begin{tcb}{Rocq} 
     CoInductive gtt: Type :=
     | gtt_end    : gtt
     | gtt_send   : part -> part -> list (option (sort*gtt)) -> gtt.
     \end{tcb}
+  \end{definition}
+We extend the function $\funprt$ onto trees by defining $\funprt(\G)=\funprt(\mathbb{G})$
+where the global type $\mathbb{G}$ corresponds to the global type tree $\G$. Technical details 
+of this definition such as well-definedness can be found in \cite{srpaper,SynchronousSubtyping}. 
 
-    We extend the function $\funprt$ onto trees by defining $\funprt(\G)=\funprt(\mathbb{G})$
-    where the global type $\mathbb{G}$ corresponds to the global type tree $\G$. Technical details 
-    of this definition such as well-definedness can be found in \cite{srpaper,SynchronousSubtyping}. 
-    
-    In Coq $\funprt$ is captured with the 
-    predicate \lstin{isgPartsC : part -> gtt -> Prop}, where \lstin{isgPartsC p G} 
-    denotes $\prt{p} \in \funprt(\G)$.  
-\end{definition}
+In Rocq $\funprt$ is captured with the 
+predicate \lstin{isgPartsC : part -> gtt -> Prop}, where \lstin{isgPartsC p G} 
+denotes $\prt{p} \in \funprt(\G)$.  
+
 
 \subsection{Projection}
 We give definitions of projections with plain merging. 
@@ -283,9 +284,9 @@ involved in the root communication of $\G$, then the only way it knows its role 
 is if there is a role for it that works no matter what choices $\pp$ and $\pq$ make in their communication.
 This "works no matter the choices of the other participants" property is captured by the merge operations.
 
-In Coq these constructions are expressed with the inductive \lstin{isMerge} and the coinductive
+In Rocq these constructions are expressed with the inductive \lstin{isMerge} and the coinductive
 \lstin{projectionC}.
-\begin{tcb}{Coq}
+\begin{tcb}{Rocq}
 Inductive isMerge : ltt -> list (option ltt) -> Prop :=
   | matm : forall t, isMerge t (Some t :: nil)
   | mconsn : forall t xs, isMerge t xs -> isMerge t (None :: xs) 
@@ -293,7 +294,7 @@ Inductive isMerge : ltt -> list (option ltt) -> Prop :=
 \end{tcb}
 \lstin{isMerge t xs} holds if the plain merge of the types in \lstin{xs} is equal to 
 \lstin{t}.
-\begin{tcb}{Coq}
+\begin{tcb}{Rocq}
 Variant projection (R: gtt -> part -> ltt -> Prop): gtt -> part -> ltt -> Prop :=
 | proj_end : forall g r, 
                 (isgPartsC r g -> False) -> 
@@ -317,7 +318,7 @@ Definition projectionC g r t := paco3 projection bot3 g r t.
 \end{tcb}
 As in the definition of \lstin{subtypeC}, \lstin{projectionC} is defined as a parameterised greatest fixed point
 using Paco. The premises of the rules $\ruleprojin, \ruleprojout$ and $\ruleprojcont$
-are captured using the Coq standard library predicate 
+are captured using the Rocq standard library predicate 
 \lstin{List.Forall2 : forall A B : Type, (P:A -> B -> Prop) (xs:list A) (ys:list B) : Prop} 
 that holds if \lstin{P x y} holds for every \lstin{x, y} where the index of 
 \lstin{x} in \lstin{xs} is the same as the index of \lstin{y} in the index of 
@@ -330,9 +331,9 @@ function:
 \end{lemma}
 We write $\projfn{\G}{\pr}=\T$ when $\G\proj{\pr}\T$. Furthermore we will be frequently
 be making assertions about subtypes of projections of a global type e.g.
-$\T \subtp \projfn{\G}{\pr}$. In our Coq implementation we define the predicate \lstin{issubProj}
+$\T \subtp \projfn{\G}{\pr}$. In our Rocq implementation we define the predicate \lstin{issubProj}
 as a shorthand for this.
-\begin{tcb}{Coq}
+\begin{tcb}{Rocq}
   Definition issubProj (t:ltt) (g:gtt) (p:part) := 
     exists tg, projectionC g p tg /\ subtypeC t tg.
 \end{tcb}
@@ -344,9 +345,9 @@ A global tree $\G$ is balanced if for any subtree $\G'$ of $\G$, there exists $k
 for all $\pp \in \funprt(\G')$, $\pp$ occurs on every path from the root of $\G'$ of length at 
 least $k$.
 
-In Coq balancedness is expressed with the predicate \lstin{balancedG (G : gtt)}
+In Rocq balancedness is expressed with the predicate \lstin{balancedG (G : gtt)}
 \end{definition}
-We omit the technical details of this definition and the Coq implementation, they can be found in 
+We omit the technical details of this definition and the Rocq implementation, they can be found in 
 \cite{SynchronousSubtyping} and \cite{srpaper}.
 \begin{example}\label{example-balance}
 The global type tree $\G$ given below is unbalanced as 
@@ -380,8 +381,8 @@ on finite global type tree contexts.
     \Gcx &::= \quad \GvtPair{p}{q}{\ell_i(S_i).\Gcx_i}_{i \in I} 
    \SEP \hole_i
   \end{align*}
-  In Coq global type tree contexts are represented by the type \lstin{gtth}
-  \begin{tcb}{Coq}
+  In Rocq global type tree contexts are represented by the type \lstin{gtth}
+  \begin{tcb}{Rocq}
 Inductive gtth: Type :=
   | gtth_hol    : fin -> gtth
   | gtth_send   : part -> part -> list (option (sort * gtth)) -> gtth.
@@ -397,9 +398,9 @@ are related to global type trees with the grafting operation.
   and a set of global types $\{\G_i\}_{i \in I}$,  the grafting $\Gcx[\G_i]_{i \in I}$ denotes 
   the global type tree obtained by substituting $\hole_i$ with $\G_i$ in $Gcx$.
 
-  In Coq the indexed set $\{\G_i\}_{i \in I}$ is represented using a \lstin{list (option gtt)}.
+  In Rocq the indexed set $\{\G_i\}_{i \in I}$ is represented using a \lstin{list (option gtt)}.
   Grafting is expressed by the following inductive relation: 
-  \begin{tcb}{Coq}
+  \begin{tcb}{Rocq}
 Inductive typ_gtth : list (option gtt) -> gtth -> gtt -> Prop.
   \end{tcb}
   \lstin{typ_gtth gs gcx gt} means that the grafting of the set of global type trees 
@@ -419,12 +420,12 @@ participant $\pp$ as the grafting of
 a context that doesn't contain $\pp$ with a list of trees that are all of a certain structure.
 If \lstin{typ_gtth gs Gctx G}, \lstin{\~ ishParts p Gctx} and every \lstin{Some} element of \lstin{gs}
 is of shape \lstin{gtt_end}, \lstin{gtt_send p q} or \lstin{gtt_send q p}, then we call 
-the pair \lstin{gs} and \lstin{Gctx} as the $\pp$-grafting of \lstin{G}, expressed in Coq as
+the pair \lstin{gs} and \lstin{Gctx} as the $\pp$-grafting of \lstin{G}, expressed in Rocq as
 \lstin{typ_p_gtth gs Gctx p G}. When we don't care about the contents of \lstin{gs} we may just say
 that \lstin{G} is \lstin{p}-grafted by \lstin{Gctx}.
 \begin{remark}
   From now on, all the global type trees we will be referring to are assumed to be balanced.
-  When talking about the Coq implementation, any \lstin{G : gtt} we mention is assumed
+  When talking about the Rocq implementation, any \lstin{G : gtt} we mention is assumed
   to satisfy the predicate \lstin{wfgC G}, expressing that \lstin{G} corresponds to some global type
   and that \lstin{G} is balanced. 
 

@@ -1,4 +1,4 @@
-\section{LTS Semantics}
+\section{Semantics of Types}
 \label{sec:lts}
 In this section we introduce local type contexts, and define Labelled Transition System 
 semantics on these constructs.
@@ -15,9 +15,9 @@ Intuitively, p : {\T} means that participant p is associated with a process that
 We write $\dom{\Gamma}$ to denote the set of participants occuring in $\Gamma$. We write $\Gamma(\pp)$ for the type of $\pp$ in $\Gamma$. 
 We define the composition $\Gamma_1,\Gamma_2$ iff $\dom{\Gamma_1} \cap \dom{\Gamma_2}=\emptyset$.
 
-In the Coq implementation we implement local typing contexts as finite maps of 
+In the Rocq implementation we implement local typing contexts as finite maps of 
 participants, which are represented as natural numbers, and local type trees.
-\begin{tcb}{Coq}
+\begin{tcb}{Rocq}
 Module M := MMaps.RBT.Make(Nat).
 Module MF := MMaps.Facts.Properties Nat M.
 Definition tctx: Type := M.t ltt.
@@ -47,7 +47,7 @@ We give some of the most important ones below:
 \end{itemize}
 One important function that we define is \lstin{disj_merge},
 which merges disjoints maps and is used to represent the composition of typing contexts. 
-\begin{tcb}{Coq}
+\begin{tcb}{Rocq}
 Definition both (z: nat) (o:option ltt) (o':option ltt) :=
  match o,o' with 
    | Some _, None   => o
@@ -66,8 +66,8 @@ We give LTS semantics to typing contexts, for which we first define the transiti
     & \SEP \lblsend{p}{q}{\ell(S)} && \text{(${\prt{p}}$ sends $\ell(S)$ to ${\prt{q}}$)}\\
     & \SEP \lblsync{p}{q}{\ell} && \text{($\ell$ is transmitted from ${\prt{p}}$ to ${\prt{q}}$)}\\
   \end{align*}
-  and in Coq
-  \begin{tcb}{Coq}
+  and in Rocq
+  \begin{tcb}{Rocq}
 Notation opt_lbl := nat.
 Inductive label: Type :=
   | lrecv: part -> part -> option sort -> opt_lbl -> label
@@ -78,9 +78,9 @@ Inductive label: Type :=
   We also define the function $\subject{\alpha}$ as \enspace 
   $\subject{\lblrec{p}{q}{\ell(S)}}=\subject{\lblsend{p}{q}{\ell(S)}}=\{\pp\}$ and $\subject{\lblsync{p}{q}{\ell}}=\{\pp,\prt{q} \}$.
 
-  In Coq we represent $\subject{\alpha}$ with the predicate \lstin{ispSubjl p alpha} that holds 
+  In Rocq we represent $\subject{\alpha}$ with the predicate \lstin{ispSubjl p alpha} that holds 
   iff $\prt{p} \in \subject{\alpha}$.
-  \begin{tcb}{Coq}
+  \begin{tcb}{Rocq}
 Definition ispSubjl r l :=
   match l with 
     | lsend p q _ _ => p=r
@@ -91,7 +91,7 @@ Definition ispSubjl r l :=
 \end{definition}
 \begin{remark}
 From now on, we assume the all the types in the local type contexts always have non-empty continuations.
-In Coq terms, if \lstin{T} is in context \lstin{gamma} then \lstin{wfltt T} holds. This is expressed by the predicate
+In Rocq terms, if \lstin{T} is in context \lstin{gamma} then \lstin{wfltt T} holds. This is expressed by the predicate
 \lstin{wfltt: tctx -> Prop}.
 \end{remark}
 \subsection{Local Type Context Reductions}
@@ -148,8 +148,8 @@ $\ruleredsend$ and $\ruleredrec$, express a single participant sending or receiv
 $\ruleredsync$ expresses a synchronized communication where one participant sends while another receives,
 and they both progress with their continuation. $\ruleredvar$ shows how to extend a context.  
 
-In Coq typing context reductions are defined the following way:
-\begin{tcb}[\tiny]{Coq}
+In Rocq typing context reductions are defined the following way:
+\begin{tcb}[\tiny]{Rocq}
 Inductive tctxR: tctx -> label -> tctx -> Prop :=
   | Rsend: forall p q xs n s T,
             p <> q ->
@@ -187,7 +187,7 @@ of local contexts under \lstin{M.Equal}.
   Let
   \begin{align*}
   \T_{\prt{p}} &= \procoutmult{\prt{q}}{\ell_0(\tint).\T_{\prt{p}}\;,\;\ell_1(\tint).\tend}\\
-  \T_{\prt{q}} &= \procinmult{\prt{p}}{\ell_0(\tint).\T_{\prt{q}}\;,  \; \ell_1(\tint).\procoutsingle{\prt{r}}{\ell_3(\tint)}{\tend}}\\
+  \T_{\prt{q}} &= \procinmult{\prt{p}}{\ell_0(\tint).\T_{\prt{q}}\;,  \; \ell_1(\tint).\procoutsingle{\prt{r}}{\ell_2(\tint)}{\tend}}\\
   \T_{\prt{r}} &= \procinmult{\prt{q}}{\ell_2(\tint).\tend}\\
 \end{align*}
 
@@ -214,8 +214,8 @@ $\\ \Gamma \lts{} \Gamma' = {\prt{p}} : \tend, \; {\prt{q}}: \procoutsingle{\prt
 \end{align}
 and by \eqref{eq:red10} we have the reduction $\Gamma' \lts{} {\prt{p}} : \tend, \; {\prt{q}}: \tend, {\prt{r}} : \tend = \Gamma_\tend$, which results in a context that can't be reduced any further.
 
-In Coq, $\Gamma$ is defined the following way:
-\begin{tcb}{Coq}
+In Rocq, $\Gamma$ is defined the following way:
+\begin{tcb}{Rocq}
 Definition prt_p:=0.
 Definition prt_q:=1.
 Definition prt_r:=2.
@@ -225,8 +225,8 @@ Definition T_r := ltt_recv prt_q [None;None; Some (sint,ltt_end)].
 Definition gamma := M.add prt_p T_p (M.add prt_q T_q (M.add prt_r T_r M.empty)).
 \end{tcb}
 
-Now \cref{eq:red1} can be stated with the following piece of Coq
-\begin{tcb}{Coq}
+Now \cref{eq:red1} can be stated with the following piece of Rocq
+\begin{tcb}{Rocq}
 Lemma red_1 : tctxR gamma (lsend prt_p prt_q (Some sint) 0) gamma.
 \end{tcb}
 \end{example}
@@ -259,7 +259,7 @@ As with local typing contexts, we can also define reductions for global types.
     \enspace \rulename{GR-Ctx}
 \end{array}
 \]
-In Coq $\lbltrans{\G}{\lblsync{p}{q}{\ell_k}}{\G'}$ is expressed with the coinductively defined (via Paco)
+In Rocq $\lbltrans{\G}{\lblsync{p}{q}{\ell_k}}{\G'}$ is expressed with the coinductively defined (via Paco)
 predicate \lstin{gttstepC G G' p q k}.
 \end{definition}
 \rulegredsendrec says that a global type tree with root $\pp \rightarrow \pq$ can
@@ -281,8 +281,8 @@ if the following hold:
   \item For all $\pp \in \funprt(\G)$, $\pp \in \dom{\Gamma}$ and $\Gamma(\pp) \subtp \G \projf{\pp}$.
   \item For all $\pp \notin \funprt(\G)$, either $\pp \notin \dom{\Gamma}$ or $\Gamma(\pp)=\tend$. 
 \end{itemize}
-In Coq this is defined with the following:
-\begin{tcb}{Coq}
+In Rocq this is defined with the following:
+\begin{tcb}{Rocq}
 Definition assoc (g: tctx) (gt:gtt) := 
     forall p, (isgPartsC p gt -> exists Tp, M.find p g=Some Tp /\  
         issubProj Tp gt p) /\
@@ -316,7 +316,6 @@ soundness and completeness theorems.
   \lstin{gttStepC G G'' p q ell'}, \lstin{assoc gamma' G''} and 
   \lstin{tctxR gamma (lcomm p q ell') gamma'}.
 \end{theorem}
-
 \begin{theorem}[Completeness of Association] \label{theo-completeness}
   If \lstin{assoc gamma G} and \lstin{tctxR gamma (lcomm p q ell) gamma'}, 
   then there exists a global type tree \lstin{G'} such that 

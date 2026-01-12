@@ -14,13 +14,15 @@ We distinguish between two kinds of typing judgements and type contexts.
     \item A local type context $\Gamma$ associates participants with local type trees, as defined in
     c{def-type-ctx}. Local type contexts are used to type sessions (\cref{def:sessions}) i.e. a set of 
     pairs of participants and single processes composed in parallel. We express 
-    such judgements as $\Gamma \vdashm \M$, or as \lstin{typ_sess M gamma} in Rocq.
+    such judgements as $\Gamma \vdashm \M$, or as \lstin{typ_sess M gamma} or 
+    \lstin{gamma $\;\vdash$ M} in Rocq.
     \item A process variable context $\Theta_\T$ associates process variables with local type trees,
     and an expression variable context $\Theta_\kf{e}$ 
     assigns sorts to expresion variables.
     Variable contexts are used to type single processes and expressions (\cref{def:processes}). 
     Such judgements are expressed 
-    as $\Theta_\T, \Theta_\kf{e} \vdashp \PT : \T$, or in as \lstin{typ_proc theta_T theta_e P T}.
+    as $\Theta_\T, \Theta_\kf{e} \vdashp \PT : \T$, or in Rocq as 
+    \lstin{typ_proc theta_T theta_e P T} or \lstin{theta_T, theta_e $\;\vdash$ P : T}.
 \end{enumerate}
 
 \begin{table}[h]
@@ -97,19 +99,22 @@ We distinguish between two kinds of typing judgements and type contexts.
 \caption{Typing processes}
 \label{tbl:proc}
 \end{table}
-\cref{tbl:expr} and \cref{tbl:proc} state the standard typing rules for expressions and processes.
+\cref{tbl:expr} and \cref{tbl:proc} state the standard typing rules for expressions and processes which we don't elaborate on.
 We have a single rule for typing sessions:
 \[
 \inferrule[\rulename{t-sess}]{\forall i \in I: \qquad \vdashp \PT_i \colon \Gamma(\pp_i) \qquad 
 \Gamma \assoc \G}
 {\Gamma \vdashm \prod_i \pp_i \triangleleft \PT_i}
 \]
-
+\rulename{t-sess} says that a session made of the parallel composition of processes $\prod_i \pp_i \triangleleft \PT_i$ 
+can be typed by an associated local context $\Gamma$ if the local type of participant $\pp_i$ in $\Gamma$
+types the process  
 \subsection{Subject Reduction, Progress and Session Fidelity}
 The subject reduction, progress and non-stuck theorems from \cite{srpaper} \todo{give theorem no}
 also hold in this setting, with minor changes in their statements and proofs. 
 We won't discuss these proofs in detail.
 \begin{lemma}
+  \label{lem-typ-unfold}
   If \lstin{typ_sess M gamma} and \lstin{unfoldP M M'} then \lstin{typ_sess M' gamma}.
 \end{lemma}
 \begin{proof}
@@ -169,7 +174,7 @@ and show that typable sessions have this property.
     ${\M'}\longrightarrow^*{\M''} \Rrightarrow \pq \triangleleft Q_i[v/x_i] \;|\; \N'$ for some $\M'', \N', i, v.$ 
   \end{enumerate}
   In Rocq we express this with the following:
-  \begin{tcb}{Coq}
+  \begin{tcb}{Rocq}
 Definition live_sess Mp := forall M, betaRtc Mp M -> 
   (forall p q ell e P' M', p <>q -> unfoldP M ( (p <-- p_send q ell e P') \|\|\| M') -> exists M'',
   betaRtc M ((p <-- P')\|\|\|M''))
@@ -223,15 +228,15 @@ be executed, however no extension of $\rho$ can contain such a transition as $\M
 %With $\tau$ semantics we wouldn't have $(\pp,\pq)\ell_1$ and $(\pp,\pr)\ell_2$ transitions at the same state, 
 %as a $\pp$ would have to make a choice via a $\tau$ transition before a communication can be enabled.
 Nevertheless, it turns out that there is a fair reduction path starting from every
-typable session can (\cref{lem-fair-scheduling}), and this will be enough to prove our desired liveness property.
+typable session (\cref{lem-fair-scheduling}), and this will be enough to prove our desired liveness property.
 \end{remark}
 We can now lift the typing relation to reduction paths, just like we did in \cref{def-assoc-path}. 
 \begin{definition}[Path Typing]
-[Path Typing]\label{def-typ-path}
+\label{def-typ-path}
 Path typing is a relation between session reduction paths and local type context reduction paths,
 defined coinductively by the following rules:
 \begin{enumerate}[(i)]
-  \item The empty path is typed with the empty path.
+  \item The empty session reductoin path is typed with the empty context reduction path.
   \item If $\M \lts{\lambda_0} \rho$ is typed by $\Gamma \lts{\lambda_1} \rho'$ 
   where ($\rho$ and $\rho'$ are session and local type context reduction paths, respectively), 
   then $\lambda_0=\lambda_1$ and $\rho$ is typed by $\rho'$.
@@ -277,16 +282,18 @@ For a session \lstin{Mp}, if \lstin{exists gamma, typ_sess Mp gamma} then \lstin
 \end{theorem}
 \begin{proof}
 We detail the proof for the send case of \cref{def-live-sess}, the case for the receive is similar.
-Suppose that \lstin{betaRtc Mp M} and \lstin{unfoldP M ( (p <-- p_send q ell e P') \|\|\| M')}.
+Suppose that \lstin{Mp} $\rdc^*$ \lstin{M} and 
+\lstin{M} $\Rrightarrow$ \lstin{((p <- p_send q ell e P') \|\|\| M')}, which we name \lstin{M_unf}.
 Our goal is to show that there exists a \lstin{M''} such that
-\lstin{betaRtc M ((p <-- P')\|\|\|M'')}. 
-First, observe that it suffices to show that 
-\lstin{betaRtc ((p <-- p_send q ell e P') \|\|\| M') M''}
-for some \lstin{M''}. Also note that \lstin{typ_sess M gamma} for some \lstin{gamma}
+\lstin{M} =$\rdc^*$ \lstin{((p <- P')\|\|\|M'')}. 
+First, observe that by \rulename{R-Unfold} it suffices to show that 
+\lstin{((p <- p_send q ell e P') \|\|\| M')} $\rdc^*$ \lstin{M''}
+for some \lstin{M''}. Also note that  \lstin{gamma} $\vdashm$ \lstin{M} for some \lstin{gamma}
 by \cref{theo-sub-red}, therefore 
-\lstin{typ_sess ((p <-- p_send q ell e P') \|\|\| M') gamma}
+\lstin{gamma} $\vdashm$ \lstin{((p <- p_send q ell e P') \|\|\| M')}
 by \cref{lem-typ-unfold}.
-Now let \lstin{xs} be the fair reduction path starting from \lstin{((p <-- p_send q ell e P') \|\|\| M')}, 
+
+Now let \lstin{xs} be a fair reduction path starting from \lstin{((p <-- p_send q ell e P') \|\|\| M')}, 
 which exists by \cref{lem-fair-scheduling}. Let \lstin{ys} be the
 local context reduction path starting with \lstin{gamma} that types \lstin{xs}, which exists by 
 \cref{lem-typ-path-exists}. Now \lstin{ys} is fair by \cref{lem-typ-path-fair}.

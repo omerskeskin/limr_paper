@@ -22,8 +22,8 @@ We introduce the simple synchronous session calculus that our type system will b
 $\prt{p}!\ell(\kf{e}).\PT$ is a process that sends the value of expression $\kf{e}$ 
 with label $\ell$ to participant $\pp$, and continues with process $\PT$.
 $\sum_{i \in I}
-\prt{p}?\ell_i(x_i).P_i$ is a process that may receive a value from any 
-$\ell_i \in I$, binding the result to $x_i$ and continuing with $\PT_i$, depending on which $\ell_i$
+\prt{p}?\ell_i(x_i).P_i$ is a process that may receive a value from $\pp$ with any label  
+$\ell_i$ where $i\in I$, binding the result to $x_i$ and continuing with $\PT_i$, depending on which $\ell_i$
 the value was received from. $\Xv$ is a recursion variable, $\mu \Xv.\PT$ is a recursive process,
 $\cond{\kf{e}}{\PT}{\PT}$ is a conditional and $\textbf{0}$ is a terminated process.
 
@@ -55,7 +55,7 @@ that unit $\pp \triangleleft \textbf{0}$ in order to reuse some of the lemmas fr
 that use the fact that structural congruence preserves participants.
 \end{remark} 
 In Rocq processes and sessions are expressed in the following way
-\begin{tcb}{Coq}
+\begin{tcb}{Rocq}
 Inductive process : Type := 
   | p_send : part -> label -> expr -> process -> process
   | p_recv : part -> list(option process) -> process 
@@ -152,10 +152,12 @@ message label $\ell_j$.
 \rulename{R-rec} unfolds recursion, \rulename{R-condt} and \rulename{R-condf} express how to evaluate conditionals,
 and \rulename{R-struct} shows that the reduction respects the structural pre-congruence.
 We write $\M \rightarrow \N$ if $\M \xrightarrow{\lambda} \N$ for some transition label $\lambda$.
-We write $\rightarrow^*$ to denote the reflexive transitive closure of $\rightarrow$. We also write 
-$\M \Rrightarrow \N$ when $\M \equiv \N$ or $\M \rightarrow^* \N$ where all the transitions
-involved in the multistep reduction are $\tau$ transitions.
+We write $\rightarrow^*$ to denote the reflexive transitive closure of $\rightarrow$. 
+%%We also write 
+%$\M \Rrightarrow \N$ when $\M \equiv \N$ or $\M \rightarrow^* \N$ where all the transitions
+%involved in the multistep reduction are $\tau$ transitions.
 \subsection{Reactive Semantics}
+\label{def-sess-semantics}
 In reactive semantics $\tau$ transitions are captured by an \textit{unfolding} relation $(\Rrightarrow)$,
 and $\beta$ reductions are defined up to this unfolding.
 \begin{table}[h]
