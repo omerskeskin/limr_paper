@@ -115,24 +115,25 @@ also hold in this setting, with minor changes in their statements and proofs.
 We won't discuss these proofs in detail.
 \begin{lemma}
   \label{lem-typ-unfold}
-  If \lstin{typ_sess M gamma} and \lstin{unfoldP M M'} then \lstin{typ_sess M' gamma}.
+  If \lstin{gamma} $\vdashm$ \lstin{M}   and \lstin{M} $\Rrightarrow$ \lstin{M'} then \lstin{typ_sess M' gamma}.
 \end{lemma}
 \begin{proof}
   By induction on \lstin{unfoldP M M'}.
 \end{proof}
 \begin{theorem}[Subject Reduction]\label{theo-sub-red}
-If \lstin{typ_sess M gamma} and \lstin{betaP_lbl M (lcomm p q ell) M'}, then 
+If \lstin{gamma} $\vdashm$ \lstin{M}   and 
+\lstin{M} $\lts{\lblsync{p}{q}{\ell}}$ \lstin{M'}, then 
 there exists a typing context \lstin{gamma'} such that 
-\lstin{tctxR gamma (lcomm p q ell) gamma'}
-and \lstin{typ_sess M' gamma'}.
+\lstin{gamma} $\lts{\lblsync{p}{q}{\ell}}$ \lstin{gamma'}
+and \lstin{gamma} $\vdashm$ \lstin{M}  .
 \end{theorem}
 \begin{theorem}[Progress]
-If \lstin{typ_sess M gamma}, one of the following hold :
+If \lstin{gamma} $\vdashm$ \lstin{M}  , one of the following hold :
 \begin{enumerate}
-  \item Either \lstin{unfoldP M M_inact} where every process making up \lstin{M_inact}
+  \item Either \lstin{M} $\Rrightarrow$ \lstin{M_inact} where every process making up \lstin{M_inact}
   is inactive, i.e. 
-  \lstin{M_inact}$= \prod_{i=1}^{n}\pp_i \triangleleft \bf{0}$ for some $n$. 
-  \item Or there is a \lstin{M'} such that \lstin{betaP M M'}.
+  \lstin{M_inact} $\equiv \prod_{i=1}^{n}\pp_i \triangleleft \bf{0}$ for some $n$. 
+  \item Or there is a \lstin{M'} such that \lstin{M} $\rdc$ \lstin{M'}.
 \end{enumerate}
 \end{theorem}
 \begin{remark}\label{remark-reactive-justif}
@@ -147,9 +148,9 @@ working with the strong simulation turns out be more convenient.
 We can also prove the following correspondence result in the reverse direction to \cref{theo-sub-red}, analogus 
 to \cref{theo-soundness}.
 \begin{theorem}[Session Fidelity]\label{theo-sess-fid}
-If \lstin{typ_sess M gamma} and \lstin{tctxR gamma (lcomm p q ell) gamma'}, there exists a
+If \lstin{gamma} $\vdashm$ \lstin{M} and \lstin{gamma} $\lts{\lblsync{p}{q}{\ell}}$ \lstin{gamma'}, there exists a
 message label
-\lstin{ell'} and a session \lstin{M'} such that \lstin{betaP_lbl M (lcomm p q ell') M'} 
+$\ell'$ and a session \lstin{M'} such that \lstin{M} $\lts{\lblsync{p}{q}{\ell'}}$ \lstin{M'} 
 and \lstin{typ_sess M' gamma'}.  
 \end{theorem}
 \begin{proof}
@@ -278,14 +279,14 @@ reminiscent of the techniques employed in \cite{coqfilter}.
 \end{remark}
 We can now prove that typed sessions are live.
 \begin{theorem}[Liveness by Typing]
-For a session \lstin{Mp}, if \lstin{exists gamma, typ_sess Mp gamma} then \lstin{live_sess Mp}.
+For a session \lstin{Mp}, if \lstin{exists gamma gamma} $\vdashm$ \lstin{Mp} then \lstin{live_sess Mp}.
 \end{theorem}
 \begin{proof}
 We detail the proof for the send case of \cref{def-live-sess}, the case for the receive is similar.
 Suppose that \lstin{Mp} $\rdc^*$ \lstin{M} and 
-\lstin{M} $\Rrightarrow$ \lstin{((p <- p_send q ell e P') \|\|\| M')}, which we name \lstin{M_unf}.
+\lstin{M} $\Rrightarrow$ \lstin{((p <- p_send q ell e P') \|\|\| M')}.
 Our goal is to show that there exists a \lstin{M''} such that
-\lstin{M} =$\rdc^*$ \lstin{((p <- P')\|\|\|M'')}. 
+\lstin{M} $\rdc^*$ \lstin{((p <- P')\|\|\|M'')}. 
 First, observe that by \rulename{R-Unfold} it suffices to show that 
 \lstin{((p <- p_send q ell e P') \|\|\| M')} $\rdc^*$ \lstin{M''}
 for some \lstin{M''}. Also note that  \lstin{gamma} $\vdashm$ \lstin{M} for some \lstin{gamma}
@@ -304,10 +305,11 @@ Therefore
 \lstin{ys} = \lstin{gamma} $\rdc^*$ \lstin{gamma_0} $\lts{(\pp,\pq)\ell'}$ \lstin{gamma_1} $\rdc ..$
 for some \lstin{gamma_0}, \lstin{gamma_1}. Now consider the session \lstin{M_0} typed by 
 \lstin{gamma_0} in \lstin{xs}. 
-We have \lstin{betaRtc ((p <-- p_send q ell e P') \|\|\| M'') M_0}
-by \lstin{M_0} being on a reduction path starting from \lstin{M}. We also have that 
+We have \lstin{((p <- p_send q ell e P') \|\|\| M'')} $\rdc^*$ \lstin{M_0}
+by \lstin{M_0} being on \lstin{xs}. 
+We also have that 
 \lstin{M_0} $\lts{(\pp,\pq)\ell''}$ \lstin{M_1} for some $\ell''$, \lstin{M_1} by \cref{theo-sess-fid}.
-Now observe that \lstin{M_0}$\equiv$ \lstin{((p <-- p_send q ell e P') \|\|\| M'')} for some 
+Now observe that \lstin{M_0} $\equiv$ \lstin{((p <- p_send q ell e P') \|\|\| M'')} for some 
 \lstin{M''} as no transitions involving \lstin{p} have happened on the reduction path to \lstin{M_0}.
-Therefore $\ell=\ell''$, so \lstin{M_1} $\equiv$ \lstin{((p <-- P') \|\|\| M'')} for some \lstin{M''}, as needed.
+Therefore $\ell=\ell''$, so \lstin{M_1} $\equiv$ \lstin{((p <- P') \|\|\| M'')} for some \lstin{M''}, as needed.
 \end{proof}
