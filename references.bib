@@ -104,6 +104,425 @@ location = {Vienna, Austria},
 series = {CSL-LICS '14}
 }
 
+
+@article{castellani_reversible_2019,
+	title = {Reversible sessions with flexible choices},
+	volume = {56},
+	issn = {1432-0525},
+	url = {https://doi.org/10.1007/s00236-019-00332-y},
+	doi = {10.1007/s00236-019-00332-y},
+	abstract = {We propose a calculus for concurrent reversible multiparty sessions, equipped with a flexible choice operator allowing for different sets of participants in each branch. This operator is inspired by the notion of connecting action recently introduced by Hu and Yoshida to describe protocols with optional participants. We argue that this choice operator allows for a natural description of typical communication protocols. Our calculus also supports a compact representation of the history of processes and types, which facilitates the definition of rollback. Moreover, it implements a fine-tuned strategy for backward computation. We present a session type system for the calculus and show that it enforces the expected properties of session fidelity, forward progress and backward progress.},
+	language = {en},
+	number = {7},
+	urldate = {2026-01-18},
+	journal = {Acta Informatica},
+	author = {Castellani, Ilaria and Dezani-Ciancaglini, Mariangiola and Giannini, Paola},
+	month = nov,
+	year = {2019},
+	pages = {553--583},
+	file = {Full Text PDF:C\:\\Users\\omer1\\Zotero\\storage\\F4FEEYE9\\Castellani et al. - 2019 - Reversible sessions with flexible choices.pdf:application/pdf},
+}
+
+
+@article{barbanera_partially_2023,
+	title = {Partially {Typed} {Multiparty} {Sessions}},
+	volume = {383},
+	issn = {2075-2180},
+	url = {http://arxiv.org/abs/2308.10653},
+	doi = {10.4204/EPTCS.383.2},
+	abstract = {A multiparty session formalises a set of concurrent communicating participants. We propose a type system for multiparty sessions where some communications between participants can be ignored. This allows us to type some sessions with global types representing interesting protocols, which have no type in the standard type systems. Our type system enjoys Subject Reduction, Session Fidelity and "partial" Lock-freedom. The last property ensures the absence of locks for participants with non ignored communications. A sound and complete type inference algorithm is also discussed.},
+	urldate = {2026-01-19},
+	journal = {Electronic Proceedings in Theoretical Computer Science},
+	author = {Barbanera, Franco and Dezani-Ciancaglini, Mariangiola},
+	month = aug,
+	year = {2023},
+	note = {arXiv:2308.10653 [cs]},
+	keywords = {Computer Science - Logic in Computer Science},
+	pages = {15--34},
+	annote = {Comment: In Proceedings ICE 2023, arXiv:2308.08920},
+}
+
+
+@article{kobayashi_type_2002,
+	title = {A {Type} {System} for {Lock}-{Free} {Processes}},
+	volume = {177},
+	issn = {0890-5401},
+	url = {https://www.sciencedirect.com/science/article/pii/S0890540102931718},
+	doi = {10.1006/inco.2002.3171},
+	abstract = {Advanced type systems for the π-calculus have recently been proposed to guarantee deadlock-freedom in the sense that certain communications will eventually succeed unless the whole process diverges. Although such guarantees are useful for reasoning about the behavior of concurrent programs, there still remains the weakness that the success of a communication is not completely guaranteed due to the possibility of divergence. For example, although a server process that has received a request message cannot discard the request, it is allowed to infinitely delegate the request to other processes, causing a livelock. In this paper, we present a type system which guarantees that certain communications will eventually succeed under fair scheduling, regardless of whether processes diverge. We also present a variant of the type system which guarantees that a communication will succeed within a given number of reduction steps.},
+	number = {2},
+	urldate = {2026-01-19},
+	journal = {Information and Computation},
+	author = {Kobayashi, Naoki},
+	month = sep,
+	year = {2002},
+	pages = {122--159},
+}
+
+
+
+@article{ciccone_fair_2024,
+	title = {Fair termination of multiparty sessions},
+	volume = {139},
+	issn = {2352-2208},
+	url = {https://www.sciencedirect.com/science/article/pii/S2352220824000221},
+	doi = {https://doi.org/10.1016/j.jlamp.2024.100964},
+	abstract = {There exists a broad family of multiparty sessions in which the progress of one session participant is not unconditional, but depends on the choices performed by other participants. These sessions fall outside the scope of currently available session type systems that guarantee progress. In this work we propose the first type system ensuring that well-typed multiparty sessions, including those exhibiting the aforementioned dependencies, fairly terminate. Fair termination is termination under a fairness assumption that disregards those interactions deemed unfair and therefore unrealistic. Fair termination, combined with the usual safety properties ensured within sessions, not only is desirable per se, but it entails livelock freedom and enables a compositional form of static analysis such that the well-typed composition of fairly terminating sessions results in a fairly terminating program.},
+	journal = {Journal of Logical and Algebraic Methods in Programming},
+	author = {Ciccone, Luca and Dagnino, Francesco and Padovani, Luca},
+	year = {2024},
+	keywords = {Deadlock freedom, Fair subtyping, Fair termination, Multiparty sessions},
+	pages = {100964},
+}
+
+@InProceedings{li_certified_2025,
+  author =	{Li, Elaine and Wies, Thomas},
+  title =	{{Certified Implementability of Global Multiparty Protocols}},
+  booktitle =	{16th International Conference on Interactive Theorem Proving (ITP 2025)},
+  pages =	{15:1--15:20},
+  series =	{Leibniz International Proceedings in Informatics (LIPIcs)},
+  ISBN =	{978-3-95977-396-6},
+  ISSN =	{1868-8969},
+  year =	{2025},
+  volume =	{352},
+  editor =	{Forster, Yannick and Keller, Chantal},
+  publisher =	{Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik},
+  address =	{Dagstuhl, Germany},
+  URL =		{https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITP.2025.15},
+  URN =		{urn:nbn:de:0030-drops-246139},
+  doi =		{10.4230/LIPIcs.ITP.2025.15},
+  annote =	{Keywords: Asynchronous protocols, communicating state machines, labeled transition systems, infinite semantics, realizability, multiparty session types, choreographies, deadlock freedom}
+}
+
+@inproceedings{tirore2025multiparty,
+  title={Multiparty asynchronous session types: A mechanised proof of subject reduction},
+  author={Tirore, Dawit and Bengtson, Jesper and Carbone, Marco},
+  booktitle={39th European Conference on Object-Oriented Programming (ECOOP 2025)},
+  pages={31--1},
+  year={2025},
+  organization={Schloss Dagstuhl--Leibniz-Zentrum f{\"u}r Informatik}
+}
+
+@inproceedings{tirore2023sound,
+  title={A sound and complete projection for global types},
+  author={Tirore, Dawit and Bengtson, Jesper and Carbone, Marco},
+  booktitle={14th International Conference on Interactive Theorem Proving (ITP 2023)},
+  pages={28--1},
+  year={2023},
+  organization={Schloss Dagstuhl--Leibniz-Zentrum f{\"u}r Informatik}
+}
+
+@misc{tirore_thesis,
+title = "A Mechanisation of Multiparty Session Types",
+author = "Dawit Tirore",
+year = "2024",
+language = "English",
+series = "ITU-DS",
+publisher = "IT-Universitetet i K{\o}benhavn",
+number = "231",
+address = "Denmark",
+}
+
+@article{castro2026synthetic,
+author = {Castro-Perez, David and Ferreira, Francisco and Jongmans, Sung-Shik},
+title = {A Synthetic Reconstruction of Multiparty Session Types},
+year = {2026},
+issue_date = {January 2026},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {10},
+number = {POPL},
+url = {https://doi.org/10.1145/3776692},
+doi = {10.1145/3776692},
+abstract = {Multiparty session types (MPST) provide a rigorous foundation for verifying the safety and liveness of concurrent systems. However, existing approaches often force a difficult trade-off: classical, projection-based techniques are compositional but limited in expressiveness, while more recent techniques achieve higher expressiveness by relying on non-compositional, whole-system model checking, which scales poorly. This paper introduces a new approach to MPST that delivers both expressiveness and compositionality, called the synthetic approach. Our key innovation is a type system that verifies each process directly against a global protocol specification, represented as a labelled transition system (LTS) in general, with global types as a special case. This approach uniquely avoids the need for intermediate local types and projection. We demonstrate that our approach, while conceptually simpler, supports a benchmark of challenging protocols that were previously beyond the reach of compositional techniques in the MPST literature. We generalise our type system, showing that it can validate processes against any specification that constitutes a "well-behaved" LTS, supporting protocols not expressible with the standard global type syntax. The entire framework, including all theorems and many examples, has been formalised and mechanised in Agda, and we have developed a prototype implementation as an extension to VS Code.},
+journal = {Proc. ACM Program. Lang.},
+month = jan,
+articleno = {50},
+numpages = {29},
+keywords = {Multiparty session typing, behavioural typing, choreographies}
+}
+
+@misc{ciccone2023concertogrossosessionsfair,
+      title={Concerto Grosso for Sessions: Fair Termination of Sessions}, 
+      author={Luca Ciccone},
+      year={2023},
+      eprint={2307.05539},
+      archivePrefix={arXiv},
+      primaryClass={cs.LO},
+      url={https://arxiv.org/abs/2307.05539}, 
+}
+
+
+@article{brady_type-driven_2017,
+	title = {Type-driven {Development} of {Concurrent} {Communicating} {Systems}},
+	volume = {18},
+	url = {https://journals.agh.edu.pl/csci/article/view/1413},
+	doi = {10.7494/csci.2017.18.3.1413},
+	number = {3},
+	journal = {Computer Science},
+	author = {Brady, Edwin Charles},
+	month = jul,
+	year = {2017},
+}
+
+@inproceedings{dardha2021,
+author = {Kokke, Wen and Dardha, Ornela},
+title = {Deadlock-free session types in linear Haskell},
+year = {2021},
+isbn = {9781450386159},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3471874.3472979},
+doi = {10.1145/3471874.3472979},
+abstract = {Priority Sesh is a library for session-typed communication in Linear Haskell which offers strong compile-time correctness guarantees. Priority Sesh offers two deadlock-free APIs for session-typed communication. The first guarantees deadlock freedom by restricting the process structure to trees and forests. It is simple and composeable, but rules out cyclic structures. The second guarantees deadlock freedom via priorities, which allows the programmer to safely use cyclic structures as well. Our library relies on Linear Haskell to guarantee linearity, which leads to easy-to-write session types and more idiomatic code, and lets us avoid the complex encodings of linearity in the Haskell type system that made previous libraries difficult to use.},
+booktitle = {Proceedings of the 14th ACM SIGPLAN International Symposium on Haskell},
+pages = {1–13},
+numpages = {13},
+keywords = {session types, linear haskell, deadlock freedom},
+location = {Virtual, Republic of Korea},
+series = {Haskell 2021}
+}
+
+@article{lindley2016embedding,
+  title={Embedding session types in Haskell},
+  author={Lindley, Sam and Morris, J Garrett},
+  journal={ACM SIGPLAN Notices},
+  volume={51},
+  number={12},
+  pages={133--145},
+  year={2016},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{pucella2008haskell,
+  title={Haskell session types with (almost) no class},
+  author={Pucella, Riccardo and Tov, Jesse A},
+  booktitle={Proceedings of the first ACM SIGPLAN symposium on Haskell},
+  pages={25--36},
+  year={2008}
+}
+
+@article{hinrichsen2019actris,
+  title={Actris: Session-type based reasoning in separation logic},
+  author={Hinrichsen, Jonas Kastberg and Bengtson, Jesper and Krebbers, Robbert},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={4},
+  number={POPL},
+  pages={1--30},
+  year={2019},
+  publisher={ACM New York, NY, USA}
+}
+
+@article{jung2018iris,
+  title={Iris from the ground up: A modular foundation for higher-order concurrent separation logic},
+  author={Jung, Ralf and Krebbers, Robbert and Jourdan, Jacques-Henri and Bizjak, Ale{\v{s}} and Birkedal, Lars and Dreyer, Derek},
+  journal={Journal of Functional Programming},
+  volume={28},
+  pages={e20},
+  year={2018},
+  publisher={Cambridge University Press}
+}
+
+@article{jacobs2024deadlock,
+  title={Deadlock-free separation logic: Linearity yields progress for dependent higher-order message passing},
+  author={Jacobs, Jules and Hinrichsen, Jonas Kastberg and Krebbers, Robbert},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={8},
+  number={POPL},
+  pages={1385--1417},
+  year={2024},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{10.1145/2364527.2364568,
+author = {Wadler, Philip},
+title = {Propositions as sessions},
+year = {2012},
+isbn = {9781450310543},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2364527.2364568},
+doi = {10.1145/2364527.2364568},
+abstract = {Continuing a line of work by Abramsky (1994), by Bellin and Scott (1994), and by Caires and Pfenning (2010), among others, this paper presents CP, a calculus in which propositions of classical linear logic correspond to session types. Continuing a line of work by Honda (1993), by Honda, Kubo, and Vasconcelos (1998), and by Gay and Vasconcelos (2010), among others, this paper presents GV, a linear functional language with session types, and presents a translation from GV into CP. The translation formalises for the first time a connection between a standard presentation of session types and linear logic, and shows how a modification to the standard presentation yield a language free from deadlock, where deadlock freedom follows from the correspondence to linear logic.},
+booktitle = {Proceedings of the 17th ACM SIGPLAN International Conference on Functional Programming},
+pages = {273–286},
+numpages = {14},
+keywords = {lambda calculus, linear logic, pi calculus},
+location = {Copenhagen, Denmark},
+series = {ICFP '12}
+}
+
+
+@article{wadler2012gv,
+author = {Wadler, Philip},
+title = {Propositions as sessions},
+year = {2012},
+issue_date = {September 2012},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {47},
+number = {9},
+issn = {0362-1340},
+url = {https://doi.org/10.1145/2398856.2364568},
+doi = {10.1145/2398856.2364568},
+abstract = {Continuing a line of work by Abramsky (1994), by Bellin and Scott (1994), and by Caires and Pfenning (2010), among others, this paper presents CP, a calculus in which propositions of classical linear logic correspond to session types. Continuing a line of work by Honda (1993), by Honda, Kubo, and Vasconcelos (1998), and by Gay and Vasconcelos (2010), among others, this paper presents GV, a linear functional language with session types, and presents a translation from GV into CP. The translation formalises for the first time a connection between a standard presentation of session types and linear logic, and shows how a modification to the standard presentation yield a language free from deadlock, where deadlock freedom follows from the correspondence to linear logic.},
+journal = {SIGPLAN Not.},
+month = sep,
+pages = {273–286},
+numpages = {14},
+keywords = {lambda calculus, linear logic, pi calculus}
+}
+
+
+
+@article{jacobs2022multiparty,
+  title={Multiparty GV: functional multiparty session types with certified deadlock freedom},
+  author={Jacobs, Jules and Balzer, Stephanie and Krebbers, Robbert},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={6},
+  number={ICFP},
+  pages={466--495},
+  year={2022},
+  publisher={ACM New York, NY, USA}
+}
+
+@article{lee2023fos,
+author = {Lee, Dongjae and Cho, Minki and Kim, Jinwoo and Moon, Soonwon and Song, Youngju and Hur, Chung-Kil},
+title = {Fair Operational Semantics},
+year = {2023},
+issue_date = {June 2023},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {7},
+number = {PLDI},
+url = {https://doi.org/10.1145/3591253},
+doi = {10.1145/3591253},
+abstract = {Fairness properties, which state that a sequence of bad events cannot happen infinitely before a good event takes place, are often crucial in program verification. However, general methods for expressing and reasoning about various kinds of fairness properties are relatively underdeveloped compared to those for safety properties. This paper proposes FOS (Fair Operational Semantics), a theory capable of expressing arbitrary notions of fairness as an operational semantics and reasoning about these notions of fairness. In addition, FOS enables thread-local reasoning about fairness by providing thread-local simulation relations equipped with separation- logic-style resource algebras. We verify a ticket lock implementation and a client of the ticket lock under weak memory concurrency as an example, which requires reasoning about different notions of fairness including fairness of a scheduler, fairness of the ticket lock implementation, and even fairness of weak memory. The theory of FOS, as well as the examples in the paper, are fully formalized in Coq.},
+journal = {Proc. ACM Program. Lang.},
+month = jun,
+articleno = {139},
+numpages = {24},
+keywords = {Fairness Logic, Fairness, Fair Operational Semantics}
+}
+
+@article{gardner2021tada,
+author = {D’Osualdo, Emanuele and Sutherland, Julian and Farzan, Azadeh and Gardner, Philippa},
+title = {TaDA Live: Compositional Reasoning for Termination of Fine-grained Concurrent Programs},
+year = {2021},
+issue_date = {December 2021},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {43},
+number = {4},
+issn = {0164-0925},
+url = {https://doi.org/10.1145/3477082},
+doi = {10.1145/3477082},
+abstract = {We present TaDA Live, a concurrent separation logic for reasoning compositionally about the termination of blocking fine-grained concurrent programs. The crucial challenge is how to deal with abstract atomic blocking: that is, abstract atomic operations that have blocking behaviour arising from busy-waiting patterns as found in, for example, fine-grained spin locks. Our fundamental innovation is with the design of abstract specifications that capture this blocking behaviour as liveness assumptions on the environment. We design a logic that can reason about the termination of clients that use such operations without breaking their abstraction boundaries, and the correctness of the implementations of the operations with respect to their abstract specifications. We introduce a novel semantic model using layered subjective obligations to express liveness invariants and a proof system that is sound with respect to the model. The subtlety of our specifications and reasoning is illustrated using several case studies.},
+journal = {ACM Trans. Program. Lang. Syst.},
+month = nov,
+articleno = {16},
+numpages = {134},
+keywords = {concurrent separation logics, liveness, termination, busy-waiting, linearisability, Fine-grained concurrency}
+}
+
+@article{lee2025lilo,
+  title={Lilo: A Higher-Order, Relational Concurrent Separation Logic for Liveness},
+  author={Lee, Dongjae and Lee, Janggun and Yoon, Taeyoung and Cho, Minki and Kang, Jeehoon and Hur, Chung-Kil},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={9},
+  number={OOPSLA1},
+  pages={1267--1294},
+  year={2025},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{thiemann2019,
+author = {Thiemann, Peter},
+title = {Intrinsically-Typed Mechanized Semantics for Session Types},
+year = {2019},
+isbn = {9781450372497},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3354166.3354184},
+doi = {10.1145/3354166.3354184},
+abstract = {Session types have emerged as a powerful paradigm for structuring communication-based programs. They guarantee type soundness and session fidelity for concurrent programs with sophisticated communication protocols. As type soundness proofs for languages with session types are tedious and technically involved, it is rare to see mechanized soundness proofs for these systems.We present an executable intrinsically typed small-step semantics for a realistic functional session type calculus. The calculus includes linearity, recursion, and recursive sessions with subtyping. Asynchronous communication is modeled with an encoding.The semantics is implemented in Agda as an intrinsically typed, interruptible CEK machine. This implementation proves type preservation and a particular notion of progress by construction.},
+booktitle = {Proceedings of the 21st International Symposium on Principles and Practice of Declarative Programming},
+articleno = {19},
+numpages = {15},
+keywords = {concurrency, dependent types, session types},
+location = {Porto, Portugal},
+series = {PPDP '19}
+}
+
+@inproceedings{ekici_completeness_2024,
+	address = {Dagstuhl, Germany},
+	series = {Leibniz {International} {Proceedings} in {Informatics} ({LIPIcs})},
+	title = {Completeness of {Asynchronous} {Session} {Tree} {Subtyping} in {Coq}},
+	volume = {309},
+	isbn = {978-3-95977-337-9},
+	url = {https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITP.2024.13},
+	doi = {10.4230/LIPIcs.ITP.2024.13},
+	urldate = {2026-01-19},
+	booktitle = {15th {International} {Conference} on {Interactive} {Theorem} {Proving} ({ITP} 2024)},
+	publisher = {Schloss Dagstuhl – Leibniz-Zentrum für Informatik},
+	author = {Ekici, Burak and Yoshida, Nobuko},
+	editor = {Bertot, Yves and Kutsia, Temur and Norrish, Michael},
+	year = {2024},
+	note = {ISSN: 1868-8969},
+	keywords = {asynchronous multiparty session types, Coq, session trees, subtyping},
+	pages = {13:1--13:20},
+}
+
+
+@inproceedings{ancona_generalizing_2017,
+	address = {Berlin, Heidelberg},
+	title = {Generalizing {Inference} {Systems} by {Coaxioms}},
+	isbn = {978-3-662-54434-1},
+	abstract = {We introduce a generalized notion of inference system to support structural recursion on non well-founded datatypes. Besides axioms and inference rules with the usual meaning, a generalized inference system allows coaxioms, which are, intuitively, axioms which can only be applied “at infinite depth” in a proof tree. This notion nicely subsumes standard inference systems and their inductive and coinductive interpretation, while providing more flexibility. Indeed, the classical results on the existence and constructive characterization of least and greatest fixed points can be extended to our generalized framework, interpreting recursive definitions as fixed points which are not necessarily the least, nor the greatest one. This allows formal reasoning in cases where the inductive and coinductive interpretation do not provide the intended meaning, or are mixed together.},
+	booktitle = {Programming {Languages} and {Systems}},
+	publisher = {Springer Berlin Heidelberg},
+	author = {Ancona, Davide and Dagnino, Francesco and Zucca, Elena},
+	editor = {Yang, Hongseok},
+	year = {2017},
+	pages = {29--55},
+}
+
+
+@article{ciccone_2022-binary,
+author = {Ciccone, Luca and Padovani, Luca},
+title = {Fair termination of binary sessions},
+year = {2022},
+issue_date = {January 2022},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {6},
+number = {POPL},
+url = {https://doi.org/10.1145/3498666},
+doi = {10.1145/3498666},
+abstract = {A binary session is a private communication channel that connects two processes, each adhering to a protocol description called session type. In this work, we study the first type system that ensures the fair termination of binary sessions. A session fairly terminates if all of the infinite executions admitted by its protocol are deemed unrealistic because they violate certain fairness assumptions. Fair termination entails the eventual completion of all pending input/output actions, including those that depend on the completion of an unbounded number of other actions in possibly different sessions. This form of lock freedom allows us to address a large family of natural communication patterns that fall outside the scope of existing type systems. Our type system is also the first to adopt fair subtyping, a liveness-preserving refinement of the standard subtyping relation for session types that so far has only been studied theoretically. Fair subtyping is surprisingly subtle not only to characterize concisely but also to use appropriately, to the point that the type system must carefully account for all usages of fair subtyping to avoid compromising its liveness-preserving properties.},
+journal = {Proc. ACM Program. Lang.},
+month = jan,
+articleno = {5},
+numpages = {30},
+keywords = {session types, fair termination, fair subtyping, deadlock freedom}
+}
+
+
+
+@inproceedings{padovani_typing_2014,
+	address = {Berlin, Heidelberg},
+	title = {Typing {Liveness} in {Multiparty} {Communicating} {Systems}},
+	isbn = {978-3-662-43376-8},
+	abstract = {Session type systems are an effective tool to prove that communicating programs do not go wrong, ensuring that the participants of a session follow the protocols described by the types. In a previous work we introduced a typing discipline for the analysis of progress in binary sessions. In this paper we generalize the approach to multiparty sessions following the conversation type approach, while strengthening progress to liveness. We combine the usual session-like fidelity analysis with the liveness analysis and devise an original treatment of recursive types allowing us to address challenging configurations that are out of the reach of existing approaches.},
+	booktitle = {Coordination {Models} and {Languages}},
+	publisher = {Springer Berlin Heidelberg},
+	author = {Padovani, Luca and Vasconcelos, Vasco Thudichum and Vieira, Hugo Torres},
+	editor = {Kühn, Eva and Pugliese, Rosario},
+	year = {2014},
+	pages = {147--162},
+}
+
+
 @InProceedings{srpaper,
   author =	{Ekici, Burak and Kamegai, Tadayoshi and Yoshida, Nobuko},
   title =	{{Formalising Subject Reduction and Progress for Multiparty Session Processes}},
@@ -195,6 +614,22 @@ abstract = {The technology of mechanized program verification can play a support
    author={Glabbeek, Rob Van and Höfner, Peter},
    year={2019},
    month=aug, pages={1–38} }
+
+
+@book{francez_fairness_1986,
+	address = {New York, NY},
+	title = {Fairness},
+	copyright = {http://www.springer.com/tdm},
+	isbn = {978-1-4612-9347-7 978-1-4612-4886-6},
+	url = {http://link.springer.com/10.1007/978-1-4612-4886-6},
+	urldate = {2026-01-19},
+	publisher = {Springer US},
+	author = {Francez, Nissim},
+	year = {1986},
+	doi = {10.1007/978-1-4612-4886-6},
+	keywords = {computer science, concurrency, development, language, programming, programming language},
+}
+
 
    @book{baier,
 author = {Baier, Christel and Katoen, Joost-Pieter},

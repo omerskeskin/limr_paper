@@ -1,25 +1,97 @@
 \begin{thebibliography}{10}
 
+\bibitem{ancona_generalizing_2017}
+Davide Ancona, Francesco Dagnino, and Elena Zucca.
+\newblock Generalizing {Inference} {Systems} by {Coaxioms}.
+\newblock In Hongseok Yang, editor, {\em Programming {Languages} and {Systems}}, pages 29--55, Berlin, Heidelberg, 2017. Springer Berlin Heidelberg.
+
 \bibitem{baier}
 Christel Baier and Joost-Pieter Katoen.
 \newblock {\em Principles of Model Checking (Representation and Mind Series)}.
 \newblock The MIT Press, 2008.
+
+\bibitem{barbanera_partially_2023}
+Franco Barbanera and Mariangiola Dezani-Ciancaglini.
+\newblock Partially {Typed} {Multiparty} {Sessions}.
+\newblock {\em Electronic Proceedings in Theoretical Computer Science}, 383:15--34, August 2023.
+\newblock arXiv:2308.10653 [cs].
+\newblock URL: \url{http://arxiv.org/abs/2308.10653}, \href {https://doi.org/10.4204/EPTCS.383.2} {\path{doi:10.4204/EPTCS.383.2}}.
 
 \bibitem{coqfilter}
 Yves Bertot.
 \newblock Filters on coinductive streams, an application to eratosthenes' sieve.
 \newblock In Pawe{\l} Urzyczyn, editor, {\em Typed Lambda Calculi and Applications}, pages 102--115, Berlin, Heidelberg, 2005. Springer Berlin Heidelberg.
 
+\bibitem{brady_type-driven_2017}
+Edwin~Charles Brady.
+\newblock Type-driven {Development} of {Concurrent} {Communicating} {Systems}.
+\newblock {\em Computer Science}, 18(3), July 2017.
+\newblock URL: \url{https://journals.agh.edu.pl/csci/article/view/1413}, \href {https://doi.org/10.7494/csci.2017.18.3.1413} {\path{doi:10.7494/csci.2017.18.3.1413}}.
+
+\bibitem{castellani_reversible_2019}
+Ilaria Castellani, Mariangiola Dezani-Ciancaglini, and Paola Giannini.
+\newblock Reversible sessions with flexible choices.
+\newblock {\em Acta Informatica}, 56(7):553--583, November 2019.
+\newblock \href {https://doi.org/10.1007/s00236-019-00332-y} {\path{doi:10.1007/s00236-019-00332-y}}.
+
+\bibitem{zooid}
+David Castro-Perez, Francisco Ferreira, Lorenzo Gheri, and Nobuko Yoshida.
+\newblock Zooid: a dsl for certified multiparty computation: from mechanised metatheory to certified multiparty processes.
+\newblock In {\em Proceedings of the 42nd ACM SIGPLAN International Conference on Programming Language Design and Implementation}, PLDI 2021, page 237–251, New York, NY, USA, 2021. Association for Computing Machinery.
+\newblock \href {https://doi.org/10.1145/3453483.3454041} {\path{doi:10.1145/3453483.3454041}}.
+
+\bibitem{castro2026synthetic}
+David Castro-Perez, Francisco Ferreira, and Sung-Shik Jongmans.
+\newblock A synthetic reconstruction of multiparty session types.
+\newblock {\em Proc. ACM Program. Lang.}, 10(POPL), January 2026.
+\newblock \href {https://doi.org/10.1145/3776692} {\path{doi:10.1145/3776692}}.
+
+\bibitem{ciccone2023concertogrossosessionsfair}
+Luca Ciccone.
+\newblock Concerto grosso for sessions: Fair termination of sessions, 2023.
+\newblock URL: \url{https://arxiv.org/abs/2307.05539}, \href {https://arxiv.org/abs/2307.05539} {\path{arXiv:2307.05539}}.
+
+\bibitem{ciccone_fair_2024}
+Luca Ciccone, Francesco Dagnino, and Luca Padovani.
+\newblock Fair termination of multiparty sessions.
+\newblock {\em Journal of Logical and Algebraic Methods in Programming}, 139:100964, 2024.
+\newblock URL: \url{https://www.sciencedirect.com/science/article/pii/S2352220824000221}, \href {https://doi.org/10.1016/j.jlamp.2024.100964} {\path{doi:10.1016/j.jlamp.2024.100964}}.
+
+\bibitem{ciccone_2022-binary}
+Luca Ciccone and Luca Padovani.
+\newblock Fair termination of binary sessions.
+\newblock {\em Proc. ACM Program. Lang.}, 6(POPL), January 2022.
+\newblock \href {https://doi.org/10.1145/3498666} {\path{doi:10.1145/3498666}}.
+
 \bibitem{clrs}
 Thomas~H. Cormen, Charles~E. Leiserson, Ronald~L. Rivest, and Clifford Stein.
 \newblock {\em Introduction to Algorithms, Third Edition}.
 \newblock The MIT Press, 3rd edition, 2009.
+
+\bibitem{gardner2021tada}
+Emanuele D’Osualdo, Julian Sutherland, Azadeh Farzan, and Philippa Gardner.
+\newblock Tada live: Compositional reasoning for termination of fine-grained concurrent programs.
+\newblock {\em ACM Trans. Program. Lang. Syst.}, 43(4), November 2021.
+\newblock \href {https://doi.org/10.1145/3477082} {\path{doi:10.1145/3477082}}.
 
 \bibitem{srpaper}
 Burak Ekici, Tadayoshi Kamegai, and Nobuko Yoshida.
 \newblock {Formalising Subject Reduction and Progress for Multiparty Session Processes}.
 \newblock In Yannick Forster and Chantal Keller, editors, {\em 16th International Conference on Interactive Theorem Proving (ITP 2025)}, volume 352 of {\em Leibniz International Proceedings in Informatics (LIPIcs)}, pages 19:1--19:23, Dagstuhl, Germany, 2025. Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik.
 \newblock URL: \url{https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITP.2025.19}, \href {https://doi.org/10.4230/LIPIcs.ITP.2025.19} {\path{doi:10.4230/LIPIcs.ITP.2025.19}}.
+
+\bibitem{ekici_completeness_2024}
+Burak Ekici and Nobuko Yoshida.
+\newblock Completeness of {Asynchronous} {Session} {Tree} {Subtyping} in {Coq}.
+\newblock In Yves Bertot, Temur Kutsia, and Michael Norrish, editors, {\em 15th {International} {Conference} on {Interactive} {Theorem} {Proving} ({ITP} 2024)}, volume 309 of {\em Leibniz {International} {Proceedings} in {Informatics} ({LIPIcs})}, pages 13:1--13:20, Dagstuhl, Germany, 2024. Schloss Dagstuhl – Leibniz-Zentrum für Informatik.
+\newblock ISSN: 1868-8969.
+\newblock URL: \url{https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITP.2024.13}, \href {https://doi.org/10.4230/LIPIcs.ITP.2024.13} {\path{doi:10.4230/LIPIcs.ITP.2024.13}}.
+
+\bibitem{francez_fairness_1986}
+Nissim Francez.
+\newblock {\em Fairness}.
+\newblock Springer US, New York, NY, 1986.
+\newblock URL: \url{http://link.springer.com/10.1007/978-1-4612-4886-6}, \href {https://doi.org/10.1007/978-1-4612-4886-6} {\path{doi:10.1007/978-1-4612-4886-6}}.
 
 \bibitem{SynchronousSubtyping}
 Silvia Ghilezan, Svetlana Jak{\v s}i{\'c}, Jovanka Pantovi{\'c}, Alceste Scalas, and Nobuko Yoshida.
@@ -33,16 +105,59 @@ Rob~Van Glabbeek and Peter Höfner.
 \newblock {\em ACM Computing Surveys}, 52(4):1–38, August 2019.
 \newblock URL: \url{http://dx.doi.org/10.1145/3329125}, \href {https://doi.org/10.1145/3329125} {\path{doi:10.1145/3329125}}.
 
+\bibitem{hinrichsen2019actris}
+Jonas~Kastberg Hinrichsen, Jesper Bengtson, and Robbert Krebbers.
+\newblock Actris: Session-type based reasoning in separation logic.
+\newblock {\em Proceedings of the ACM on Programming Languages}, 4(POPL):1--30, 2019.
+
 \bibitem{paco}
 Chung-Kil Hur, Georg Neis, Derek Dreyer, and Viktor Vafeiadis.
 \newblock The power of parameterization in coinductive proof.
 \newblock {\em SIGPLAN Not.}, 48(1):193–206, January 2013.
 \newblock \href {https://doi.org/10.1145/2480359.2429093} {\path{doi:10.1145/2480359.2429093}}.
 
+\bibitem{jacobs2024deadlock}
+Jules Jacobs, Jonas~Kastberg Hinrichsen, and Robbert Krebbers.
+\newblock Deadlock-free separation logic: Linearity yields progress for dependent higher-order message passing.
+\newblock {\em Proceedings of the ACM on Programming Languages}, 8(POPL):1385--1417, 2024.
+
+\bibitem{jung2018iris}
+Ralf Jung, Robbert Krebbers, Jacques-Henri Jourdan, Ale{\v{s}} Bizjak, Lars Birkedal, and Derek Dreyer.
+\newblock Iris from the ground up: A modular foundation for higher-order concurrent separation logic.
+\newblock {\em Journal of Functional Programming}, 28:e20, 2018.
+
+\bibitem{kobayashi_type_2002}
+Naoki Kobayashi.
+\newblock A {Type} {System} for {Lock}-{Free} {Processes}.
+\newblock {\em Information and Computation}, 177(2):122--159, September 2002.
+\newblock URL: \url{https://www.sciencedirect.com/science/article/pii/S0890540102931718}, \href {https://doi.org/10.1006/inco.2002.3171} {\path{doi:10.1006/inco.2002.3171}}.
+
+\bibitem{dardha2021}
+Wen Kokke and Ornela Dardha.
+\newblock Deadlock-free session types in linear haskell.
+\newblock In {\em Proceedings of the 14th ACM SIGPLAN International Symposium on Haskell}, Haskell 2021, page 1–13, New York, NY, USA, 2021. Association for Computing Machinery.
+\newblock \href {https://doi.org/10.1145/3471874.3472979} {\path{doi:10.1145/3471874.3472979}}.
+
+\bibitem{lee2023fos}
+Dongjae Lee, Minki Cho, Jinwoo Kim, Soonwon Moon, Youngju Song, and Chung-Kil Hur.
+\newblock Fair operational semantics.
+\newblock {\em Proc. ACM Program. Lang.}, 7(PLDI), June 2023.
+\newblock \href {https://doi.org/10.1145/3591253} {\path{doi:10.1145/3591253}}.
+
+\bibitem{lee2025lilo}
+Dongjae Lee, Janggun Lee, Taeyoung Yoon, Minki Cho, Jeehoon Kang, and Chung-Kil Hur.
+\newblock Lilo: A higher-order, relational concurrent separation logic for liveness.
+\newblock {\em Proceedings of the ACM on Programming Languages}, 9(OOPSLA1):1267--1294, 2025.
+
 \bibitem{mmaps}
 Pierre Letouzey and Andrew~W. Appel.
 \newblock {Modular Finite Maps over Ordered Types}.
 \newblock URL: \url{https://github.com/rocq-community/mmaps}.
+
+\bibitem{lindley2016embedding}
+Sam Lindley and J~Garrett Morris.
+\newblock Embedding session types in haskell.
+\newblock {\em ACM SIGPLAN Notices}, 51(12):133--145, 2016.
 
 \bibitem{weakbisim}
 Robin MILNER.
@@ -56,6 +171,11 @@ Luca Padovani.
 \newblock In {\em Proceedings of the Joint Meeting of the Twenty-Third EACSL Annual Conference on Computer Science Logic (CSL) and the Twenty-Ninth Annual ACM/IEEE Symposium on Logic in Computer Science (LICS)}, CSL-LICS '14, New York, NY, USA, 2014. Association for Computing Machinery.
 \newblock \href {https://doi.org/10.1145/2603088.2603116} {\path{doi:10.1145/2603088.2603116}}.
 
+\bibitem{padovani_typing_2014}
+Luca Padovani, Vasco~Thudichum Vasconcelos, and Hugo~Torres Vieira.
+\newblock Typing {Liveness} in {Multiparty} {Communicating} {Systems}.
+\newblock In Eva Kühn and Rosario Pugliese, editors, {\em Coordination {Models} and {Languages}}, pages 147--162, Berlin, Heidelberg, 2014. Springer Berlin Heidelberg.
+
 \bibitem{pierce2002types}
 Benjamin~C Pierce.
 \newblock {\em Types and programming languages}.
@@ -65,6 +185,17 @@ Benjamin~C Pierce.
 Amir Pnueli.
 \newblock The temporal logic of programs.
 \newblock In {\em 18th annual symposium on foundations of computer science (sfcs 1977)}, pages 46--57. ieee, 1977.
+
+\bibitem{pucella2008haskell}
+Riccardo Pucella and Jesse~A Tov.
+\newblock Haskell session types with (almost) no class.
+\newblock In {\em Proceedings of the first ACM SIGPLAN symposium on Haskell}, pages 25--36, 2008.
+
+\bibitem{LessIsMore}
+Alceste Scalas and Nobuko Yoshida.
+\newblock Less is more: multiparty session types revisited.
+\newblock {\em Proc. ACM Program. Lang.}, 3(POPL), January 2019.
+\newblock \href {https://doi.org/10.1145/3290343} {\path{doi:10.1145/3290343}}.
 
 \bibitem{coqmanual}
 {The Rocq Development Team}.
@@ -78,11 +209,37 @@ Amir Pnueli.
 \newblock Inria, 2025.
 \newblock \url{https://rocq-prover.org/doc/V9.0.0/stdlib}.
 
+\bibitem{thiemann2019}
+Peter Thiemann.
+\newblock Intrinsically-typed mechanized semantics for session types.
+\newblock In {\em Proceedings of the 21st International Symposium on Principles and Practice of Declarative Programming}, PPDP '19, New York, NY, USA, 2019. Association for Computing Machinery.
+\newblock \href {https://doi.org/10.1145/3354166.3354184} {\path{doi:10.1145/3354166.3354184}}.
+
+\bibitem{tirore_thesis}
+Dawit Tirore.
+\newblock A mechanisation of multiparty session types, 2024.
+
+\bibitem{tirore2023sound}
+Dawit Tirore, Jesper Bengtson, and Marco Carbone.
+\newblock A sound and complete projection for global types.
+\newblock In {\em 14th International Conference on Interactive Theorem Proving (ITP 2023)}, pages 28--1. Schloss Dagstuhl--Leibniz-Zentrum f{\"u}r Informatik, 2023.
+
+\bibitem{tirore2025multiparty}
+Dawit Tirore, Jesper Bengtson, and Marco Carbone.
+\newblock Multiparty asynchronous session types: A mechanised proof of subject reduction.
+\newblock In {\em 39th European Conference on Object-Oriented Programming (ECOOP 2025)}, pages 31--1. Schloss Dagstuhl--Leibniz-Zentrum f{\"u}r Informatik, 2025.
+
 \bibitem{fairnesslock}
 Rob van Glabbeek, Peter H\"{o}fner, and Ross Horne.
 \newblock Assuming just enough fairness to make session types complete for lock-freedom.
 \newblock In {\em Proceedings of the 36th Annual ACM/IEEE Symposium on Logic in Computer Science}, LICS '21, New York, NY, USA, 2021. Association for Computing Machinery.
 \newblock \href {https://doi.org/10.1109/LICS52264.2021.9470531} {\path{doi:10.1109/LICS52264.2021.9470531}}.
+
+\bibitem{wadler2012gv}
+Philip Wadler.
+\newblock Propositions as sessions.
+\newblock {\em SIGPLAN Not.}, 47(9):273–286, September 2012.
+\newblock \href {https://doi.org/10.1145/2398856.2364568} {\path{doi:10.1145/2398856.2364568}}.
 
 \bibitem{LessIsMoreRevisited}
 Nobuko Yoshida and Ping Hou.
