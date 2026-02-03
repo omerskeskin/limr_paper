@@ -8,46 +8,47 @@ Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: references.bib
+Warning--I didn't find a database entry for "pischke2025"
 Warning--empty chapter and pages in pierce2002types
-You've used 44 entries,
+You've used 47 entries,
             2943 wiz_defined-function locations,
-            952 strings with 14490 characters,
-and the built_in function-call counts, 21980 in all, are:
-= -- 2421
-> -- 760
+            969 strings with 14997 characters,
+and the built_in function-call counts, 23340 in all, are:
+= -- 2564
+> -- 809
 < -- 14
-+ -- 282
-- -- 226
-* -- 1251
-:= -- 3057
-add.period$ -- 172
-call.type$ -- 44
-change.case$ -- 235
++ -- 299
+- -- 240
+* -- 1334
+:= -- 3250
+add.period$ -- 182
+call.type$ -- 47
+change.case$ -- 251
 chr.to.int$ -- 0
-cite$ -- 45
-duplicate$ -- 655
-empty$ -- 2044
-format.name$ -- 226
-if$ -- 5756
+cite$ -- 48
+duplicate$ -- 689
+empty$ -- 2173
+format.name$ -- 240
+if$ -- 6106
 int.to.chr$ -- 0
-int.to.str$ -- 44
-missing$ -- 42
-newline$ -- 249
-num.names$ -- 100
-pop$ -- 477
+int.to.str$ -- 47
+missing$ -- 46
+newline$ -- 265
+num.names$ -- 106
+pop$ -- 506
 preamble$ -- 1
-purify$ -- 196
+purify$ -- 209
 quote$ -- 0
-skip$ -- 1564
+skip$ -- 1656
 stack$ -- 0
-substring$ -- 900
-swap$ -- 222
-text.length$ -- 66
+substring$ -- 975
+swap$ -- 227
+text.length$ -- 68
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 168
+type$ -- 178
 warning$ -- 1
-while$ -- 145
-width$ -- 46
-write$ -- 571
-(There was 1 warning)
+while$ -- 154
+width$ -- 49
+write$ -- 606
+(There were 2 warnings)

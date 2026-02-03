@@ -611,7 +611,7 @@ abstract = {The technology of mechanized program verification can play a support
    number={4},
    journal={ACM Computing Surveys},
    publisher={Association for Computing Machinery (ACM)},
-   author={Glabbeek, Rob Van and Höfner, Peter},
+   author={van Glabbeek, Rob and Höfner, Peter},
    year={2019},
    month=aug, pages={1–38} }
 
@@ -658,25 +658,45 @@ publisher = {Cambridge University Press},
 address = {USA}
 }
 
-@article{honda,
+@inproceedings{10.1145/1328438.1328472,
 author = {Honda, Kohei and Yoshida, Nobuko and Carbone, Marco},
-title = {Multiparty Asynchronous Session Types},
-year = {2016},
-issue_date = {March 2016},
+title = {Multiparty asynchronous session types},
+year = {2008},
+isbn = {9781595936899},
 publisher = {Association for Computing Machinery},
 address = {New York, NY, USA},
-volume = {63},
-number = {1},
-issn = {0004-5411},
-url = {https://doi.org/10.1145/2827695},
-doi = {10.1145/2827695},
-abstract = {Communication is a central elements in software development. As a potential typed foundation for structured communication-centered programming, session types have been studied over the past decade for a wide range of process calculi and programming languages, focusing on binary (two-party) sessions. This work extends the foregoing theories of binary session types to multiparty, asynchronous sessions, which often arise in practical communication-centered applications. Presented as a typed calculus for mobile processes, the theory introduces a new notion of types in which interactions involving multiple peers are directly abstracted as a global scenario. Global types retain the friendly type syntax of binary session types while specifying dependencies and capturing complex causal chains of multiparty asynchronous interactions. A global type plays the role of a shared agreement among communication peers and is used as a basis of efficient type-checking through its projection onto individual peers. The fundamental properties of the session type discipline, such as communication safety, progress, and session fidelity, are established for general n-party asynchronous interactions.},
-journal = {J. ACM},
-month = mar,
-articleno = {9},
-numpages = {67},
-keywords = {the pi-calculus, projection, progress, global types, global protocols, Session types}
+url = {https://doi.org/10.1145/1328438.1328472},
+doi = {10.1145/1328438.1328472},
+abstract = {Communication is becoming one of the central elements in software development. As a potential typed foundation for structured communication-centred programming, session types have been studied over the last decade for a wide range of process calculi and programming languages, focussing on binary (two-party) sessions. This work extends the foregoing theories of binary session types to multiparty, asynchronous sessions, which often arise in practical communication-centred applications. Presented as a typed calculus for mobile processes, the theory introduces a new notion of types in which interactions involving multiple peers are directly abstracted as a global scenario. Global types retain a friendly type syntax of binary session types while capturing complex causal chains of multiparty asynchronous interactions. A global type plays the role of a shared agreement among communication peers, and is used as a basis of efficient type checking through its projection onto individual peers. The fundamental properties of the session type discipline such as communication safety, progress and session fidelity are established for generaln-party asynchronous interactions.},
+booktitle = {Proceedings of the 35th Annual ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages},
+pages = {273–284},
+numpages = {12},
+keywords = {structured programming, session types, multiparty, mobile processes, communications, choreography, causality},
+location = {San Francisco, California, USA},
+series = {POPL '08}
 }
+
+
+@article{honda2008,
+author = {Honda, Kohei and Yoshida, Nobuko and Carbone, Marco},
+title = {Multiparty asynchronous session types},
+year = {2008},
+issue_date = {January 2008},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {43},
+number = {1},
+issn = {0362-1340},
+url = {https://doi.org/10.1145/1328897.1328472},
+doi = {10.1145/1328897.1328472},
+abstract = {Communication is becoming one of the central elements in software development. As a potential typed foundation for structured communication-centred programming, session types have been studied over the last decade for a wide range of process calculi and programming languages, focussing on binary (two-party) sessions. This work extends the foregoing theories of binary session types to multiparty, asynchronous sessions, which often arise in practical communication-centred applications. Presented as a typed calculus for mobile processes, the theory introduces a new notion of types in which interactions involving multiple peers are directly abstracted as a global scenario. Global types retain a friendly type syntax of binary session types while capturing complex causal chains of multiparty asynchronous interactions. A global type plays the role of a shared agreement among communication peers, and is used as a basis of efficient type checking through its projection onto individual peers. The fundamental properties of the session type discipline such as communication safety, progress and session fidelity are established for generaln-party asynchronous interactions.},
+journal = {SIGPLAN Not.},
+month = jan,
+pages = {273–284},
+numpages = {12},
+keywords = {structured programming, session types, multiparty, mobile processes, communications, choreography, causality}
+}
+
 
 @article{lamport82,
   title={Proving liveness properties of concurrent programs},

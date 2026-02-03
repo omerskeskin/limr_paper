@@ -127,7 +127,7 @@ there exists a typing context \lstin{gamma'} such that
 \lstin{gamma} $\lts{\lblsync{p}{q}{\ell}}$ \lstin{gamma'}
 and \lstin{gamma} $\vdashm$ \lstin{M}  .
 \end{theorem}
-\begin{theorem}[Progress]
+\begin{theorem}[Progress] \label{theo-progress}
 If \lstin{gamma} $\vdashm$ \lstin{M}  , one of the following hold :
 \begin{enumerate}
   \item Either \lstin{M} $\Rrightarrow$ \lstin{M_inact} where every process making up \lstin{M_inact}
@@ -162,6 +162,14 @@ a single-step session reduction on the type.
 With the $\tau$-semantics the session reduction induced by 
 the context reduction would be multistep.
 \end{remark}
+Now the following type safety property follows from the above theorems:
+\begin{theorem}[Type Safety]\label{theo-type-safe}
+If \lstin{gamma} $\vdashm$ \lstin{M} and  \lstin{M} $\lts{}^*$ \lstin{M'} $\Rrightarrow$ 
+\lstin{p <- p_send q ell P \|\|\| q <- p_recv p xs \|\|\| M''}, then \lstin{onth ell xs <> None}.
+\end{theorem} 
+\begin{proof}
+  \todo{do the proof}
+\end{proof}
 \subsection{Session Liveness}
 We state the liveness property we are interested in proving,
 and show that typable sessions have this property.
@@ -278,7 +286,7 @@ When proving that the constructed path is fair, we sometimes rely on the LTL con
 reminiscent of the techniques employed in \cite{coqfilter}.
 \end{remark}
 We can now prove that typed sessions are live.
-\begin{theorem}[Liveness by Typing]
+\begin{theorem}[Liveness by Typing]\label{theo-sess-live}
 For a session \lstin{Mp}, if \lstin{exists gamma gamma} $\vdashm$ \lstin{Mp} then \lstin{live_sess Mp}.
 \end{theorem}
 \begin{proof}
