@@ -186,6 +186,12 @@ Benjamin~C Pierce.
 \newblock {\em Types and programming languages}.
 \newblock MIT press, 2002.
 
+\bibitem{Pischke2026}
+Kai Pischke and Nobuko Yoshida.
+\newblock {\em Asynchronous Global Protocols, Precisely}, pages 116--133.
+\newblock Springer Nature Switzerland, Cham, 2026.
+\newblock \href {https://doi.org/10.1007/978-3-031-99717-4_7} {\path{doi:10.1007/978-3-031-99717-4_7}}.
+
 \bibitem{pnueli1977temporal}
 Amir Pnueli.
 \newblock The temporal logic of programs.

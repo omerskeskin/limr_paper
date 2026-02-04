@@ -1,10 +1,9 @@
 \section{Introduction}
 \label{sec:introduction}
-\todo{Session types introduction}
 Multiparty session types \cite{honda2008} provide a type discipline for the correct-by-construction specification of message-passing protocols.
 Desirable protocol properties guaranteed by session types include \textit{safety} 
 (the labels and types of senders' payloads cohere with the capabilities of the receivers),
-\textit{deadlock-freedom} (also called \textit{progress} or \textit{non-stuck property}\cite{srpaper}) 
+\textit{deadlock-freedom} (also called \textit{progress} or \textit{non-stuck property} \cite{srpaper}) 
 (it is possible for the session to progress so long as it has at least one active participant), and 
 \textit{liveness} (also called \textit{lock-freedom} \cite{fairnesslock} or \textit{starvation-freedom} \cite{castro2026synthetic})   
 (if a process is waiting to send and receive then a communication involving it eventually happens).
@@ -21,7 +20,7 @@ type-inferring in the top-down approach tend to be more efficient than model-che
 
 In this work, we present the Rocq \cite{coq} formalisation of a 
 synchronous MPST that that ensures the aforementioned properties
-for typed sessions. Our type system uses an \textit{association} relation ($\assoc$) \cite{LessIsMoreRevisited,pischke2025}
+for typed sessions. Our type system uses an \textit{association} relation ($\assoc$) \cite{LessIsMoreRevisited, Pischke2026}
 defined using (coinductive plain) projection \cite{tirore2023sound} and subtyping, in order to relate 
 local type contexts and global types. This association relation ensures \textit{operational correspondence}
 between the labelled transition system (LTS) semantics we define for local type contexts and global types. We then type ($\vdash_\mathcal{M}$) sessions using local type contexts that are associated with
@@ -35,13 +34,14 @@ Whenever an associated local type context $\Gamma$ types a session $\M$, our typ
     
     \item \textbf{Safety} (\cref{theo-type-safe}): If $\M$ can progress into $\M'$ by one or more communications,
     participant $\pp$ in $\M'$ sends to participant $\pq$ and $\pq$ receives from $\pp$,
-    then the labels and payload types of $\pp$ and $\pq$ cohere.
+    then the labels of $\pp$ and $\pq$ cohere.
     \item \textbf{Deadlock-Freedom} (\cref{theo-progress}): Either every participant in $\M$ has terminated,
     or $\M$ can progress.
     \item \textbf{Liveness} (\cref{theo-sess-live}): If participant $\pp$ attemps to communicate with participant $\pq$ in $\M$,
     then $\M$ can progress (in possibly multiple steps) into a session $\M'$ where that communication has occured.   
 \end{enumerate}
-
+To our knowledge, this work presents the first mechanisation of liveness for multiparty session types in
+a proof assistant.
 
 
 
@@ -65,9 +65,17 @@ the LTS semantics for global type trees, and typing rules for the session calcul
 outlined in \cite{SynchronousSubtyping}. 
 We extensively use these definitions and the lemmas concerning them, but we still depart from and extend 
 \cite{srpaper} in numerous ways by introducing local typing contexts, their correspondence with global types and 
-a new typing relation.
+a new typing relation. Our addition to the code amounts to around 12K lines of Rocq code.
 
-As with \cite{srpaper}, our implementation heavily uses coinduction. \todo{fill it out}.
+As with \cite{srpaper}, our implementation heavily uses the parameterized coinduction technique 
+of the paco \cite{paco} library. Namely, our liveness property is defined using 
+possibly infinite \textit{execution traces} which we represent as coinductive streams.
+The relevant predicates on these traces, such as fairness, are then defined using linear temporal logic (LTL)\cite{pnueli1977temporal}.
+The LTL modalities eventually ($\diamond$) and always ($\square$) can be expressed as least and greatest
+fixpoints respectively using expansion laws. This allows us to represent the properties that use these modalities
+as inductive and coinductive predicates in Rocq. This approach, together with the proof techniques provided by paco,
+results in compositional and clear proofs.
+
 
 \todo{specifics of the project}
 

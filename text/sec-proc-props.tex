@@ -150,8 +150,8 @@ to \cref{theo-soundness}.
 \begin{theorem}[Session Fidelity]\label{theo-sess-fid}
 If \lstin{gamma} $\vdashm$ \lstin{M} and \lstin{gamma} $\lts{\lblsync{p}{q}{\ell}}$ \lstin{gamma'}, there exists a
 message label
-$\ell'$ and a session \lstin{M'} such that \lstin{M} $\lts{\lblsync{p}{q}{\ell'}}$ \lstin{M'} 
-and \lstin{typ_sess M' gamma'}.  
+$\ell'$, a context \lstin{gamma''} and a session \lstin{M'} such that \lstin{M} $\lts{\lblsync{p}{q}{\ell'}}$ \lstin{M'} 
+, \lstin{gamma} $\lts{\lblsync{p}{q}{\ell'}}$ \lstin{gamma''} and \lstin{typ_sess M' gamma''}.  
 \end{theorem}
 \begin{proof}
 By inverting the local type context transition and the typing.
@@ -167,9 +167,6 @@ Now the following type safety property follows from the above theorems:
 If \lstin{gamma} $\vdashm$ \lstin{M} and  \lstin{M} $\lts{}^*$ \lstin{M'} $\Rrightarrow$ 
 \lstin{p <- p_send q ell P \|\|\| q <- p_recv p xs \|\|\| M''}, then \lstin{onth ell xs <> None}.
 \end{theorem} 
-\begin{proof}
-  \todo{do the proof}
-\end{proof}
 \subsection{Session Liveness}
 We state the liveness property we are interested in proving,
 and show that typable sessions have this property.

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.15)  2 FEB 2026 22:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.15)  4 FEB 2026 01:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1124,39 +1124,33 @@ File: uwasy.fd 2020/01/19 v2.4 Wasy-2 symbol font definitions
 \openout3 = `main.vtc'.
 
  (./text/abstract.tex) (./text/sec-introduction.tex
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 3.
 
-
-LaTeX Warning: Citation `pischke2025' on page 1 undefined on input line 24.
-
-
-
-<cc-by.pdf, id=156, 88.33pt x 31.11626pt>
+<cc-by.pdf, id=157, 88.33pt x 31.11626pt>
 File: cc-by.pdf Graphic file (type pdf)
 <use cc-by.pdf>
-Package pdftex.def Info: cc-by.pdf  used on input line 31.
+Package pdftex.def Info: cc-by.pdf  used on input line 30.
 (pdftex.def)             Requested size: 39.74274pt x 14.0pt.
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 31.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 30.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<example-image-plain.pdf, id=159, 321.2pt x 240.9pt>
+<example-image-plain.pdf, id=160, 321.2pt x 240.9pt>
 File: example-image-plain.pdf Graphic file (type pdf)
 <use example-image-plain.pdf>
-Package pdftex.def Info: example-image-plain.pdf  used on input line 31.
+Package pdftex.def Info: example-image-plain.pdf  used on input line 30.
 (pdftex.def)             Requested size: 61.99905pt x 13.99756pt.
  [1.1
 
 {/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc} </usr/local/texlive/2024/texmf-dist/tex/latex/mwe/example-image-plain.pdf> <./cc-by.pdf>]
 
 LaTeX Font Warning: Font shape `U/wasy/b/n' in size <7> not available
-(Font)              Font shape `U/wasy/m/n' tried instead on input line 31.
+(Font)              Font shape `U/wasy/m/n' tried instead on input line 30.
 
 
 LaTeX Font Warning: Font shape `U/wasy/b/n' in size <5> not available
-(Font)              Font shape `U/wasy/m/n' tried instead on input line 31.
+(Font)              Font shape `U/wasy/m/n' tried instead on input line 30.
 
-LaTeX Font Info:    Trying to load font information for OT1+lmss on input line 37.
+LaTeX Font Info:    Trying to load font information for OT1+lmss on input line 36.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ot1lmss.fd
 File: ot1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1164,15 +1158,11 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmss' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-
-
-LaTeX Warning: Marginpar on page 2 moved.
-
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 80.
 ) (./text/sec-process.tex
-Package hyperref Info: bookmark level for unknown definition defaults to 0 on input line 11.
-
 
 [2.2{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
+Package hyperref Info: bookmark level for unknown definition defaults to 0 on input line 11.
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 18.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -1189,6 +1179,8 @@ Package hyperref Info: bookmark level for unknown remark defaults to 0 on input 
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <5> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 1.
 )
+
+[3.3]
 LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 80.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8.5> on input line 80.
@@ -1211,12 +1203,6 @@ Package microtype Info: Character `029' is missing
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-
-[3.3]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <9> on input line 200.
 LaTeX Font Info:    External font `lmex10' loaded for size
@@ -1224,11 +1210,8 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 200.
 
-LaTeX Warning: `h' float specifier changed to `ht'.
 
-) (./text/sec-mpst_defs.tex
-
-[4.4]
+[4.4]) (./text/sec-mpst_defs.tex
 pdfTeX warning (ext4): destination with the same identifier (name{definition.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1256,11 +1239,12 @@ l.24     L
 
  (./main.listing)
 Package hyperref Info: bookmark level for unknown example defaults to 0 on input line 92.
+
+
+[6.6]
 \openout7 = `main.listing'.
 
  (./main.listing)
-
-[6.6]
 
 Package amsmath Warning: Foreign command \atop;
 (amsmath)                \frac or \genfrac should be used instead
@@ -1282,31 +1266,32 @@ Package amsmath Warning: Foreign command \atop;
 \openout7 = `main.listing'.
 
  (./main.listing)
+
+[9.9]
 Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 329.
 \openout7 = `main.listing'.
 
  (./main.listing)
-
-[9.9]
 Underfull \hbox (badness 10000) in paragraph at lines 353--366
 
  []
 
-\openout7 = `main.listing'.
 
-(./main.listing)
 
 [10.10]
 \openout7 = `main.listing'.
 
+ (./main.listing)
+\openout7 = `main.listing'.
+
  (./main.listing)) (./text/sec-lts-semantics.tex
+
+[11.11]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.7 \begin{definition}[Typing Contexts]
                                        \label[definition]{def-type-ctx}
-
-[11.11]
 \openout7 = `main.listing'.
 
  (./main.listing)
@@ -1322,11 +1307,11 @@ pdfTeX warning (ext4): destination with the same identifier (name{definition.2})
                    \relax 
 l.63 \begin{definition}[Transition labels]
                                            A transition label $\alpha$ has t...
+
+[12.12]
 \openout7 = `main.listing'.
 
  (./main.listing)
-
-[12.12]
 \openout7 = `main.listing'.
 
  (./main.listing)
@@ -1335,21 +1320,21 @@ pdfTeX warning (ext4): destination with the same identifier (name{remark.3}) has
                    \relax 
 l.93 F
       rom now on, we assume the all the types in the local type contexts alw...
+
+[13.13]
 \openout7 = `main.listing'.
 
  (./main.listing)
-
-[13.13]
 pdfTeX warning (ext4): destination with the same identifier (name{example.5}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.186 \begin{example}\label
                            {exam:reductions}
+
+[14.14]
 \openout7 = `main.listing'.
 
  (./main.listing)
-
-[14.14]
 \openout7 = `main.listing'.
 
  (./main.listing)
@@ -1380,13 +1365,13 @@ l.7 \begin{definition}[Safe Type Contexts]
 \openout7 = `main.listing'.
 
  (./main.listing)
+
+[17.17]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.4}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.77 \begin{definition}[Reduction Paths]
                                         
-
-[17.17]
 \openout7 = `main.listing'.
 
  (./main.listing)
@@ -1472,7 +1457,7 @@ l.160 A
 pdfTeX warning (ext4): destination with the same identifier (name{definition.8}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.176 \begin{definition}[Session Liveness]
+l.173 \begin{definition}[Session Liveness]
                                           \label[definition]{def-live-sess}
 \openout7 = `main.listing'.
 
@@ -1482,36 +1467,36 @@ l.176 \begin{definition}[Session Liveness]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.9}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.213 \begin{definition}["Fairness" of Sessions]
+l.210 \begin{definition}["Fairness" of Sessions]
                                                 \label{def-fair-sess}
 pdfTeX warning (ext4): destination with the same identifier (name{remark.10}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.221 \begin{remark}\label
+l.218 \begin{remark}\label
                           {remark-fairness-session}
 pdfTeX warning (ext4): destination with the same identifier (name{definition.11}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.243 \begin{definition}[Path Typing]
+l.240 \begin{definition}[Path Typing]
                                      
 pdfTeX warning (ext4): destination with the same identifier (name{lemma.12}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.256 \begin{lemma}\label
+l.253 \begin{lemma}\label
                          {lem-typ-path-exists}
 pdfTeX warning (ext4): destination with the same identifier (name{lemma.13}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.266 \begin{lemma}\label
+l.263 \begin{lemma}\label
                          {lem-typ-path-fair}
 
 [27.27]
 pdfTeX warning (ext4): destination with the same identifier (name{lemma.14}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.272 \begin{lemma}[Fair Path Existence]
+l.269 \begin{lemma}[Fair Path Existence]
                                         \label{lem-fair-scheduling}
-Underfull \hbox (badness 1337) in paragraph at lines 281--287
+Underfull \hbox (badness 1337) in paragraph at lines 278--284
 \T1/lmr/m/n/10 (+20) cor-res-pond-ing to the fair path con-struc-ted above. As in Lemma [][]5.20[][], we use
  []
 
@@ -1540,25 +1525,22 @@ L3 programming layer <2024-09-10>
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.75pt have occurred.
 
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 8A1B2321450F77705614333AEAA1C7C2;5389.
  ) 
 Here is how much of TeX's memory you used:
- 45000 strings out of 473579
- 898404 string characters out of 5728233
- 1659930 words of memory out of 5000000
- 65899 multiletter control sequences out of 15000+600000
- 798133 words of font info for 467 fonts, out of 8000000 for 9000
+ 44978 strings out of 473579
+ 897891 string characters out of 5728233
+ 1630975 words of memory out of 5000000
+ 65877 multiletter control sequences out of 15000+600000
+ 798263 words of font info for 468 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,28n,101p,1034b,2262s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/wasy-type1/wasy10.pfb>
-Output written on main.pdf (32 pages, 892843 bytes).
+Output written on main.pdf (32 pages, 893676 bytes).
 PDF statistics:
- 1392 PDF objects out of 1440 (max. 8388607)
- 1223 compressed objects within 13 object streams
- 526 named destinations out of 1000 (max. 500000)
+ 1394 PDF objects out of 1440 (max. 8388607)
+ 1225 compressed objects within 13 object streams
+ 524 named destinations out of 1000 (max. 500000)
  141181 words of extra memory for PDF output out of 154059 (max. 10000000)
 
