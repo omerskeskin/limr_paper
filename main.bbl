@@ -214,12 +214,6 @@ Alceste Scalas and Nobuko Yoshida.
 \newblock Inria, 2025.
 \newblock \url{https://rocq-prover.org/doc/V9.0.0/refman}.
 
-\bibitem{coqstl}
-{The Rocq Development Team}.
-\newblock {\em {The Rocq Standard Library}}.
-\newblock Inria, 2025.
-\newblock \url{https://rocq-prover.org/doc/V9.0.0/stdlib}.
-
 \bibitem{thiemann2019}
 Peter Thiemann.
 \newblock Intrinsically-typed mechanized semantics for session types.

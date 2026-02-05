@@ -59,28 +59,11 @@ Local type trees are defined coinductively with the following syntax:
   | ltt_send: part -> list (option(sort*ltt)) -> ltt.
 \end{tcb}
 \end{definition}
-Note that in Rocq we represent the continuations using a \lstin{list} of \lstin{option} types. 
+In Rocq we represent the continuations using a \lstin{list} of \lstin{option} types. 
 In a continuation \lstin{gcs : list (option(sort*ltt))}, index \lstin{k} (using zero-indexing) being equal to 
 \lstin{Some (s_k, T_k)} means that $\ell_k (S_k).\T_k$ is available in the continuation.
 Similarly index \lstin{k} being equal to \lstin{None} or being out of bounds of the list means 
 that the message label $\ell_k$ is not present in the continuation. 
-\todo{these may go}
-Below are some of the constructions we use when working with option lists.
-\begin{enumerate}
-  \item \lstin{SList xs}: A function that is equal to \lstin{True} if 
-  \lstin{xs} represents a continuation that has at least one element 
-  that is not \lstin{None}, and \lstin{False} otherwise.
-  \item \lstin{onth k xs}: A function that returns \lstin{Some x} 
-  if the element at index \lstin{k} (using 0-indexing) of \lstin{xs} is \lstin{Some x},
-  and returns \lstin{None} otherwise. Note that the function returns \lstin{None}
-  if \lstin{k} is out of bounds for \lstin{xs}.
-  \item \lstin{Forall, Forall2} and \lstin{Forall2R} : \lstin{Forall} and \lstin{Forall2}
-  are predicates from the Rocq Standard Library \cite[List]{coqstl} that are used to quantify 
-  over elements of one list and pairwise elements of two lists, respectively.
-  \lstin{Forall2R} is a weaker version of \lstin{Forall2} that might hold 
-  even if one parameter is shorter than the other. We frequently use 
-  \lstin{Forall2R} to express subset relations on continuations.
-\end{enumerate}
 \begin{remark}
   Note that Rocq allows us to create types such as \lstin{ltt_send q []} which 
   don't correspond to well-formed local types as the continuation is empty.
@@ -231,7 +214,7 @@ denotes $\prt{p} \in \funprt(\G)$.
 
 
 \subsection{Projection}
-We give definitions of projections with plain merging. 
+We now define projections with plain merging. 
 \begin{definition}[Projection] \label[definition]{def:projections}
     The projection of a global type tree onto a participant ${\prt{r}}$ is the largest relation $\upharpoonright_{\prt{r}}$ between global type trees and
     local type trees such that, whenever $\G\proj{r}\T$:
@@ -254,27 +237,6 @@ We give definitions of projections with plain merging.
     \end{cases}
     \]
 \end{definition}
-\begin{remark}
-   In the MPST literature there exists a more powerful merge operator named 
-   full merging, defined as 
-    \[
-    \T_1 \sqcap \T_2 = 
-    \begin{cases}
-    \T_1 & \text{if} \enspace \T_1 = \T_2\\
-    \T_3 & \text{if}  \enspace \exists I, J: 
-      \begin{cases}
-        \T_1 = \procinset{{\prt{p}}}{\ell_i(\S_i)}{\T_i}{i \in I} & \text{and}\\
-        \T_2 = \procinset{{\prt{p}}}{\ell_j(\S_J)}{\T_j}{j \in J} & and\\
-        \T_3 = \procinset{{\prt{p}}}{\ell_k(\S_k)}{\T_k}{k \in {I \cup J}}
-      \end{cases}\\
-    \text{undefined} & \text{otherwise}
-    \end{cases}
-    \]
-    Indeed, one of the papers we base this work on \cite{LessIsMoreRevisited} uses 
-    full merging. However we used plain merging in our formalisation and consequently
-    in this work as it was already implemented in \cite{srpaper}. Generally speaking,
-    the results we proved can be adapted to a full merge setting, see the proofs in \cite{LessIsMoreRevisited}.
-\end{remark}
 Informally, the projection of a global type tree $\G$ onto a participant $\prt{r}$
 extracts a specification for participant  $\prt{r}$ from the protocol whose bird's-eye view 
 is given by $\G$. \ruleprojend expresses that if $\prt{r}$ is not a participant of $\G$ then
@@ -286,12 +248,6 @@ This "works no matter the choices of the other participants" property is capture
 
 In Rocq these constructions are expressed with the inductive \lstin{isMerge} and the coinductive
 \lstin{projectionC}.
-\begin{tcb}{Rocq}
-Inductive isMerge : ltt -> list (option ltt) -> Prop :=
-  | matm : forall t, isMerge t (Some t :: nil)
-  | mconsn : forall t xs, isMerge t xs -> isMerge t (None :: xs) 
-  | mconss : forall t xs, isMerge t xs -> isMerge t (Some t :: xs). 
-\end{tcb}
 \lstin{isMerge t xs} holds if the plain merge of the types in \lstin{xs} is equal to 
 \lstin{t}.
 \begin{tcb}{Rocq}

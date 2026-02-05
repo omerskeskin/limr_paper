@@ -668,10 +668,6 @@ OUTPUT main.listing
 INPUT ./main.listing
 INPUT ./main.listing
 INPUT main.listing
-OUTPUT main.listing
-INPUT ./main.listing
-INPUT ./main.listing
-INPUT main.listing
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmtti10.tfm
 OUTPUT main.listing
 INPUT ./main.listing

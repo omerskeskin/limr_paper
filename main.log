@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.15)  5 FEB 2026 01:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.15)  5 FEB 2026 01:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1243,18 +1243,17 @@ l.24     L
 \openout7 = `main.listing'.
 
  (./main.listing)
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 67.
+Package hyperref Info: bookmark level for unknown example defaults to 0 on input line 75.
 
 
 [6.6]
-Package hyperref Info: bookmark level for unknown example defaults to 0 on input line 92.
 \openout7 = `main.listing'.
 
  (./main.listing)
 
 Package amsmath Warning: Foreign command \atop;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 126.
+(amsmath)                 on input line 109.
 
 \openout7 = `main.listing'.
 
@@ -1269,30 +1268,24 @@ Package amsmath Warning: Foreign command \atop;
 \openout7 = `main.listing'.
 
  (./main.listing)
+Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 285.
 \openout7 = `main.listing'.
 
  (./main.listing)
 
 [9.9]
-Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 329.
-\openout7 = `main.listing'.
-
- (./main.listing)
-Underfull \hbox (badness 10000) in paragraph at lines 353--366
+Underfull \hbox (badness 10000) in paragraph at lines 309--322
 
  []
 
+\openout7 = `main.listing'.
 
-
-[10.10]
+(./main.listing)
 \openout7 = `main.listing'.
 
  (./main.listing)
-\openout7 = `main.listing'.
 
- (./main.listing)
-
-[11.11]) (./text/sec-lts-semantics.tex
+[10.10]) (./text/sec-lts-semantics.tex
 pdfTeX warning (ext4): destination with the same identifier (name{definition.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1301,6 +1294,10 @@ l.7 \begin{definition}[Typing Contexts]
 \openout7 = `main.listing'.
 
  (./main.listing)
+
+[11.11]
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 27.
+
 Underfull \hbox (badness 8151) in paragraph at lines 42--45
 [][][][][][][][][][][][][][][] \T1/lmr/m/n/10 (+20) where [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]:
  []
@@ -1308,8 +1305,6 @@ Underfull \hbox (badness 8151) in paragraph at lines 42--45
 \openout7 = `main.listing'.
 
 (./main.listing)
-
-[12.12]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1321,58 +1316,53 @@ l.63 \begin{definition}[Transition labels]
 \openout7 = `main.listing'.
 
  (./main.listing)
+
+[12.12]
 pdfTeX warning (ext4): destination with the same identifier (name{remark.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.93 F
       rom now on, we assume the all the types in the local type contexts alw...
-
-[13.13]
 \openout7 = `main.listing'.
 
  (./main.listing)
+
+[13.13]
 pdfTeX warning (ext4): destination with the same identifier (name{example.5}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.186 \begin{example}\label
                            {exam:reductions}
+\openout7 = `main.listing'.
+
+ (./main.listing)
+\openout7 = `main.listing'.
+
+ (./main.listing)
 
 [14.14]
-\openout7 = `main.listing'.
-
- (./main.listing)
-\openout7 = `main.listing'.
-
- (./main.listing)
 pdfTeX warning (ext4): destination with the same identifier (name{definition.7}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.277 \begin{definition}[Association]
                                      \label[definition]{def-assoc}
-
-[15.15]
 \openout7 = `main.listing'.
 
  (./main.listing)
 Package hyperref Info: bookmark level for unknown theorem defaults to 0 on input line 313.
 
-pdfTeX warning (ext4): destination with the same identifier (name{remark.11}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.325   N
-         ote that in the statement of soundness we allow the message label f...) (./text/sec-props.tex
 
-[16.16]
+[15.15]) (./text/sec-props.tex
 pdfTeX warning (ext4): destination with the same identifier (name{definition.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.7 \begin{definition}[Safe Type Contexts]
                                            \label[definition]{def:safety}
+
+[16.16]
 \openout7 = `main.listing'.
 
  (./main.listing)
-
-[17.17]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.4}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1381,6 +1371,8 @@ l.77 \begin{definition}[Reduction Paths]
 \openout7 = `main.listing'.
 
  (./main.listing)
+
+[17.17]
 \openout7 = `main.listing'.
 
  (./main.listing)
@@ -1417,6 +1409,14 @@ l.186 \begin{definition}[Linear Temporal Logic]
 \openout7 = `main.listing'.
 
  (./main.listing)
+pdfTeX warning (ext4): destination with the same identifier (name{definition.12}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.343 ...ext Equality, Proper Prefixes and Height]
+                                                  
+\openout7 = `main.listing'.
+
+ (./main.listing)
 \openout7 = `main.listing'.
 
  (./main.listing)
@@ -1425,16 +1425,13 @@ l.186 \begin{definition}[Linear Temporal Logic]
 \openout7 = `main.listing'.
 
  (./main.listing)
-\openout7 = `main.listing'.
-
- (./main.listing)
-
-[22.22]
-pdfTeX warning (ext4): destination with the same identifier (name{lemma.17}) has been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{lemma.16}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.427 \begin{lemma}\label
-                         {lem-liveness-global-helper}
+l.408 \begin{lemma}\label
+                         {lem-graft-step}
+
+[22.22]
 Package hyperref Info: bookmark level for unknown corollary defaults to 0 on input line 470.
 \openout7 = `main.listing'.
 
@@ -1442,9 +1439,14 @@ Package hyperref Info: bookmark level for unknown corollary defaults to 0 on inp
 
 [23.23]) (./text/sec-proc-props.tex
 
-[24.24]
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-[25.25]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[24.24]
 pdfTeX warning (ext4): destination with the same identifier (name{theorem.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1455,6 +1457,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{remark.4}) has
                    \relax 
 l.139 \begin{remark}\label
                           {remark-reactive-justif}
+
+[25.25]
 pdfTeX warning (ext4): destination with the same identifier (name{remark.6}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1468,13 +1472,13 @@ l.173 \begin{definition}[Session Liveness]
 \openout7 = `main.listing'.
 
  (./main.listing)
-
-[26.26]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.9}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.210 \begin{definition}["Fairness" of Sessions]
                                                 \label{def-fair-sess}
+
+[26.26]
 pdfTeX warning (ext4): destination with the same identifier (name{remark.10}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1485,18 +1489,11 @@ pdfTeX warning (ext4): destination with the same identifier (name{definition.11}
                    \relax 
 l.240 \begin{definition}[Path Typing]
                                      
-pdfTeX warning (ext4): destination with the same identifier (name{lemma.12}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.253 \begin{lemma}\label
-                         {lem-typ-path-exists}
 pdfTeX warning (ext4): destination with the same identifier (name{lemma.13}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.263 \begin{lemma}\label
                          {lem-typ-path-fair}
-
-[27.27]
 pdfTeX warning (ext4): destination with the same identifier (name{lemma.14}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1506,7 +1503,9 @@ Underfull \hbox (badness 1337) in paragraph at lines 278--284
 \T1/lmr/m/n/10 (+20) cor-res-pond-ing to the fair path con-struc-ted above. As in Lemma [][]5.20[][], we use
  []
 
-) (./text/sec-concl.tex
+
+
+[27.27]) (./text/sec-concl.tex
 
 [28.28]) (./main.bbl
 
@@ -1535,18 +1534,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 8A1B2321450F77705614333AEAA1C7C2;5389.
  ) 
 Here is how much of TeX's memory you used:
- 44986 strings out of 473579
- 897875 string characters out of 5728233
- 1558836 words of memory out of 5000000
- 65870 multiletter control sequences out of 15000+600000
- 799139 words of font info for 476 fonts, out of 8000000 for 9000
+ 44952 strings out of 473579
+ 897380 string characters out of 5728233
+ 1623601 words of memory out of 5000000
+ 65849 multiletter control sequences out of 15000+600000
+ 799121 words of font info for 476 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,28n,101p,1034b,2262s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/wasy-type1/wasy10.pfb>
-Output written on main.pdf (32 pages, 895413 bytes).
+Output written on main.pdf (32 pages, 891058 bytes).
 PDF statistics:
- 1393 PDF objects out of 1440 (max. 8388607)
- 1224 compressed objects within 13 object streams
- 523 named destinations out of 1000 (max. 500000)
+ 1373 PDF objects out of 1440 (max. 8388607)
+ 1204 compressed objects within 13 object streams
+ 512 named destinations out of 1000 (max. 500000)
  141181 words of extra memory for PDF output out of 154059 (max. 10000000)
 
