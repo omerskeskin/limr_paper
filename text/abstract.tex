@@ -1,6 +1,23 @@
-We mechanise a synchronous multiparty session type framework that guarantees liveness for typed processes.
-We type sessions using a context of local types, and use "association" with global types to denote a set of 
-well-behaved local type contexts. We give LTS semantics to local contexts and global types and 
-prove operational correspondences between the LTSs local context and their associated global types.
-We then prove that sessions typed by a local context that's associated with a global type
-are live.
+Multiparty session types (MPST) offer a framework for the description of communication-based
+protocols involving multiple participants. In the \textit{top-down} approach to MPST, 
+the communication pattern of the session is described using a \textit{global type}. Then 
+the global type is \textit{projected} on to a \textit{local type} for each participant,
+and the individual processes making up the session are type-checked against these projections.
+Typed sessions possess certain desirable properties such as \textit{safety}, \textit{deadlock-freedom} and 
+\textit{liveness} (also called \textit{lock-freedom}).
+
+In this work, we present the first mechanised proof of liveness
+for synchronous multiparty session types in the Rocq Proof Assistant. 
+Building on recent work, we represent global and local types
+as coinductive trees using the paco library. We use a coinductively defined \textit{subtyping} relation 
+on local types together with another coinductively defined \textit{plain-merge} projection
+relation relating local and global types .
+We then \textit{associate} collections of local types, or \textit{local type contexts}, with 
+global types using this projection and subtyping relations, and prove an \textit{operational correspondence}
+between a local type context and its associated global type. We then utilize this
+association relation to prove the safety and liveness of associated local type contexts
+and, consequently, the multiparty sessions typed by these contexts.  
+
+Besides clarifying the often informal proofs of liveness found in the MPST literature,
+our Rocq mechanisation also enables the certification of lock-freedom properties
+of communication protocols. Our contribution amounts to around 12K lines of Rocq code.

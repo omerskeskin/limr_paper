@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.15)  4 FEB 2026 01:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.15)  5 FEB 2026 01:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1125,23 +1125,23 @@ File: uwasy.fd 2020/01/19 v2.4 Wasy-2 symbol font definitions
 
  (./text/abstract.tex) (./text/sec-introduction.tex
 
-<cc-by.pdf, id=157, 88.33pt x 31.11626pt>
+<cc-by.pdf, id=153, 88.33pt x 31.11626pt>
 File: cc-by.pdf Graphic file (type pdf)
 <use cc-by.pdf>
-Package pdftex.def Info: cc-by.pdf  used on input line 30.
+Package pdftex.def Info: cc-by.pdf  used on input line 20.
 (pdftex.def)             Requested size: 39.74274pt x 14.0pt.
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 30.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 20.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<example-image-plain.pdf, id=160, 321.2pt x 240.9pt>
+<example-image-plain.pdf, id=156, 321.2pt x 240.9pt>
 File: example-image-plain.pdf Graphic file (type pdf)
 <use example-image-plain.pdf>
-Package pdftex.def Info: example-image-plain.pdf  used on input line 30.
+Package pdftex.def Info: example-image-plain.pdf  used on input line 20.
 (pdftex.def)             Requested size: 61.99905pt x 13.99756pt.
  [1.1
 
-{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc} </usr/local/texlive/2024/texmf-dist/tex/latex/mwe/example-image-plain.pdf> <./cc-by.pdf>]
+{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc} </usr/local/texlive/2024/texmf-dist/tex/latex/mwe/example-image-plain.pdf> <./cc-by.pdf>]
 
 LaTeX Font Warning: Font shape `U/wasy/b/n' in size <7> not available
 (Font)              Font shape `U/wasy/m/n' tried instead on input line 30.
@@ -1158,10 +1158,9 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmss' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 80.
-) (./text/sec-process.tex
 
-[2.2{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
+
+[2.2{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]) (./text/sec-process.tex
 Package hyperref Info: bookmark level for unknown definition defaults to 0 on input line 11.
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 18.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmtt.fd
@@ -1203,6 +1202,9 @@ Package microtype Info: Character `029' is missing
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <9> on input line 200.
 LaTeX Font Info:    External font `lmex10' loaded for size
@@ -1210,8 +1212,11 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 200.
 
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-[4.4]) (./text/sec-mpst_defs.tex
+) (./text/sec-mpst_defs.tex
+
+[4.4]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1238,10 +1243,11 @@ l.24     L
 \openout7 = `main.listing'.
 
  (./main.listing)
-Package hyperref Info: bookmark level for unknown example defaults to 0 on input line 92.
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 67.
 
 
 [6.6]
+Package hyperref Info: bookmark level for unknown example defaults to 0 on input line 92.
 \openout7 = `main.listing'.
 
  (./main.listing)
@@ -1284,9 +1290,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 353--366
  (./main.listing)
 \openout7 = `main.listing'.
 
- (./main.listing)) (./text/sec-lts-semantics.tex
+ (./main.listing)
 
-[11.11]
+[11.11]) (./text/sec-lts-semantics.tex
 pdfTeX warning (ext4): destination with the same identifier (name{definition.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1302,13 +1308,13 @@ Underfull \hbox (badness 8151) in paragraph at lines 42--45
 \openout7 = `main.listing'.
 
 (./main.listing)
+
+[12.12]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.63 \begin{definition}[Transition labels]
                                            A transition label $\alpha$ has t...
-
-[12.12]
 \openout7 = `main.listing'.
 
  (./main.listing)
@@ -1343,11 +1349,11 @@ pdfTeX warning (ext4): destination with the same identifier (name{definition.7})
                    \relax 
 l.277 \begin{definition}[Association]
                                      \label[definition]{def-assoc}
+
+[15.15]
 \openout7 = `main.listing'.
 
  (./main.listing)
-
-[15.15]
 Package hyperref Info: bookmark level for unknown theorem defaults to 0 on input line 313.
 
 pdfTeX warning (ext4): destination with the same identifier (name{remark.11}) has been already used, duplicate ignored
@@ -1355,13 +1361,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{remark.11}) ha
                    \relax 
 l.325   N
          ote that in the statement of soundness we allow the message label f...) (./text/sec-props.tex
+
+[16.16]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.7 \begin{definition}[Safe Type Contexts]
                                            \label[definition]{def:safety}
-
-[16.16]
 \openout7 = `main.listing'.
 
  (./main.listing)
@@ -1529,18 +1535,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 8A1B2321450F77705614333AEAA1C7C2;5389.
  ) 
 Here is how much of TeX's memory you used:
- 44978 strings out of 473579
- 897891 string characters out of 5728233
- 1630975 words of memory out of 5000000
- 65877 multiletter control sequences out of 15000+600000
- 798263 words of font info for 468 fonts, out of 8000000 for 9000
+ 44986 strings out of 473579
+ 897875 string characters out of 5728233
+ 1558836 words of memory out of 5000000
+ 65870 multiletter control sequences out of 15000+600000
+ 799139 words of font info for 476 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,28n,101p,1034b,2262s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/wasy-type1/wasy10.pfb>
-Output written on main.pdf (32 pages, 893676 bytes).
+Output written on main.pdf (32 pages, 895413 bytes).
 PDF statistics:
- 1394 PDF objects out of 1440 (max. 8388607)
- 1225 compressed objects within 13 object streams
- 524 named destinations out of 1000 (max. 500000)
+ 1393 PDF objects out of 1440 (max. 8388607)
+ 1224 compressed objects within 13 object streams
+ 523 named destinations out of 1000 (max. 500000)
  141181 words of extra memory for PDF output out of 154059 (max. 10000000)
 
