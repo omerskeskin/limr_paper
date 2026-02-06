@@ -117,9 +117,6 @@ We won't discuss these proofs in detail.
   \label{lem-typ-unfold}
   If \lstin{gamma} $\vdashm$ \lstin{M}   and \lstin{M} $\Rrightarrow$ \lstin{M'} then \lstin{typ_sess M' gamma}.
 \end{lemma}
-\begin{proof}
-  By induction on \lstin{unfoldP M M'}.
-\end{proof}
 \begin{theorem}[Subject Reduction]\label{theo-sub-red}
 If \lstin{gamma} $\vdashm$ \lstin{M}   and 
 \lstin{M} $\lts{\lblsync{p}{q}{\ell}}$ \lstin{M'}, then 

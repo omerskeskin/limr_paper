@@ -17,46 +17,11 @@ We define the composition $\Gamma_1,\Gamma_2$ iff $\dom{\Gamma_1} \cap \dom{\Gam
 
 In the Rocq implementation we implement local typing contexts as finite maps of 
 participants, which are represented as natural numbers, and local type trees.
+We use the red-black tree based finite map implementation of the MMaps library \cite{mmaps}.
 \begin{tcb}{Rocq}
 Module M := MMaps.RBT.Make(Nat).
 Module MF := MMaps.Facts.Properties Nat M.
 Definition tctx: Type := M.t ltt.
-\end{tcb}
-In our implementation, we extensively use the MMaps library \cite{mmaps}, which defines finite maps using
-red-black trees and provides many useful functions and theorems about them.
-\todo{this section might go} 
-We give some of the most important ones below:
-\begin{itemize}
-  \item \lstin{M.add p t g}: Adds value \lstin{t} with the key \lstin{p} to the finite map 
-  \lstin{g}.
-  \item \lstin{M.find p g}: If the key \lstin{p} is in the finite map \lstin{g} and is associated with the value \lstin{t}, 
-   returns \lstin{Some t}, else returns \lstin{None}.   
-  \item \lstin{M.In p g}: A \lstin{Prop} that holds iff \lstin{p} is in \lstin{g}.
-  \item \lstin{M.mem p g}: A \lstin{bool} that is equal to \lstin{true} if \lstin{p} is in \lstin{g}, and \lstin{false} otherwise.
-  \item \lstin{M.Equal g1 g2}: Unfolds to \lstin{forall p, M.find p g1 = M.find p g2}.
-  For our purposes, if \lstin{M.Equal g1 g2} then \lstin{g1} and \lstin{g2} are indistinguishable.
-  This is made formal in the MMaps library with the assertion that \lstin{M.Equal} forms a setoid,
-  and theorems asserting that most functions on maps respect \lstin{M.Equal} 
-  by showing that they form \lstin{Proper} morphisms 
-  \cite[Generalized Rewriting]{coqmanual}. 
-  \item \lstin{M.merge f g1 g2} where \lstin{f: key -> option value -> option value -> option value}:
-  Creates a finite map whose keys are the keys in \lstin{g1} or \lstin{g2},
-  where the value of the key \lstin{p} is defined as \lstin{f p (M.find p g1) (M.find p g2)}.    
-  \item \lstin{MF.Disjoint g1 g2}: A \lstin{Prop} that holds iff the keys of \lstin{g1} and \lstin{g2} are disjoint. 
-  \item \lstin{M.Eqdom g1 g2}: A \lstin{Prop} that holds iff \lstin{g1} and \lstin{g2} have the same domains.
-\end{itemize}
-One important function that we define is \lstin{disj_merge},
-which merges disjoints maps and is used to represent the composition of typing contexts. 
-\begin{tcb}{Rocq}
-Definition both (z: nat) (o:option ltt) (o':option ltt) :=
- match o,o' with 
-   | Some _, None   => o
-   | None, Some _   => o'
-   | _,_            => None
- end.
-
-Definition disj_merge (g1 g2:tctx) (H:MF.Disjoint g1 g2) : tctx := 
-  M.merge both g1 g2.  
 \end{tcb}
 
 We give LTS semantics to typing contexts, for which we first define the transition labels.
@@ -73,20 +38,6 @@ Inductive label: Type :=
   | lrecv: part -> part -> option sort -> opt_lbl -> label
   | lsend: part -> part -> option sort -> opt_lbl -> label
   | lcomm: part -> part -> opt_lbl -> label.
-  \end{tcb}
-  \newcommand{\subj}{\mathtt{subject}}
-  We also define the function $\subject{\alpha}$ as \enspace 
-  $\subject{\lblrec{p}{q}{\ell(S)}}=\subject{\lblsend{p}{q}{\ell(S)}}=\{\pp\}$ and $\subject{\lblsync{p}{q}{\ell}}=\{\pp,\prt{q} \}$.
-
-  In Rocq we represent $\subject{\alpha}$ with the predicate \lstin{ispSubjl p alpha} that holds 
-  iff $\prt{p} \in \subject{\alpha}$.
-  \begin{tcb}{Rocq}
-Definition ispSubjl r l :=
-  match l with 
-    | lsend p q _ _ => p=r
-    | lrecv p q _ _=> p=r
-    | lcomm p q _ => p=r \/ q=r 
-  end. 
   \end{tcb}
 \end{definition}
 \begin{remark}
