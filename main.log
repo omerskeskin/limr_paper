@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.15)  6 FEB 2026 01:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.15)  8 FEB 2026 01:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1133,7 +1133,7 @@ File: uwasy.fd 2020/01/19 v2.4 Wasy-2 symbol font definitions
 
  (./text/abstract.tex) (./text/sec-introduction.tex
 
-<cc-by.pdf, id=153, 88.33pt x 31.11626pt>
+<cc-by.pdf, id=145, 88.33pt x 31.11626pt>
 File: cc-by.pdf Graphic file (type pdf)
 <use cc-by.pdf>
 Package pdftex.def Info: cc-by.pdf  used on input line 20.
@@ -1142,7 +1142,7 @@ LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 20
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<example-image-plain.pdf, id=156, 321.2pt x 240.9pt>
+<example-image-plain.pdf, id=148, 321.2pt x 240.9pt>
 File: example-image-plain.pdf Graphic file (type pdf)
 <use example-image-plain.pdf>
 Package pdftex.def Info: example-image-plain.pdf  used on input line 20.
@@ -1182,7 +1182,15 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-Package hyperref Info: bookmark level for unknown remark defaults to 0 on input line 45.
+<img/icon-rocq-blue.png, id=241, 338.01282pt x 289.58188pt>
+File: img/icon-rocq-blue.png Graphic file (type png)
+<use img/icon-rocq-blue.png>
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 57.
+(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
+File: img/icon-rocq-blue.png Graphic file (type png)
+<use img/icon-rocq-blue.png>
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 57.
+(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
 \g__tcobox_out_iow=\write7
 \openout7 = `main.listing'.
 
@@ -1190,50 +1198,56 @@ Package hyperref Info: bookmark level for unknown remark defaults to 0 on input 
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <5> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 1.
 )
+\openout7 = `main.listing'.
 
-[3.3]
-LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 80.
+ (./main.listing)
+
+[3.3 <./img/icon-rocq-blue.png>]
+LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 86.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8.5> on input line 80.
+(Font)              <8.5> on input line 86.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5.94997> on input line 80.
+(Font)              <5.94997> on input line 86.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <4.25> on input line 80.
+(Font)              <4.25> on input line 86.
 
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <8.5> not available
-(Font)              size <8> substituted on input line 80.
+(Font)              size <8> substituted on input line 86.
 
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <4.25> not available
-(Font)              size <5> substituted on input line 80.
+(Font)              size <5> substituted on input line 86.
 
 
 LaTeX Font Warning: Font shape `U/wasy/m/n' in size <8.5> not available
-(Font)              size <8> substituted on input line 80.
+(Font)              size <8> substituted on input line 86.
 
 
 LaTeX Font Warning: Font shape `U/wasy/m/n' in size <4.25> not available
-(Font)              size <5> substituted on input line 80.
+(Font)              size <5> substituted on input line 86.
 
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/lmr/m/sc/9'.
 (microtype)             Ignoring protrusion settings for this character.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 200.
+(Font)              <9> on input line 154.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 200.
+(Font)              <6> on input line 154.
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 200.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 154.
+File: img/icon-rocq-blue.png Graphic file (type png)
+<use img/icon-rocq-blue.png>
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 154.
+(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
+File: img/icon-rocq-blue.png Graphic file (type png)
+<use img/icon-rocq-blue.png>
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 177.
+(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
+File: img/icon-rocq-blue.png Graphic file (type png)
+<use img/icon-rocq-blue.png>
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 181.
+(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
 ) (./text/sec-mpst_defs.tex
 
 [4.4]
@@ -1258,64 +1272,75 @@ pdfTeX warning (ext4): destination with the same identifier (name{definition.2})
                    \relax 
 l.29     L
           ocal types are defined inductively with the following syntax:
-
-[5.5{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc}]
 \openout7 = `main.listing'.
 
  (./main.listing)
+Package hyperref Info: bookmark level for unknown remark defaults to 0 on input line 77.
+
+
+[5.5{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc}]
 
 Package amsmath Warning: Foreign command \atop;
 (amsmath)                \frac or \genfrac should be used instead
 (amsmath)                 on input line 97.
 
+\openout7 = `main.listing'.
+
+(./main.listing)
+
+Package tcolorbox Warning: The upper box part has become overfull on input line 174.
+
+
+Package tcolorbox Warning: The upper box part has become overfull on input line 174.
+
+
+Package tcolorbox Warning: The upper box part has become overfull on input line 174.
+
+
+Package tcolorbox Warning: The upper box part has become overfull on input line 174.
+
 
 
 [6.6]
+Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 226.
+
+
+[7.7]
 \openout7 = `main.listing'.
 
  (./main.listing)
 
-[7.7]
-Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 226.
-
-
-[8.8]
-\openout7 = `main.listing'.
-
- (./main.listing)) (./text/sec-lts-semantics.tex
+[8.8]) (./text/sec-lts-semantics.tex
 pdfTeX warning (ext4): destination with the same identifier (name{definition.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.7 \begin{definition}[Typing Contexts]
                                        \label[definition]{def-type-ctx}
+\openout7 = `main.listing'.
+
+ (./main.listing)
+pdfTeX warning (ext4): destination with the same identifier (name{definition.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.34 \begin{definition}[Transition labels]
+                                           A transition label $\alpha$ has t...
+Overfull \hbox (15.94167pt too wide) detected at line 40
+[]
+ []
+
+\openout7 = `main.listing'.
+
+(./main.listing)
 
 [9.9]
 \openout7 = `main.listing'.
 
  (./main.listing)
-pdfTeX warning (ext4): destination with the same identifier (name{definition.2}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.28 \begin{definition}[Transition labels]
-                                           A transition label $\alpha$ has t...
-\openout7 = `main.listing'.
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 137.
+Package hyperref Info: bookmark level for unknown example defaults to 0 on input line 138.
 
- (./main.listing)
-pdfTeX warning (ext4): destination with the same identifier (name{remark.3}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.44 F
-      rom now on, we assume the all the types in the local type contexts alw...
 
 [10.10]
-\openout7 = `main.listing'.
-
- (./main.listing)
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 136.
-Package hyperref Info: bookmark level for unknown example defaults to 0 on input line 137.
-
-
-[11.11]
 \openout7 = `main.listing'.
 
  (./main.listing)
@@ -1325,46 +1350,45 @@ Package hyperref Info: bookmark level for unknown example defaults to 0 on input
 pdfTeX warning (ext4): destination with the same identifier (name{definition.6}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.187 \begin{definition}[Global type reductions]
+l.188 \begin{definition}[Global type reductions]
                                                 
+
+[11.11]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.7}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.228 \begin{definition}[Association]
+l.229 \begin{definition}[Association]
                                      \label[definition]{def-assoc}
-
-[12.12]
 \openout7 = `main.listing'.
 
  (./main.listing)
 
-LaTeX Warning: Reference `example-balance' on page 13 undefined on input line 251.
+LaTeX Warning: Reference `example-balance' on page 12 undefined on input line 252.
 
-Package hyperref Info: bookmark level for unknown theorem defaults to 0 on input line 264.
-) (./text/sec-props.tex
+Package hyperref Info: bookmark level for unknown theorem defaults to 0 on input line 265.
 
-[13.13]
+
+[12.12]) (./text/sec-props.tex
 pdfTeX warning (ext4): destination with the same identifier (name{definition.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.7 \begin{definition}[Safe Type Contexts]
                                            \label[definition]{def:safety}
+
+[13.13]
+\openout7 = `main.listing'.
+
+ (./main.listing)
+pdfTeX warning (ext4): destination with the same identifier (name{definition.4}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.74 \begin{definition}[Reduction Paths]
+                                        
 \openout7 = `main.listing'.
 
  (./main.listing)
 
 [14.14]
-pdfTeX warning (ext4): destination with the same identifier (name{definition.4}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.77 \begin{definition}[Reduction Paths]
-                                        
-\openout7 = `main.listing'.
-
- (./main.listing)
-\openout7 = `main.listing'.
-
- (./main.listing)
 pdfTeX warning (ext4): destination with the same identifier (name{definition.5}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1387,6 +1411,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{definition.8})
                    \relax 
 l.186 \begin{definition}[Linear Temporal Logic]
                                                
+\openout7 = `main.listing'.
+
+ (./main.listing)
 
 [16.16]
 \openout7 = `main.listing'.
@@ -1395,13 +1422,8 @@ l.186 \begin{definition}[Linear Temporal Logic]
 \openout7 = `main.listing'.
 
  (./main.listing)
-\openout7 = `main.listing'.
 
- (./main.listing)
-
-[17.17]
-
-LaTeX Warning: Reference `example-balance' on page 18 undefined on input line 295.
+LaTeX Warning: Reference `example-balance' on page 17 undefined on input line 295.
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{definition.11}) has been already used, duplicate ignored
@@ -1412,6 +1434,8 @@ l.305 ...}[Fairness and Liveness for Global Types]
 \openout7 = `main.listing'.
 
  (./main.listing)
+
+[17.17]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.12}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1420,14 +1444,14 @@ l.343 ...ext Equality, Proper Prefixes and Height]
 \openout7 = `main.listing'.
 
  (./main.listing)
+\openout7 = `main.listing'.
+
+ (./main.listing)
+\openout7 = `main.listing'.
+
+ (./main.listing)
 
 [18.18]
-\openout7 = `main.listing'.
-
- (./main.listing)
-\openout7 = `main.listing'.
-
- (./main.listing)
 pdfTeX warning (ext4): destination with the same identifier (name{lemma.13}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1442,9 +1466,11 @@ Package hyperref Info: bookmark level for unknown corollary defaults to 0 on inp
 
 [20.20]) (./text/sec-proc-props.tex
 
-[21.21]
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-[22.22]
+
+
+[21.21]
 pdfTeX warning (ext4): destination with the same identifier (name{theorem.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1455,6 +1481,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{remark.4}) has
                    \relax 
 l.136 \begin{remark}\label
                           {remark-reactive-justif}
+
+[22.22]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.8}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1463,13 +1491,13 @@ l.170 \begin{definition}[Session Liveness]
 \openout7 = `main.listing'.
 
  (./main.listing)
-
-[23.23]
 pdfTeX warning (ext4): destination with the same identifier (name{remark.10}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.215 \begin{remark}\label
                           {remark-fairness-session}
+
+[23.23]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.11}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1480,8 +1508,6 @@ pdfTeX warning (ext4): destination with the same identifier (name{lemma.13}) has
                    \relax 
 l.260 \begin{lemma}\label
                          {lem-typ-path-fair}
-
-[24.24]
 pdfTeX warning (ext4): destination with the same identifier (name{lemma.14}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1491,22 +1517,22 @@ Underfull \hbox (badness 1337) in paragraph at lines 275--281
 \T1/lmr/m/n/10 (+20) cor-res-pond-ing to the fair path con-struc-ted above. As in Lemma [][]5.20[][], we use
  []
 
-) (./text/sec-concl.tex
+
+
+[24.24]) (./text/sec-concl.tex
 
 [25.25]) (./main.bbl
 
 [26.26]
-
-[27.27]
 Underfull \hbox (badness 6961) in paragraph at lines 168--172
 [][]$\T1/lmtt/m/n/9 https : / / www . sciencedirect . com / science / article / pii / B978044488074150024X$[][]\T1/lmr/m/n/9 (+20) , [][]$\T1/lmtt/m/n/9 doi : 10 .
  []
 
 
 
-[28.28])
+[27.27])
 
-[29.29] (./main.aux)
+[28.28] (./main.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-09-10>
@@ -1523,21 +1549,21 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 8A1B2321450F77705614333AEAA1C7C2;5389.
+(rerunfilecheck)             Checksum: 062B6BBF6132CA1A7A773190633ACF57;4935.
  ) 
 Here is how much of TeX's memory you used:
- 44875 strings out of 473579
- 893626 string characters out of 5728233
- 1537906 words of memory out of 5000000
- 65828 multiletter control sequences out of 15000+600000
- 801003 words of font info for 488 fonts, out of 8000000 for 9000
+ 44857 strings out of 473579
+ 893493 string characters out of 5728233
+ 1568591 words of memory out of 5000000
+ 65830 multiletter control sequences out of 15000+600000
+ 800547 words of font info for 484 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,28n,101p,1034b,2262s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/wasy-type1/wasy10.pfb>
-Output written on main.pdf (29 pages, 873907 bytes).
+Output written on main.pdf (28 pages, 887709 bytes).
 PDF statistics:
- 1281 PDF objects out of 1440 (max. 8388607)
- 1114 compressed objects within 12 object streams
- 445 named destinations out of 1000 (max. 500000)
- 141181 words of extra memory for PDF output out of 154059 (max. 10000000)
+ 1263 PDF objects out of 1440 (max. 8388607)
+ 1096 compressed objects within 11 object streams
+ 433 named destinations out of 1000 (max. 500000)
+ 141170 words of extra memory for PDF output out of 154059 (max. 10000000)
 

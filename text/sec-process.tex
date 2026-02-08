@@ -22,7 +22,7 @@ We introduce the simple synchronous session calculus that our type system will b
 $\prt{p}!\ell(\kf{e}).\PT$ is a process that sends the value of expression $\kf{e}$ 
 with label $\ell$ to participant $\pp$, and continues with process $\PT$.
 $\sum_{i \in I}
-\prt{p}?\ell_i(x_i).P_i$ is a process that may receive a value from $\pp$ with any label  
+\prt{p}?\ell_i(x_i).\PT_i$ is a process that may receive a value from $\pp$ with any label  
 $\ell_i$ where $i\in I$, binding the result to $x_i$ and continuing with $\PT_i$, depending on which $\ell_i$
 the value was received from. $\Xv$ is a recursion variable, $\mu \Xv.\PT$ is a recursive process,
 $\cond{\kf{e}}{\PT}{\PT}$ is a conditional and $\textbf{0}$ is a terminated process.
@@ -41,20 +41,21 @@ $\mid$ indicates parallel compositon. We write $\displaystyle  \prod_{i \in I}^{
 to denote the session formed by $\pp_i$ running $\PT_i$ in parallel for all $i \in I$. 
 $\mathcal{O}$
 is an empty session with no participants, that is, the unit of parallel composition.
-\begin{remark}
-Note that $\mathcal{O}$ is different than
-$\pp \triangleleft \textbf{0}$ as $\pp$ is a participant in the latter but not the former. 
-This differs from previous work, e.g. in \cite{SynchronousSubtyping} the unit of 
-parallel composition is 
-$\pp \triangleleft \textbf{0}$ while in \cite{srpaper} there is no unit. 
-The unitless appproach of \cite{srpaper} results in a lot of repetition in the code, 
-for an example see their definition of \lstin{unfoldP} which contains two of every constructor:
-one for when the session is composed of exactly two processes, and one for when it's composed of three or more.
-Therefore we chose to add an unit element to parallel composition. However, we didn't make 
-that unit $\pp \triangleleft \textbf{0}$ in order to reuse some of the lemmas from \cite{srpaper}
-that use the fact that structural congruence preserves participants.
-\end{remark} 
-In Rocq processes and sessions are expressed in the following way
+%\begin{remark}
+%Note that $\mathcal{O}$ is different than
+%$\pp \triangleleft \textbf{0}$ as $\pp$ is a participant in the latter but not the former. 
+%This differs from previous work, e.g. in \cite{SynchronousSubtyping} the unit of 
+%parallel composition is 
+%$\pp \triangleleft \textbf{0}$ while in \cite{srpaper} there is no unit. 
+%The unitless appproach of \cite{srpaper} results in a lot of repetition in the code, 
+%for an example see their definition of \lstin{unfoldP} which contains two of every constructor:
+%one for when the session is composed of exactly two processes, and one for when it's composed of three or more.
+%Therefore we chose to add an unit element to parallel composition. However, we didn't make 
+%that unit $\pp \triangleleft \textbf{0}$ in order to reuse some of the lemmas from \cite{srpaper}
+%that use the fact that structural congruence preserves participants.
+%\end{remark} 
+In Rocq processes and sessions are defined with the inductive types \lstin{process} \rocqlink{todo} and \lstin{session} \rocqlink{todo}.
+\begin{minipage}{0.45\textwidth}
 \begin{tcb}{Rocq}
 Inductive process : Type := 
   | p_send : part -> label -> expr -> process -> process
@@ -62,15 +63,20 @@ Inductive process : Type :=
   | p_ite : expr -> process -> process -> process
   | p_rec : process -> process
   | p_var : nat -> process
-  | p_inact : process.
-
-Inductive session: Type :=
+  | p_inact : process.  
+\end{tcb}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+  \begin{tcb}{Rocq}
+  Inductive session: Type :=
   | s_ind : part   -> process -> session
   | s_par : session -> session -> session
   | s_zero : session.
 Notation "p '<--' P"   :=  (s_ind p P) (at level 50, no associativity).
 Notation "s1 '|||' s2" :=  (s_par s1 s2) (at level 50, no associativity).
 \end{tcb}
+\end{minipage}
+
 \subsection{Structural Congruence and Operational Semantics}
 We define a structural congruence relation $\equiv$ on sessions which expresses the commutativity, associativity and 
 unit of the parallel composition operator.
@@ -98,68 +104,16 @@ unit of the parallel composition operator.
 \label{tbl:scong}
 \end{table}
 We now give the operational semantics for sessions by the means of a labelled transition system.
-We will be giving two types of semantics: one which contains silent $\tau$ transitions, and 
-another, \textit{reactive} semantics \cite{fairnesslock} which doesn't contain explicit $\tau$ reductions while still considering $\beta$ reductions
-up to silent actions. We will mostly be using the reactive semantics throughout this paper,
-for the advantages of this approach see \cref{remark-reactive-justif}.
-\subsubsection{Semantics With Silent Transitions}\label{subsec-tau}
-We have two kinds of transitions, \textit{silent} ($\tau$) and 
-\textit{observable} $(\beta)$. Correspondingly, we have two kinds of \textit{transition labels}, 
-$\tau$ and $(\pp,\pq)\ell$ where $\pp, \pq$ are participants and $\ell$ is a message label.  
-We omit the semantics of expressions, they are 
-standard and can be found in \cite[Table 1]{SynchronousSubtyping}. We write $e \downarrow v$ when 
-expression $e$ evaluates to value $v$. 
-\newcommand{\taured}{\ensuremath{\xrightarrow{\tau}}}
-
-\begin{table}[h]
-{\footnotesize
-\[
-\begin{array}{@{}l@{}}
-    \inferrule[\rulename{R-comm}]
-  {j\in I \quad e \downarrow v}
-  {\pp \triangleleft \sum^{}_{i\in I} \tin\pq{\ell_i}{x_i}.\PT_i \ \mid \  \pq \triangleleft \tout{\pp}{\ell_j}{\kf{e}}.\QT \ \mid \ \N \ \ 
-  \xrightarrow{(\pp,\pq)\ell_j} \ \ 
-    \pp \triangleleft \PT_j[v/x_j] \ \mid \ \pq \triangleleft \QT \ \mid \ \N}
-    \\[10mm]
-    \inferrule[\rulename{R-rec}]
-  {}
-  {\pp \triangleleft \mu \Xv.\PT \mid \N \ \ 
-  \taured \ \
-    \pp \triangleleft \PT[\mu \Xv.\PT / \Xv] \ \mid \ \N}
-    \quad  
-    \inferrule[\rulename{R-condt}]
-  {e \downarrow \text{true}}
-  {\pp \triangleleft \text{ if } e \text{ then } \PT \text{ else } \QT \ \mid \ \N \ \ 
-  \taured \ \
-    \pp \triangleleft \PT \ \mid \ \N}    
-      \\[5mm]
-        \inferrule[\rulename{R-condf}]
-  {e \downarrow \text{false}}
-  {\pp \triangleleft \text{ if } e \text{ then } \PT \text{ else } \QT \ \mid \ \N \ \ 
-  \taured \ \
-    \pp \triangleleft \QT \ \mid \ \N}  
-      \quad
-        \inferrule[\rulename{R-struct}]
-  {\N_1' \equiv \N_1 \quad \N_1 \xrightarrow{\lambda} \N_2 \quad \N_2 \equiv \N_2'}
-  {\N'_1 \xrightarrow{\lambda} \N'_2}  
-\end{array}
-\]}
-\caption{Operational Semantics of Sessions}
-\label{tbl:srr}
-\end{table}
-In \cref{tbl:srr}, \rulename{R-comm} describes a synchronous communication from $\pp$ to $\pq$ via 
-message label $\ell_j$.
-\rulename{R-rec} unfolds recursion, \rulename{R-condt} and \rulename{R-condf} express how to evaluate conditionals,
-and \rulename{R-struct} shows that the reduction respects the structural pre-congruence.
-We write $\M \rightarrow \N$ if $\M \xrightarrow{\lambda} \N$ for some transition label $\lambda$.
-We write $\rightarrow^*$ to denote the reflexive transitive closure of $\rightarrow$. 
-%%We also write 
-%$\M \Rrightarrow \N$ when $\M \equiv \N$ or $\M \rightarrow^* \N$ where all the transitions
-%involved in the multistep reduction are $\tau$ transitions.
-\subsection{Reactive Semantics}
+We use labelled \textit{reactive} semantics \cite{fairnesslock,castellani_reversible_2019}
+which doesn't contain explicit silent $\tau$ actions for internal reductions (that is, evaluation of if expressions
+and unfolding of recursion) while still considering $\beta$ reductions
+up to those internal reductions by using an unfolding relation. 
+This stands in contrast to the more standard semantics used in \cite{srpaper,SynchronousSubtyping,fairnesslock}.
+For the advantages of our approach see \cref{remark-reactive-justif}.
 \label{def-sess-semantics}
-In reactive semantics $\tau$ transitions are captured by an \textit{unfolding} relation $(\Rrightarrow)$,
-and $\beta$ reductions are defined up to this unfolding.
+
+In reactive semantics silent transitions are captured by an \textit{unfolding} relation $(\Rrightarrow)$,
+and $\beta$ reductions are defined up to this unfolding (\cref{tbl:unf}).
 \begin{table}[h]
 {\footnotesize
 \[
@@ -195,9 +149,9 @@ and $\beta$ reductions are defined up to this unfolding.
 \label{tbl:unf}
 \end{table}
 
-$\M \Rrightarrow \N$ means that $\M$ can transition to $\N$ through some internal actions, or $\tau$ transitions in the semantics of 
-\cref{subsec-tau}. We say that $\M$ \textit{unfolds} to $\N$. 
-In Rocq it's captured by the predicate \lstin{unfoldP : session -> session -> Prop}.
+$\M \Rrightarrow \N$ means that $\M$ can transition to $\N$ through some internal actions, that is, a reduction that doesn't involve a communication. 
+We say that $\M$ \textit{unfolds} to $\N$. 
+In Rocq it's captured by the predicate \lstin{unfoldP : session -> session -> Prop} \rocqlink{todo}.
 \begin{table}[h]
 {\footnotesize
 \[
@@ -218,9 +172,10 @@ In Rocq it's captured by the predicate \lstin{unfoldP : session -> session -> Pr
 \label{tbl:srr-react}
 \end{table}
 
+\cref{tbl:srr-react} illustrates the rules for communicating transitons. 
 \rulename{R-comm} captures communications between processes, and \rulename{R-unfold} lets us consider reductions up to
-unfoldings. In Rocq, \lstin{betaP_lbl M lambda M'} denotes 
+unfoldings. In Rocq, \lstin{betaP_lbl M lambda M'}\rocqlink{todo} denotes 
 $\M \lts{\lambda} \M'$. We write $\M \lts{} \M'$ if $\M \lts{\lambda} \M'$
 for some $\lambda$, which is written \lstin{betaP M M'} in Rocq.
 We write $\lts{}^*$ to denote the reflexive transitive closure of
-$\lts{}$, which is called \lstin{betaRtc} in Rocq. 
+$\lts{}$, which is called \lstin{betaRtc}\rocqlink{todo} in Rocq. 

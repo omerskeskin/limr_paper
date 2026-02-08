@@ -24,14 +24,21 @@ Module MF := MMaps.Facts.Properties Nat M.
 Definition tctx: Type := M.t ltt.
 \end{tcb}
 
-We give LTS semantics to typing contexts, for which we first define the transition labels.
+\begin{remark}
+From now on, we assume the all the types in the local type contexts always have non-empty continuations.
+In Rocq terms, if \lstin{T} is in context \lstin{gamma} then \lstin{wfltt T} holds. This is expressed by the predicate
+\lstin{wfltt: tctx -> Prop}.
+\end{remark}
+\subsection{Local Type Context Reductions}
+We now give LTS semantics to local typing contexts, for which we first define the transition labels.
 \begin{definition}[Transition labels] A transition label $\alpha$ has the following form:
   \begin{align*}
-    \alpha ::&= \lblrec{p}{q}{\ell(S)}  && \text{(${\prt{p}}$ receives $\ell(S)$ from ${\prt{q}}$)}\\
-    & \SEP \lblsend{p}{q}{\ell(S)} && \text{(${\prt{p}}$ sends $\ell(S)$ to ${\prt{q}}$)}\\
-    & \SEP \lblsync{p}{q}{\ell} && \text{($\ell$ is transmitted from ${\prt{p}}$ to ${\prt{q}}$)}\\
+    \alpha ::&= \lblrec{p}{q}{\ell(S)}  && 
+    \text{(${\prt{p}}$ receives a value of sort ${S}$ from ${\prt{q}}$ with message label ${\ell}$)}\\
+    & \SEP \lblsend{p}{q}{\ell(S)} && \text{(${\prt{p}}$ sends a value of sort $S$ to ${\prt{q}}$ with message label $\ell$ )}\\
+    & \SEP \lblsync{p}{q}{\ell} && \text{(A synchronized communication from $\pp$ to $\pq$ occurs via message label $\ell$)}\\
   \end{align*}
-  and in Rocq
+In Rocq they are defined as follows:
   \begin{tcb}{Rocq}
 Notation opt_lbl := nat.
 Inductive label: Type :=
@@ -40,12 +47,6 @@ Inductive label: Type :=
   | lcomm: part -> part -> opt_lbl -> label.
   \end{tcb}
 \end{definition}
-\begin{remark}
-From now on, we assume the all the types in the local type contexts always have non-empty continuations.
-In Rocq terms, if \lstin{T} is in context \lstin{gamma} then \lstin{wfltt T} holds. This is expressed by the predicate
-\lstin{wfltt: tctx -> Prop}.
-\end{remark}
-\subsection{Local Type Context Reductions}
 Next we define labelled transitions for local type contexts.
 \begin{definition}[Typing context reductions] \label[definition]{def-ctx-red}
 The typing context transition $\lts{\alpha}$ is defined inductively by the following rules:
@@ -58,7 +59,7 @@ The typing context transition $\lts{\alpha}$ is defined inductively by the follo
     {\lblrec{p}{q}{\ell_k(S_k)}}
     {\prt{p} : \T_k}
     }
-    \enspace \rulename{ $\Gamma$ - \andsign}
+    \enspace \rulename{ $\Gamma$-\andsign}
   \\\\
   \inferrule[]{
      k \in I }{
@@ -67,7 +68,7 @@ The typing context transition $\lts{\alpha}$ is defined inductively by the follo
       {\lblsend{p}{q}{\ell_k(S_k)}}
       {\prt{p} : \T_k}
     }
-    \enspace \rulename{ $\Gamma$ - $\oplus$}
+    \enspace \rulename{ $\Gamma$-$\oplus$}
 \qquad
     \inferrule[]{
   \lbltrans{\Gamma}{\alpha}{\Gamma'}}
@@ -75,7 +76,7 @@ The typing context transition $\lts{\alpha}$ is defined inductively by the follo
     \lbltrans{\Gamma, \prt{p} : \T}
      {\alpha} {\Gamma', {\prt{p}} : \T} 
   }
-  \enspace \rulename{$\Gamma$ -,}
+  \enspace \rulename{$\Gamma$-,}
   \\\\
   \inferrule[]{
     \lbltrans{\Gamma_1}{\lblsend{\prt{p}}{\prt{q}}{\ell(S)}}{\Gamma'_1}
@@ -87,7 +88,7 @@ The typing context transition $\lts{\alpha}$ is defined inductively by the follo
     {\lblsync{p}{q}{\ell}}
     {\Gamma'_1, \Gamma'_2}
     }
-    \enspace \rulename{$\Gamma$ - $\oplus$\andsign}
+    \enspace \rulename{$\Gamma$-$\oplus$\andsign}
     \\\\
 \end{array}
 \]
@@ -129,7 +130,7 @@ $\rulename{ $\Gamma$ - $\sendsign$}$ and
 $\rulename{$\Gamma$ -,}$. \lstin{Rcomm} captures $\rulename{$\Gamma-\sendsign\andsign $}$
 using the \lstin{disj_merge} function we defined for the compositions, and requires a proof 
 that the contexts given are disjoint to be applied. \lstin{RStruct} captures the indistinguishability
-of local contexts under \lstin{M.Equal}. 
+of local contexts under the \lstin{M.Equal} predicate from the MMaps library. 
 
 
 \noindent We give an example to illustrate typing context reductions.

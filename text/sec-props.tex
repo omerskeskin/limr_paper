@@ -59,10 +59,7 @@ We have that local type contexts with associated global types are always safe.
 \begin{theorem}[Safety by Association]
   If \lstin{assoc gamma g} then \lstin{safeC gamma}.
 \end{theorem}
-\begin{proof}
-\rulesafesync follows by inverting the projection and the subtyping, and \rulesafereduce holds by \cref{theo-completeness}.
-\end{proof}
-\subsection{Linear Time Properties}
+\subsection{Fairness and Liveness}
 \label{subsec-ltl}
 We now focus our attention to fairness and liveness. 
 In this paper we have defined LTS semantics on three types of constructs: 
@@ -94,6 +91,16 @@ Notation local_path := (coseq (tctx*option label)).
 Notation global_path := (coseq (gtt*option label)).
 Notation session_path := (coseq (session*option label)).
 \end{tcb}
+%\begin{minipage}
+%\begin{tcb}{Rocq}
+%Definition local_path_vcriteria := (fun x1 l  x2  =>
+%  match (x1,l,x2) with 
+%    | ((g1,lcomm p q ell),g2) => tctxR g1 (lcomm p q ell) g2
+%    | _ => False 
+%  end
+%).
+%\end{tcb}     
+%\end{minipage}
 Note the use of \lstin{option label}, where we employ \lstin{None} to represent transitions into the end of the list, \lstin{conil}.
 For example, $S_0 \xrightarrow{\lambda_0} \S_1 \xrightarrow{\lambda_1} S_2$ would be represented in Rocq as
 \lstin{cocons (s_0, Some lambda_0) (cocons (s_1, Some lambda_1) (cocons (s_2,None) conil))}, and 
@@ -102,21 +109,14 @@ For example, $S_0 \xrightarrow{\lambda_0} \S_1 \xrightarrow{\lambda_1} S_2$ woul
 Note that this definition doesn't require the transitions in the \lstin{coseq} to actually be valid.
 We achieve that using the coinductive predicate \lstin{valid_path_GC {A:Type} (V: A-> label -> A-> Prop)},
 where the parameter \lstin{V} is a \textit{transition validity predicate}, capturing if a one-step transition is 
-valid. 
+valid. \lstin{valid_path_GC V conil} holds if 
 For all \lstin{V}, \lstin{valid_path_GC V conil} and 
 \lstin{forall x, valid_path_GC V (cocons (x, None) conil)} hold, and 
 \lstin{valid_path_GC V cocons (x, Some l) (cocons (y, l') xs) } holds if
 the transition validity predicate \lstin{V x l y} and 
 \lstin{valid_path_GC V (cocons (y, l') xs)} hold. We use different \lstin{V} based on our application,
-for example in the context of local type context reductions the predicate is defined as follows:
-\begin{tcb}{Rocq}
-Definition local_path_vcriteria := (fun x1 l  x2  =>
-  match (x1,l,x2) with 
-    | ((g1,lcomm p q ell),g2) => tctxR g1 (lcomm p q ell) g2
-    | _ => False 
-  end
-).
-\end{tcb}     
+for example in the context of local type context reductions \lstin{V gamma gamma'}
+
 That is, we only allow synchronised communications in a valid local type context reduction path.
 
 We can now define fairness and liveness on paths. We first restate the definition of fairness and liveness for 
