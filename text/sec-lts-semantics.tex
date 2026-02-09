@@ -4,12 +4,21 @@ In this section we introduce local type contexts, and define Labelled Transition
 semantics on these constructs.
 \subsection{Typing Contexts} 
 We start by defining typing contexts as finite mappings of participants to local type trees.
+\begin{minipage}{0.45\textwidth}
 \begin{definition}[Typing Contexts]\label[definition]{def-type-ctx}
   \[
   \Gamma \;::=\;%
   \emptyset \SEP \Gamma, {\prt{p}}:\T
 \]
 \end{definition}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+  \begin{tcb}{Rocq}
+Module M := MMaps.RBT.Make(Nat).
+Module MF := MMaps.Facts.Properties Nat M.
+Definition tctx: Type := M.t ltt.
+\end{tcb}
+\end{minipage}
 
 Intuitively, p : {\T} means that participant p is associated with a process that has the type tree T. 
 We write $\dom{\Gamma}$ to denote the set of participants occuring in $\Gamma$. We write $\Gamma(\pp)$ for the type of $\pp$ in $\Gamma$. 
@@ -18,11 +27,7 @@ We define the composition $\Gamma_1,\Gamma_2$ iff $\dom{\Gamma_1} \cap \dom{\Gam
 In the Rocq implementation we implement local typing contexts as finite maps of 
 participants, which are represented as natural numbers, and local type trees.
 We use the red-black tree based finite map implementation of the MMaps library \cite{mmaps}.
-\begin{tcb}{Rocq}
-Module M := MMaps.RBT.Make(Nat).
-Module MF := MMaps.Facts.Properties Nat M.
-Definition tctx: Type := M.t ltt.
-\end{tcb}
+
 
 \begin{remark}
 From now on, we assume the all the types in the local type contexts always have non-empty continuations.

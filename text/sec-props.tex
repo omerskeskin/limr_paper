@@ -56,7 +56,7 @@ In the inductive \lstin{safe}, the constructor \lstin{safety_red} corresponds to
 \rulesafereduce. Then \lstin{safeC} is defined as the greatest fixed point of \lstin{safe}.
 
 We have that local type contexts with associated global types are always safe.
-\begin{theorem}[Safety by Association]
+\begin{theorem}[Safety by Association \rocqlink{todo}]
   If \lstin{assoc gamma g} then \lstin{safeC gamma}.
 \end{theorem}
 \subsection{Fairness and Liveness}
@@ -79,7 +79,7 @@ We start by defining the general notion of a reduction path \cite[Def. 2.6]{baie
 \end{definition}
 We won't be distinguishing between finite and infinite reduction paths and refer to them both as just 
 \textit{(reduction) paths}. Note that the above definition is general for LTSs, by \textit{state} we will 
-be referring to local type contexts, global types or sessions, depending on the contexts.
+be referring to local type contexts, global types or sessions, depending on our application.
 
 In Rocq, we define reduction paths using possibly infinite cosequences of pairs of states 
 (which will be \lstin{tctx}, \lstin{gtt} or \lstin{session} in this paper) and \lstin{option label}:
@@ -109,12 +109,7 @@ For example, $S_0 \xrightarrow{\lambda_0} \S_1 \xrightarrow{\lambda_1} S_2$ woul
 Note that this definition doesn't require the transitions in the \lstin{coseq} to actually be valid.
 We achieve that using the coinductive predicate \lstin{valid_path_GC {A:Type} (V: A-> label -> A-> Prop)},
 where the parameter \lstin{V} is a \textit{transition validity predicate}, capturing if a one-step transition is 
-valid. \lstin{valid_path_GC V conil} holds if 
-For all \lstin{V}, \lstin{valid_path_GC V conil} and 
-\lstin{forall x, valid_path_GC V (cocons (x, None) conil)} hold, and 
-\lstin{valid_path_GC V cocons (x, Some l) (cocons (y, l') xs) } holds if
-the transition validity predicate \lstin{V x l y} and 
-\lstin{valid_path_GC V (cocons (y, l') xs)} hold. We use different \lstin{V} based on our application,
+valid.  We use different \lstin{V} based on our application,
 for example in the context of local type context reductions \lstin{V gamma gamma'}
 
 That is, we only allow synchronised communications in a valid local type context reduction path.
@@ -152,6 +147,7 @@ all fair paths that start from  $\Gamma$ are also live.
 
 
 \begin{example}\label[examples]{exam:live}
+  \todo{redo}
   Consider the contexts $\Gamma, \Gamma'$ and  $\Gamma_\tend$ from 
   Example \ref{exam:reductions}. One possible reduction path is 
   $\Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}} \Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}} \dots$. 
@@ -178,12 +174,10 @@ all fair paths that start from  $\Gamma$ are also live.
 \cref{def-fair-live} , while intuitive, is not really convenient for a Rocq formalisation due to 
 the existential statements contained in them. It would be ideal if these properties could
 be expressed as a least or greatest fixed point, which could then be formalised via Rocq's 
-inductive or coinductive (via Paco) types. To do that, we turn to Linear Temporal Logic (LTL) 
-\cite{pnueli1977temporal}.
-\todo{these may go}
-\newcommand{\until}{\mathcal{U}}
-\newcommand{\wntil}{\mathcal{W}}
-Fairness and liveness for local type context paths \cref{def-fair-live} can be defined in Linear Temporal Logic (LTL). 
+inductive or coinductive (via Paco) types. 
+To achieve this, we recast fairness and liveness for local type context paths 
+in Linear Temporal Logic (LTL) 
+\cite{pnueli1977temporal}. 
 Specifically, define atomic propositions $\mathtt{enabledComm}_{\prt{p},\prt{q},\ell}$ such that
 $(\Gamma, \lambda) \models \mathtt{enabledComm}_{\prt{p},\prt{q},\ell} \iff 
 \Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell}}$, 
@@ -208,7 +202,6 @@ $\lozenge$ and $\square$ can be characterised as least and greatest fixed points
 \begin{itemize}
   \item $\lozenge P$ is the least solution to $\lozenge P \equiv P \lor \ocircle (\lozenge P)$
   \item $\square P $ is the greatest solution to $\square P \equiv P \land \ocircle (\square P)$
-  \item $P \until Q$ is the least solution to $P \until Q \equiv Q \lor (P \land \ocircle (P \until Q))$
 \end{itemize}
 Thus fairness and liveness correspond to greatest fixed points, which can be defined coinductively.
 
@@ -255,16 +248,58 @@ $\pp$ and $\pq$ is enabled, it stays enabled until a transition between $\pp$ an
 ($\square \lozenge \mathtt{enabledComm}_{\pp,\pq} \implies \square \lozenge \mathtt{headComm_{\pp,\pq}}$) and 
 weak fairness ($ \lozenge \square \mathtt{enabledComm}_{\pp,\pq} \implies \square \lozenge \mathtt{headComm_{\pp,\pq}}$).
 \end{remark}
-\subsection{Rocq Proof of Liveness by Association}
+With these definitions we can now prove that local type contexts associated with a global type are live,
+which is the most involved of the results mechanised in this work.
 We now detail the Rocq Proof that associated local type contexts are also live.
 \begin{remark}
   We once again emphasise that all global types mentioned are assumed to be balanced (\cref{def-balance}).
   Indeed association with non-balanced global types doesn't guarantee liveness. 
   As an example, consider $\Gamma$ from Example \ref{exam:reductions}, which is associated with 
   $\G$ from Example \ref{exam:assoc}. Yet we have shown in Example \ref{exam:live} that $\Gamma$
-  is not a live type context. This is not surprising as Example \ref{example-balance} shows
-  that $\G$ is not balanced.  
+  is not a live type context. This is not surprising as $\G$ is not balanced.  
 \end{remark}
+\begin{theorem}[Liveness by Association \rocqlink{todo}]\label{theo-ctx-live}
+If \lstin{assoc gamma g} then \lstin{gamma} is live.  
+\end{theorem}
+\begin{proof} (Simplified, Outline) Our proof proceeds in two steps. 
+First, we prove that the typing context obtained by direct projections of \lstin{g},
+that is, \lstin{gamma_proj = } $\{ \pp_i : \G \proj{\pp_i} \SEP \pp_i \in \participant{\G}\}$, is live. 
+We then leverage
+\cref{theo-completeness} to show that if \lstin{gamma_proj} is live, so is \lstin{gamma}. 
+
+The proof that \lstin{gamma_proj} is live proceeds by well-founded induction on the tree height \cite{clrs} of 
+the grafting (\cref{lem-grafting}) of the global type \lstin{g}.
+Suppose  \lstin{gamma_proj} $\lts{\lblsend{p}{q}{\ell(S)}}$ (the case for the receive is similar and omitted), 
+and \lstin{xs} is a fair local type context reduction path beginning with \lstin{gamma_proj}.
+To show that \lstin{xs} is live we need to show the 
+existence of a  $\lblsync{p}{q}{\ell}$ transition in \lstin{xs}. 
+We prove the following helper lemmas:
+\begin{itemize}
+  \item The height of the \lstin{p}-grafting of \lstin{g} is not smaller than the \lstin{q}-grafting \rocqlink{todo}.
+  \item If the \lstin{p}-grafting and \lstin{q}-grafting of a global type \lstin{g'} 
+  have the same height, then any fair path beginning with the direct projection context of \lstin{g'} 
+  eventually contains a $\lblsync{p}{q}{\ell}$ transition \rocqlink{todo}.
+  \item The height of the \lstin{p}-grafting of \lstin{g} strictly decreases 
+  with every transition involving \lstin{q} \rocqlink{todo},
+  and doesn't increase with the transitions not involving \lstin{q} \rocqlink{todo}.
+\end{itemize}
+These lemmas followed by well-founded induction on the height of the \lstin{p}-grafting of the 
+global type the head of \lstin{xs} is projected from gives the desired transition. 
+
+In the second step of the proof we extend association on to paths to get, for each local type context reduction path 
+\lstin{xs} that begins with \lstin{gamma}, another local reduction path \lstin{ys} beginning with \lstin{gamma_proj}
+such that the elements of \lstin{xs} are subtypes (subtyping on contexts defined pointwise) 
+of the corresponding elements of \lstin{ys}. This is obtained from \cref{theo-completeness}, however the statement of
+\cref{theo-completeness} is implemented as an \lstin{exists} statement
+that lives in \lstin{Prop}, hence we need to use the \lstin{constructive_indefinite_description} axiom
+to construct a \lstin{CoFixpoint} returning the desired cosequence \lstin{ys}. The proof then follows by the definition of
+subtyping (\cref{def:subtyping}).
+
+
+Suppose \lstin{gamma} $\rdc^*$ \lstin{gamma'}, then by \cref{theo-completeness}
+\lstin{assoc gamma' g'} for some \lstin{g'}, and hence by \cref{lem-livectx-helper} any
+fair path starting from \lstin{gamma'} is live, as needed. 
+\end{proof}
 Our proof proceeds in the following way:
 \begin{enumerate}
   \item Formulate an analogue of fairness and liveness for global type reduction paths.

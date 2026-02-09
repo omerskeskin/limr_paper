@@ -159,17 +159,16 @@ global type trees.
 \begin{definition}[Global type trees]
   \label[definiton]{def:global_type_trees}
   We define global type trees coinductively as follows: 
-  
-  \begin{minipage}{0.45\textwidth}
+  \begin{minipage}{0.47\textwidth}
   \begin{align*}
-    \G &::= \quad \tend 
+\G &::= \quad \tend 
      \SEP \GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\G_i}_{i\in I}
     \end{align*}  
   \end{minipage}
-    \begin{minipage}{0.45\textwidth}
+    \begin{minipage}{0.50\textwidth}
     \begin{tcb}{Rocq}
     CoInductive gtt: Type :=
-    | gtt_end    : gtt
+    | gtt_end    : gtt 
     | gtt_send   : part -> part -> list (option (sort*gtt)) -> gtt.
     \end{tcb}  
     \end{minipage}
