@@ -183,36 +183,6 @@ inductive or coinductive (via Paco) types. To do that, we turn to Linear Tempora
 \todo{these may go}
 \newcommand{\until}{\mathcal{U}}
 \newcommand{\wntil}{\mathcal{W}}
-\begin{definition}[Linear Temporal Logic]
-  The syntax of LTL formulas $\psi$ are defined inductively with boolean connectives $\land, \lor, \lnot$,
-  atomic propositions $P, Q, ..$, and temporal operators $\square$ (\textit{always}), $\lozenge$ (\textit{eventually}),
-  $\ocircle$ \textit{next} and $\mathcal{U}$. 
-  Atomic propositions are evaluated over pairs of states and transitions $(S,i, \lambda_i)$ 
-  (for the final state $S_n$ in a finite reduction path we take that there is a null transition 
-  from $S_n$, corresponding to a \lstin{None} transition in Rocq) while 
-  LTL formulas are evaluated over reduction paths 
-  \footnote{These semantics assume that the reduction paths are infinite. In our implementation we do a 
-  sleight-of-hand and, for the purposes of the $\square$ operator, 
-  treat a terminating path as entering a dump state $S_{\bot}$ (which corresponds to \lstin{conil} in Rocq)
-  and looping there infinitely.}. 
-  The satisfaction relation $\rho \models \psi$
-  (where $\rho=S_0 \xrightarrow{\lambda_0} S_1 ..$ is a reduction path, 
-  and $\rho_i$ is the suffix of $\rho$ starting from index $i$) 
-  is given by the following:
-  \begin{itemize}
-    \item $\rho \models P \iff (S_0, \lambda_0) \models P$.
-    \item $\rho \models \psi_1 \land \psi_2 \iff 
-    \rho \models \psi_1$ and $\rho \models \psi_2$ 
-    \item $\rho \models \lnot \psi_1  \iff$ 
-    not $\rho \models \psi_1$
-    \item $\rho \models \ocircle \psi_1 \iff \rho_1 \models \psi_1$
-    \item $\rho \models \lozenge \psi_1 \iff \exists k \geq 0, \rho_k \models \psi_1$
-    \item $\rho \models \square \psi_1 \iff \forall k \geq 0, \rho_k \models \psi_1$
-    \item $\rho \models \psi_1 \until \psi_2 \iff \exists k \geq 0, \rho_k \models \psi_2$ and 
-    $\forall j < k, \rho_j \models \psi_1$
-  \end{itemize}
-\end{definition}
-
 Fairness and liveness for local type context paths \cref{def-fair-live} can be defined in Linear Temporal Logic (LTL). 
 Specifically, define atomic propositions $\mathtt{enabledComm}_{\prt{p},\prt{q},\ell}$ such that
 $(\Gamma, \lambda) \models \mathtt{enabledComm}_{\prt{p},\prt{q},\ell} \iff 

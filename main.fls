@@ -720,10 +720,6 @@ OUTPUT main.listing
 INPUT ./main.listing
 INPUT ./main.listing
 INPUT main.listing
-OUTPUT main.listing
-INPUT ./main.listing
-INPUT ./main.listing
-INPUT main.listing
 INPUT ./text/sec-props.tex
 INPUT ./text/sec-props.tex
 INPUT text/sec-props.tex
@@ -737,10 +733,6 @@ INPUT ./main.listing
 INPUT main.listing
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmsso10.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmssbo10.tfm
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/rm-lmtt9.tfm
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/rm-lmtt8.tfm
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/rm-lmtt8.tfm
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmtt9.tfm
 OUTPUT main.listing
 INPUT ./main.listing
 INPUT ./main.listing
@@ -776,6 +768,10 @@ INPUT main.listing
 INPUT ./text/sec-proc-props.tex
 INPUT ./text/sec-proc-props.tex
 INPUT text/sec-proc-props.tex
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/rm-lmtt9.tfm
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/rm-lmtt8.tfm
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/rm-lmtt8.tfm
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmtt9.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmtt8.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmtt8.tfm
 OUTPUT main.listing

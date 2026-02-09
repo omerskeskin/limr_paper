@@ -140,31 +140,15 @@ of local contexts under the \lstin{M.Equal} predicate from the MMaps library.
   \begin{align*}
   \T_{\prt{p}} &= \procoutmult{\prt{q}}{\ell_0(\tint).\T_{\prt{p}}\;,\;\ell_1(\tint).\tend}\\
   \T_{\prt{q}} &= \procinmult{\prt{p}}{\ell_0(\tint).\T_{\prt{q}}\;,  \; \ell_1(\tint).\procoutsingle{\prt{r}}{\ell_2(\tint)}{\tend}}\\
-  \T_{\prt{r}} &= \procinmult{\prt{q}}{\ell_2(\tint).\tend}\\
+  \T_{\prt{r}} &= \procinmult{\prt{q}}{\ell_2(\tint).\tend}
 \end{align*}
-
-and $\Gamma = {\prt{p}}:\T_{\prt{p}}, \; {\prt{q}} : \T_{\prt{q}},\; {\prt{r}}: \T_{\prt{r}}$. We have the following one step reductions from $\Gamma$:
-
-\begin{align} 
-  \label{eq:red1} \Gamma \qquad&\lts{\lblsend{p}{q}{\ell_0(\tint)}} && \Gamma\\
-  \label{eq:red2} \Gamma \qquad& \lts{\lblrec{\prt{q}}{\prt{p}}{\ell_0(\tint)}} && \Gamma\\
-  \label{eq:red3} \Gamma \qquad&\lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}} && \Gamma\\
-  \label{eq:red4} \Gamma \qquad&\lts{\lblrec{\prt{r}}{\prt{q}}{\ell_2(\tint)}} && {\prt{p}} : \T_{\prt{p}}, \; {\prt{q}}: \T_{\prt{q}}, {\prt{r}} : \tend \\
-  \label{eq:red5} \Gamma \qquad&\lts{\lblsend{\prt{p}}{\prt{q}}{\ell_1(\tint)}} && {\prt{p}} : \tend, \; {\prt{q}}: \T_{\prt{q}}, {\prt{r}} : \T_{\prt{r}} \\
-  \label{eq:red6} \Gamma \qquad& \lts{\lblrec{\prt{q}}{\prt{p}}{\ell_1(\tint)}} && {\prt{p}} : \T_{\prt{p}}, \; {\prt{q}}: \procoutsingle{\prt{r}}{\ell_3(\tint)}{\tend}, {\prt{r}} : \T_{\prt{r}}\\
-  \label{eq:red7} \Gamma \qquad& \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_1}} && {\prt{p}} : \tend, \; {\prt{q}}: \procoutsingle{\prt{r}}{\ell_3(\tint)}{\tend}, {\prt{r}} : \T_{\prt{r}}
-\end{align}
-
-\noindent and by \eqref{eq:red3} and \eqref{eq:red7} we have the synchronized reductions 
- $\Gamma \lts{} \Gamma$ and 
-$\\ \Gamma \lts{} \Gamma' = {\prt{p}} : \tend, \; {\prt{q}}: \procoutsingle{\prt{r}}{\ell_2(\tint)}{\tend}, {\prt{r}} : \T_{\prt{r}}$. Further reducing $\Gamma'$ we get
-
-\begin{align} 
-  \label{eq:red8} \Gamma' \qquad&\lts{\lblsend{\prt{q}}{\prt{r}}{\ell_2(\tint)}} && {\prt{p}} : \tend, \; {\prt{q}}: \tend, {\prt{r}} : \T_{\prt{r}}\\
-  \label{eq:red9} \Gamma' \qquad&\lts{\lblrec{\prt{r}}{\prt{q}}{\ell_2(\tint)}} && {\prt{p}} : \tend, \; {\prt{q}}: \procoutsingle{\prt{r}}{\ell_3(\tint)}{\tend}, {\prt{r}} : \tend\\
-  \label{eq:red10} \Gamma' \qquad&\lts{\lblsync{\prt{q}}{\prt{r}}{\ell_2}} && {\prt{p}} : \tend, \; {\prt{q}}: \tend, {\prt{r}} : \tend
-\end{align}
-and by \eqref{eq:red10} we have the reduction $\Gamma' \lts{} {\prt{p}} : \tend, \; {\prt{q}}: \tend, {\prt{r}} : \tend = \Gamma_\tend$, which results in a context that can't be reduced any further.
+and $\Gamma = \{{\prt{p}}:\T_{\prt{p}}, \; {\prt{q}} : \T_{\prt{q}},\; {\prt{r}}: \T_{\prt{r}}\}$.
+We have the reductions $\Gamma\lts{\lblsend{p}{q}{\ell_0(\tint)}} \Gamma$ and
+$\Gamma \lts{\lblrec{\prt{q}}{\prt{p}}{\ell_0(\tint)}} \Gamma$, which synchronise to give the reduction
+and $\Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}}  \Gamma$. Similarly via synchronised communication of $\pp$ and $\pq$
+via message label $\ell_1$ we get $\Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_1}} \Gamma'$
+where $\Gamma'$ is defined as  $\{{\prt{p}} : \tend, \; {\prt{q}}: 
+\procoutsingle{\prt{r}}{\ell_2(\tint)}{\tend}, {\prt{r}} : \T_{\prt{r}}\}$.
 
 In Rocq, $\Gamma$ is defined the following way:
 \begin{tcb}{Rocq}
@@ -176,11 +160,8 @@ CoFixpoint T_q := ltt_recv prt_p [Some (sint,T_q); Some (sint, ltt_send prt_r [N
 Definition T_r := ltt_recv prt_q [None;None; Some (sint,ltt_end)].
 Definition gamma := M.add prt_p T_p (M.add prt_q T_q (M.add prt_r T_r M.empty)).
 \end{tcb}
-
-Now \cref{eq:red1} can be stated with the following piece of Rocq
-\begin{tcb}{Rocq}
-Lemma red_1 : tctxR gamma (lsend prt_p prt_q (Some sint) 0) gamma.
-\end{tcb}
+Now $\Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}}  \Gamma$  can be expressed as 
+\lstin{tctxR gamma (lsend prt_p prt_q (Some sint) 0) gamma}.
 \end{example}
 
 \subsection{Global Type Reductions}
@@ -211,14 +192,16 @@ As with local typing contexts, we can also define reductions for global types.
     \enspace \rulename{GR-Ctx}
 \end{array}
 \]
-In Rocq $\lbltrans{\G}{\lblsync{p}{q}{\ell_k}}{\G'}$ is expressed with the coinductively defined (via Paco)
-predicate \lstin{gttstepC G G' p q k}.
 \end{definition}
 \rulegredsendrec says that a global type tree with root $\pp \rightarrow \pq$ can
 transition to any of its children corresponding to the message label choosen by $\pp$. 
 \rulegredctx says that if the subjects of $\alpha$ are disjoint from the root and all its children
 can transition via $\alpha$, then the whole tree can also transition via $\alpha$, with the root remaining 
 the same and just the subtrees of its children transitioning.
+
+In Rocq global type reductions are expressed using the coinductively defined predicate \lstin{gttstepC}. 
+For example, $\lbltrans{\G}{\lblsync{p}{q}{\ell_k}}{\G'}$ translates to \lstin{gttstepC G G' p q k}. 
+We refer to \cite{srpaper} for details.
 
 \subsection{Association Between Local Type Contexts and Global Types}
 We have defined local type contexts which specifies protocols bottom-up 
@@ -249,7 +232,6 @@ obey the specification described by the global type tree $\G$.
   \begin{align*}
   \G := \GvtPair{\prt{p}}{\prt{q}}{\ell_0(\tint).\G,\ell_1(\tint).\GvtPair{\prt{q}}{\prt{r}}{\ell_2(\tint).\tend}}
   \end{align*}
-  Note that $\G$ is the global type that was shown to be unbalanced in Example \ref{example-balance}.
   In fact, we have $\Gamma(\ps) = \projfn{\G}{\ps}$ for $\ps \in \{\prt{p},\pq,\pr\}$. 
   Similarly, we have $\Gamma' \assoc \G'$ where
   \begin{align*}
