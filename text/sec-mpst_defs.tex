@@ -112,32 +112,12 @@ In Rocq, the subtyping relation \lstin{subtypeC : ltt -> ltt -> Prop} is express
 \lstin{Paco} library \cite{paco}, 
 for details of we refer to \cite{SynchronousSubtyping}.
 \subsection{Global Types and Type Trees}
-While local types specify the behaviour of one role in a protocol, 
-global types give a bird's eye view of the whole protocol.
-\begin{definition}[Global type]
-  \label[definition]{def:global_types}
-  We define global types inductively as follows: 
-  \begin{align*}
-    \mathbb{G} &::= \quad \tend 
-     \SEP \GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\mathbb{G}_i}_{i\in I}
-     \SEP \textbf{t}
-     \SEP \mu \textbf{t}.\mathbb{G}
-    \end{align*}
-
-    We further inductively define the function $\funprt(\mathbb{G})$ that denotes the participants of type $\mathbb{G}$:
-    \begin{align*}
-      &\funprt(\tend)=\funprt(\textbf{t})=\emptyset\\
-      &\funprt(\GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\mathbb{G}_i}_{i\in I})=
-      \{\prt{p},\prt{q}\} \cup \bigcup _{i \in I} {\funprt(\mathbb{G}_i)}\\
-      &\funprt(\mu \textbf{T}.\mathbb{G})=\funprt(\mathbb{G})
-    \end{align*}
-\end{definition}
+We now define global types which give a bird's eye view of the whole protocol.
+As before, we work directly on infinite trees and omit the details which can be found in 
+\cite{srpaper}.
 $\tend$ denotes a protocol that has ended, $\GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\mathbb{G}_i}_{i\in I}$
 denotes a protocol where for any $i \in I$, participant $\pp$ may send a value of sort 
 $S_i$ to another participant $\pq$ via message label $\ell_i$, after which the protocol continues as $\mathbb{G}_i$.
-
-As in the case of local types, we adopt an equirecursive approach and work exclusively on possibly infinite 
-global type trees.
 \begin{definition}[Global type trees]
   \label[definiton]{def:global_type_trees}
   We define global type trees coinductively as follows: 
@@ -153,9 +133,18 @@ global type trees.
     | gtt_end    : gtt 
     | gtt_send   : part -> part -> list (option (sort*gtt)) -> gtt.
     \end{tcb}  
-    \end{minipage}
-    
-  \end{definition}
+    \end{minipage}    
+\end{definition}
+We further define the function $\funprt(\G)$ that denotes the 
+participants of the global type $\G$ as the least solution 
+\footnote{Here we adopt a simplified presentation as $\funprt(\G)$ 
+is actually defined by extending it from an inductively defined function on 
+syntactic types, we refer to \cite{srpaper} for details.} to the following equations:
+\begin{align*}
+  &\funprt(\tend)=\emptyset\\
+  &\funprt(\GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\G_i}_{i\in I})=
+      \{\prt{p},\prt{q}\} \cup \bigcup _{i \in I} {\funprt(\G_i)}
+\end{align*}
 We extend the function $\funprt$ onto trees by defining $\funprt(\G)=\funprt(\mathbb{G})$
 where the global type $\mathbb{G}$ corresponds to the global type tree $\G$. Technical details 
 of this definition such as well-definedness can be found in \cite{srpaper,SynchronousSubtyping}. 
