@@ -43,14 +43,6 @@ We now give LTS semantics to local typing contexts, for which we first define th
     & \SEP \lblsend{p}{q}{\ell(S)} && \text{(${\prt{p}}$ sends a value of sort $S$ to ${\prt{q}}$ with message label $\ell$ )}\\
     & \SEP \lblsync{p}{q}{\ell} && \text{(A synchronized communication from $\pp$ to $\pq$ occurs via message label $\ell$)}\\
   \end{align*}
-In Rocq they are defined as follows:
-  \begin{tcb}{Rocq}
-Notation opt_lbl := nat.
-Inductive label: Type :=
-  | lrecv: part -> part -> option sort -> opt_lbl -> label
-  | lsend: part -> part -> option sort -> opt_lbl -> label
-  | lcomm: part -> part -> opt_lbl -> label.
-  \end{tcb}
 \end{definition}
 Next we define labelled transitions for local type contexts.
 \begin{definition}[Typing context reductions] \label[definition]{def-ctx-red}
@@ -105,40 +97,34 @@ $\ruleredsend$ and $\ruleredrec$, express a single participant sending or receiv
 $\ruleredsync$ expresses a synchronized communication where one participant sends while another receives,
 and they both progress with their continuation. $\ruleredvar$ shows how to extend a context.  
 
-In Rocq typing context reductions are defined the following way:
+In Rocq typing context reductions are defined with the predicate \lstin{tctxR} \rocqlink{todo}.
+
+\begin{minipage} {0.45\textwidth}
+\begin{tcb}{Rocq}
+Notation opt_lbl := nat.
+Inductive label: Type :=
+  | lrecv: part -> part -> option sort -> opt_lbl -> label
+  | lsend: part -> part -> option sort -> opt_lbl -> label
+  | lcomm: part -> part -> opt_lbl -> label.
+  \end{tcb}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
 \begin{tcb}[\tiny]{Rocq}
 Inductive tctxR: tctx -> label -> tctx -> Prop :=
-  | Rsend: forall p q xs n s T,
-            p <> q ->
-            onth n xs = Some (s, T) ->
-            tctxR (M.add p (ltt_send q xs) M.empty) (lsend p q (Some s) n) (M.add p T M.empty)
+  | Rsend: ...
   | Rrecv: ...  
-  | Rcomm: forall p q g1 g1' g2 g2' s s' n (H1: MF.Disjoint g1 g2) (H2: MF.Disjoint g1' g2'), 
-            p <> q ->
-            tctxR g1 (lsend p q (Some s) n) g1'  ->
-            tctxR g2 (lrecv q p (Some s') n) g2' ->
-            subsort s s' ->
-            tctxR (disj_merge g1 g2 H1) (lcomm p q n) (disj_merge g1' g2' H2)
-  | RvarI: forall g l g' p T,
-            tctxR g l g' ->
-            M.mem p g = false ->
-            tctxR (M.add p T g) l (M.add p T g')
+  | Rcomm: ...
+  | RvarI: ...
   | Rstruct: forall g1 g1' g2 g2' l, tctxR g1' l g2' ->
-    M.Equal g1 g1' ->
-    M.Equal g2 g2' ->
-    tctxR g1 l g2.
+    M.Equal g1 g1' -> M.Equal g2 g2' -> tctxR g1 l g2.
 \end{tcb}
+\end{minipage}
 
-\lstin{Rsend}, \lstin{Rrecv} and \lstin{RvarI} are straightforward 
-translations of $\rulename{ $\Gamma$ - \andsign}$,
-$\rulename{ $\Gamma$ - $\sendsign$}$ and 
-$\rulename{$\Gamma$ -,}$. \lstin{Rcomm} captures $\rulename{$\Gamma-\sendsign\andsign $}$
-using the \lstin{disj_merge} function we defined for the compositions, and requires a proof 
-that the contexts given are disjoint to be applied. \lstin{RStruct} captures the indistinguishability
+The first four constructors in the definition of \lstin{tctxR} corresponds to the 
+rules in \cref{def-ctx-red}, and \lstin{Rstruct} expresses the indistinguishability
 of local contexts under the \lstin{M.Equal} predicate from the MMaps library. 
 
-
-\noindent We give an example to illustrate typing context reductions.
+We illustrate typing context reductions with an example.
 \begin{example}\label{exam:reductions}
   Let
   \begin{align*}
@@ -157,7 +143,7 @@ We further have that $\Gamma' \lts{\lblsync{q}{r}{\ell_2}} \Gamma_\mathtt{end}$ 
 $\Gamma_{\mathtt{end}}$ is defined as 
 $\{{\prt{p}}:\tend, \; {\prt{q}} : \tend,\; {\prt{r}}: \tend \}$.
 
-In Rocq, $\Gamma$ is defined the following way:
+In Rocq, $\Gamma$ is defined the following way \rocqlink{todo}:
 \begin{tcb}{Rocq}
 Definition prt_p:=0.
 Definition prt_q:=1.

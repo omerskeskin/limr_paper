@@ -32,16 +32,18 @@ CoInductive ltt: Type :=
 \end{minipage}
 \end{definition}
 In the above definition, $\tend$ represents a role that has finished communicating.
-$\ltsend{\prt{p}}{\ell_i(\S_i).\tlt_i}_{i \in I}$ denotes a role that may, from any $i \in I$, 
+$\ltsend{\prt{p}}{\ell_i(\S_i).\T}_{i \in I}$ denotes a role that may, from any $i \in I$, 
 receive a value of sort $S_i$ with message label $\ell_i$ and continue with $\tlt_i$.
-Similarly, $\ltrec{\prt{p}}{\ell_i(\S_i).\tlt_i}_{i \in I}$ represents a role that may choose
-to send a value of sort $S_i$ with message label $\ell_i$ and continue with $\tlt_i$ for any $i \in I$.
+Similarly, $\ltrec{\prt{p}}{\ell_i(\S_i).\T_i}_{i \in I}$ represents a role that may choose
+to send a value of sort $S_i$ with message label $\ell_i$ and continue with $\T_i$ for any $i \in I$.
 
 In Rocq we represent the continuations using a \lstin{list} of \lstin{option} types. 
 In a continuation \lstin{gcs : list (option(sort*ltt))}, index \lstin{k} (using zero-indexing) being equal to 
 \lstin{Some (s_k, T_k)} means that $\ell_k (S_k).\T_k$ is available in the continuation.
 Similarly index \lstin{k} being equal to \lstin{None} or being out of bounds of the list means 
-that the message label $\ell_k$ is not present in the continuation. 
+that the message label $\ell_k$ is not present in the continuation. The function \lstin{onth} \rocqlink{todo} 
+formalises this convention
+in Rocq.
 \begin{remark}
   Note that Rocq allows us to create types such as \lstin{ltt_send q []} which 
   don't correspond to well-formed local types as the continuation is empty.
@@ -94,7 +96,7 @@ receive $\tnat$ or $\tint$.
 In Rocq, the subtyping relation \lstin{subtypeC : ltt -> ltt -> Prop} is expressed as a greatest fixpoint using the 
 \lstin{Paco} library \cite{paco}, 
 for details of we refer to \cite{SynchronousSubtyping}.
-\subsection{Global Types and Type Trees}
+\subsection{Global Type Trees}
 We now define global types which give a bird's eye view of the whole protocol.
 As before, we work directly on infinite trees and omit the details which can be found in 
 \cite{srpaper}.
@@ -124,7 +126,7 @@ participants of the global type $\G$ as the least solution
 is actually defined by extending it from an inductively defined function on 
 syntactic types, we refer to \cite{srpaper} for details.} to the following equations:
 \begin{align*}
-  &\funprt(\tend)=\emptyset\\
+  &\funprt(\tend)=\emptyset \quad
   &\funprt(\GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\G_i}_{i\in I})=
       \{\prt{p},\prt{q}\} \cup \bigcup _{i \in I} {\funprt(\G_i)}
 \end{align*}
@@ -150,27 +152,17 @@ We now define coinductive projections with plain merging
       \item $\G = \GvtPair{\prt{r}}{\prt{q}}{\ell_i(S_i).\G_i}_{i \in I}$ implies 
       $\T = \procoutset{\prt{q}}{\ell_i(\S_i)}{\T_i}{i \in I}$ and $\forall i \in I, \G\proj{r}\T_i $ \hfill {\ruleprojout}
       \item $\G = \GvtPair{\prt{p}}{\prt{q}}{\ell_i(S_i).\G_i}_{i \in I} \text{and } {\prt{r}} \notin \{{\prt{p}},{\prt{q}}\}$ implies 
-      that there are $\T_i, i \in I$ such that $\T = \bigsqcap_{i \in I} \T_i$ and $\forall i \in I, \G\proj{r}\T_i $ \hfill {\ruleprojcont}
+      that $\forall i \in I, \G_i\proj{r}\T $ \hfill {\ruleprojcont}
     \end{itemize}
-    where $\bigsqcap$ is the plain merging operator,
-    defined  as
-    \[
-    \T_1 \bigsqcap \T_2 = 
-    \begin{cases}
-    \T_1 & \text{if} \enspace \T_1 = \T_2\\
-    \text{undefined} & \text{otherwise}
-    \end{cases}
-    \]
 \end{definition}
+
 Informally, the projection of a global type tree $\G$ onto a participant $\prt{r}$
-extracts a specification for participant  $\prt{r}$ from the protocol whose bird's-eye view 
+extracts a role for participant  $\prt{r}$ from the protocol whose bird's-eye view 
 is given by $\G$. \ruleprojend expresses that if $\prt{r}$ is not a participant of $\G$ then
 $\prt{r}$ does nothing in the protocol. \ruleprojin and \ruleprojout handle the cases where $\prt{r}$
 is involved in a communication in the root of $\G$. $\ruleprojcont$ says that, if $\prt{r}$ is not
-involved in the root communication of $\G$, then the only way it knows its role in the protocol 
-is if there is a role for it that works no matter what choices $\pp$ and $\pq$ make in their communication.
-This "works no matter the choices of the other participants" property is captured by the merge operations.
-
+involved in the root communication of $\G$ and all continuations of $\G$ project on to the same type,
+then $\G$ also projects on to that type.
 In Rocq, projection is defined as a \lstin{Paco} greatest fixpoint as the relation
 \lstin{projectionC : gtt -> part -> ltt -> Prop}.
 
@@ -195,37 +187,29 @@ least $k$.
 We omit the technical details of this definition and the Rocq implementation, they can be found in 
 \cite{SynchronousSubtyping} and \cite{srpaper}.
 
-Intutively, balancedness is a regularity condition that imposes a notion of \textit{liveness} on the protocol
+Balancedness is a regularity condition that imposes a notion of \textit{liveness} on the protocol
 described by the global type tree. Indeed, our liveness results in \cref{sec-proc-props} 
 hold only for balanced global types. Another reason for formulating balancedness is that it allows 
 us to use the "grafting" technique, turning proofs by coinduction on infinite trees to proofs by induction
 on finite global type tree contexts.
 
-\begin{definition}[Global Type Tree Context]\label{def:global-ctx}
+\begin{definition}[Global Type Tree Contexts and Grafting]\label{def:global-ctx}
   Global type tree contexts are defined inductively with the following syntax:
-  
-  \begin{minipage}{0.45\textwidth}
+
+  \begin{minipage}{0.4\textwidth}
   \begin{align*}
     \Gcx &::= \quad \GvtPair{p}{q}{\ell_i(S_i).\Gcx_i}_{i \in I} 
    \SEP \hole_i
   \end{align*}  
   \end{minipage}
-  \begin{minipage}{0.45\textwidth}
+  \begin{minipage}{0.5\textwidth}
   \begin{tcb}{Rocq}
 Inductive gtth: Type :=
   | gtth_hol    : fin -> gtth
   | gtth_send   : part -> part -> list (option (sort * gtth)) -> gtth.
   \end{tcb} 
   \end{minipage}
-
-  We additionally define $\funprt$ and \lstin{ishParts} on contexts analogously 
-  to $\funprt$ and \lstin{isgPartsC} on trees. 
-\end{definition}
-A global type tree context can be thought of as the finite prefix of a global type 
-tree, where holes $\hole_i$ indicate the cutoff points. Global type tree contexts
-are related to global type trees with the grafting operation.
-\begin{definition}[Grafting]
-  Given a global type tree context $\Gcx$ whose holes are in the indexing set $I$
+   Given a global type tree context $\Gcx$ whose holes are in the indexing set $I$
   and a set of global types $\{\G_i\}_{i \in I}$,  the grafting $\Gcx[\G_i]_{i \in I}$ denotes 
   the global type tree obtained by substituting $\hole_i$ with $\G_i$ in $\Gcx$.
 
@@ -234,19 +218,22 @@ are related to global type trees with the grafting operation.
   \lstin{typ_gtth : list (option gtt) -> gtth -> gtt -> Prop}.
   \lstin{typ_gtth gs gcx gt} means that the grafting of the set of global type trees 
   \lstin{gs} onto the context \lstin{gcx} results in the tree \lstin{gt}.
+  We additionally define $\funprt$ and \lstin{ishParts} on global type tree contexts analogously 
+  to $\funprt$ and \lstin{isgPartsC} on trees. 
 \end{definition}
-
-Furthermore, we have the following lemma that relates global type tree contexts to balanced
-global type trees.
+A global type tree context can be thought of as the finite prefix of a global type 
+tree, where holes $\hole_i$ indicate the cutoff points. Global type tree contexts
+are related to global type trees with the \textit{grafting} 
+operation that fills in the holes with type trees.
+The following lemma relates global type tree contexts to balanced
+global type trees. In particular, it allows us to turn proofs by coinduction on infinite trees 
+to proofs by induction on the grafting context.
 \begin{lemma}[Proper Grafting Lemma, \cite{srpaper}]\label[lemma]{lem-grafting}
 If \lstin{G} is a balanced global type tree and \lstin{isgPartsC p G}, then there is 
 a global type tree context \lstin{Gctx} and an option list of global type trees 
 \lstin{gs} such that \lstin{typ_gtth gs Gctx G}, \lstin{\~ ishParts p Gctx} and every \lstin{Some} element of \lstin{gs}
 is of shape \lstin{gtt_end}, \lstin{gtt_send p q} or \lstin{gtt_send q p}. 
 \end{lemma}
-\ref{lem-grafting} enables us to represent a coinductive global type tree featuring
-participant $\pp$ as the grafting of 
-a context that doesn't contain $\pp$ with a list of trees that are all of a certain structure.
 If \lstin{typ_gtth gs Gctx G}, \lstin{\~ ishParts p Gctx} and every \lstin{Some} element of \lstin{gs}
 is of shape \lstin{gtt_end}, \lstin{gtt_send p q} or \lstin{gtt_send q p}, then we call 
 the pair \lstin{gs} and \lstin{Gctx} as the $\pp$-grafting of \lstin{G}, expressed in Rocq as

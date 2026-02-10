@@ -9,45 +9,45 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: references.bib
 Warning--can't use both author and editor fields in Pischke2026
-You've used 44 entries,
+You've used 43 entries,
             2943 wiz_defined-function locations,
-            960 strings with 14947 characters,
-and the built_in function-call counts, 22406 in all, are:
-= -- 2467
-> -- 787
+            955 strings with 14810 characters,
+and the built_in function-call counts, 21976 in all, are:
+= -- 2426
+> -- 763
 < -- 14
-+ -- 291
-- -- 235
-* -- 1316
-:= -- 3112
-add.period$ -- 171
-call.type$ -- 44
-change.case$ -- 242
++ -- 282
+- -- 227
+* -- 1293
+:= -- 3047
+add.period$ -- 168
+call.type$ -- 43
+change.case$ -- 235
 chr.to.int$ -- 0
-cite$ -- 45
-duplicate$ -- 657
-empty$ -- 2063
-format.name$ -- 235
-if$ -- 5843
+cite$ -- 44
+duplicate$ -- 645
+empty$ -- 2025
+format.name$ -- 227
+if$ -- 5733
 int.to.chr$ -- 0
-int.to.str$ -- 44
-missing$ -- 45
-newline$ -- 249
-num.names$ -- 98
-pop$ -- 474
+int.to.str$ -- 43
+missing$ -- 43
+newline$ -- 244
+num.names$ -- 96
+pop$ -- 459
 preamble$ -- 1
-purify$ -- 201
+purify$ -- 195
 quote$ -- 0
-skip$ -- 1582
+skip$ -- 1555
 stack$ -- 0
-substring$ -- 962
-swap$ -- 225
+substring$ -- 957
+swap$ -- 224
 text.length$ -- 70
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 166
+type$ -- 164
 warning$ -- 1
-while$ -- 147
-width$ -- 46
-write$ -- 573
+while$ -- 145
+width$ -- 45
+write$ -- 562
 (There was 1 warning)

@@ -1,7 +1,7 @@
 \section{Properties of Sessions}\label{sec-proc-props}
 
 We give typing rules for the session calculus introduced in \ref{sec-procs}, and prove subject 
-reduction and progress for them. Then we define 
+reduction and deadlock freedom for them. Then we define 
 a liveness property for sessions, and show that processes typable by a local type context 
 that's associated with a global type tree are guaranteed to satisfy this liveness property.
 \subsection{Typing rules}
@@ -24,44 +24,6 @@ We distinguish between two kinds of typing judgements and type contexts.
     as $\Theta_\T, \Theta_\kf{e} \vdashp \PT : \T$, or in Rocq as 
     \lstin{typ_proc theta_T theta_e P T} or \lstin{theta_T, theta_e $\;\vdash$ P : T}.
 \end{enumerate}
-
-\begin{table}[h]
-{\footnotesize
-\[
-\begin{array}{@{}l@{}}
-  \inferrule%[\rulename{steq}]
-  {}
-  {\Theta \vdashp n\colon \texttt{nat}\qquad \Theta \vdashp i\colon \texttt{int}
-  \qquad \Theta \vdashp \mathtt{true}\colon \texttt{bool}\qquad \Theta \vdashp \mathtt{false}\colon \texttt{bool}\qquad \Theta,x\colon\ST \vdashp x\colon \ST}
-      \\[3mm]
-     \inferrule%[\rulename{steq}]
-  {\Theta \vdashp e\colon \texttt{nat}}
-  {\Theta \vdashp \mathtt{succ}\ e\colon \texttt{nat}}
-      \quad
-     \inferrule%[\rulename{steq}]
-  {\Theta \vdashp e\colon \texttt{int}}
-  {\Theta \vdashp \mathtt{neg}\ e\colon \texttt{int}}
-  \qquad
-     \inferrule%[\rulename{steq}]
-  {\Theta \vdashp e\colon \texttt{bool}}
-  {\Theta \vdashp \neg\ e\colon \texttt{bool}}
-      \\[3mm]
-     \inferrule%[\rulename{steq}]
-  {\Theta \vdashp e_1\colon \ST \quad \Theta \vdashp e_2\colon \ST}
-  {\Theta \vdashp  e_1\oplus e_2\colon \ST}
-  \qquad
-     \inferrule%[\rulename{steq}
-  {\Theta \vdashp e_1\colon \texttt{int} \quad \Theta \vdashp e_2\colon \texttt{int}}
-  {\Theta \vdashp \ e_1 > e_2\colon \texttt{bool}}
-  \qquad
-     \inferrule%[\rulename{steq}]
-  {\Theta \vdashp e\colon \ST \quad \ST \subso \ST'}
-  {\Theta \vdashp e\colon \ST'}
-\end{array}
-\]}
-\caption{Typing expressions}
-\label{tbl:expr}
-\end{table}
 \begin{table}[h]
 {\footnotesize
 \[
@@ -99,8 +61,10 @@ We distinguish between two kinds of typing judgements and type contexts.
 \caption{Typing processes}
 \label{tbl:proc}
 \end{table}
-\cref{tbl:expr} and \cref{tbl:proc} state the standard typing rules for expressions and processes which we don't elaborate on.
-We have a single rule for typing sessions:
+Typing rules for expressions are standard and can be found in e.g. \cite{SynchronousSubtyping}, and are therefore omitted.
+\cref{tbl:proc} state the standard \cite{srpaper,SynchronousSubtyping} typing rules for processes, 
+which we don't elaborate on.
+We additionally have a single rule for typing sessions:
 \[
 \inferrule[\rulename{t-sess}]{\forall i \in I: \qquad \vdashp \PT_i \colon \Gamma(\pp_i) \qquad 
 \Gamma \assoc \G}
@@ -113,7 +77,7 @@ types the process
 The subject reduction, progress and non-stuck theorems from \cite{srpaper} \todo{give theorem no}
 also hold in this setting, with minor changes in their statements and proofs. 
 We won't discuss these proofs in detail.
-\begin{lemma}
+\begin{lemma}[Typing after Unfolding \rocqlink{todo}]
   \label{lem-typ-unfold}
   If \lstin{gamma} $\vdashm$ \lstin{M}   and \lstin{M} $\Rrightarrow$ \lstin{M'} then \lstin{typ_sess M' gamma}.
 \end{lemma}
@@ -163,7 +127,7 @@ If \lstin{gamma} $\vdashm$ \lstin{M} and  \lstin{M} $\lts{}^*$ \lstin{M'} $\Rrig
 then \lstin{onth ell xs <> None}.
 \end{theorem} 
 The final, and the most intricate, session property we prove is liveness.
-\begin{definition}[Session Liveness]\label[definition]{def-live-sess}
+\begin{definition}[Session Liveness \rocqlink{todo}]\label[definition]{def-live-sess}
   Session $\M$ is live iff
   \begin{enumerate}
     \item ${\M}\longrightarrow^* {\M'} \Rrightarrow \pq \triangleleft \tout{\pp}{\ell_i}{x_i}.Q \;|\; \N$ implies 
@@ -216,7 +180,7 @@ for the "check if there is a transition involving a participant" part of the sch
 The use of this axiom is probably not necessary but it makes the proof easier. 
 \end{remark}
 
-\begin{theorem}[Liveness by Typing]\label{theo-sess-live}
+\begin{theorem}[Liveness by Typing \rocqlink{todo}]\label{theo-sess-live}
 For a session \lstin{Mp}, if \lstin{exists gamma gamma} $\vdashm$ \lstin{Mp} then \lstin{live_sess Mp}.
 \end{theorem}
 \begin{proof}
@@ -248,7 +212,7 @@ for some \lstin{gamma_0}, \lstin{gamma_1}. Now consider the session \lstin{M_0} 
 \lstin{gamma_0} in \lstin{xs}. 
 We have \lstin{((p <- p_send q ell e P') \|\|\| M'')} $\rdc^*$ \lstin{M_0}
 by \lstin{M_0} being on \lstin{xs}. 
-We also have that \\
+We also have that
 \lstin{M_0} $\lts{(\pp,\pq)\ell''}$ \lstin{M_1} for some $\ell''$, \lstin{M_1} by \cref{theo-sess-fid}.
 Now observe that \lstin{M_0} $\equiv$ \lstin{((p <- p_send q ell e P') \|\|\| M'')} for some 
 \lstin{M''} as no transitions involving \lstin{p} have happened on the reduction path to \lstin{M_0}.

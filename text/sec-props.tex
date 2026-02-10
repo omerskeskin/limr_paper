@@ -23,17 +23,11 @@ defined
 $\varphi := \{\Gamma' \; | \; \Gamma \lts{}^* \Gamma' \}$, satisfies \rulesafesync. 
 We illustrate this with some examples:
 \begin{example}\label{exam:safe}
-   Let $\Gamma_A=\prt{p}:\tend$, then $\Gamma_A$ is safe: the set of reducts is $\{\Gamma_A\}$ and this set respects \rulename{S- $\sendsign \andsign$} as its elements can't reduce, and it respects \rulename{S-$\lts{}$} as it's closed with respect to $\lts{}$.
+   Let $\Gamma=\prt{p}:\procoutsingle{q}{\ell_0(\tint)}{\tend},\prt{q}:\procinsingle{p}{\ell_0(\tnat)}{\tend} $. 
+   $\Gamma$ is not safe as as we have $\lbltrans{\Gamma}{\lblsend{p}{q}{\ell_0}}{}$ and 
+   $\lbltrans{\Gamma}{\lblrec{q}{p}{\ell_0}}{}$ 
+   but we don't have $\lbltrans{\Gamma}{\lblsync{p}{q}{\ell_0}}$ as $\tint \nleqslant \tnat $.
    
-   Let $\Gamma_B=\prt{p}:\procoutsingle{q}{\ell_0(\tint)}{\tend},\prt{q}:\procinsingle{p}{\ell_0(\tnat)}{\tend} $. 
-   $\Gamma_B$ is not safe as as we have $\lbltrans{\Gamma_B}{\lblsend{p}{q}{\ell_0}}{}$ and 
-   $\lbltrans{\Gamma_B}{\lblrec{q}{p}{\ell_0}}{}$ 
-   but we don't have $\lbltrans{\Gamma_B}{\lblsync{p}{q}{\ell_0}}$ as $\tint \nleqslant \tnat $.
-   
-   Let $\Gamma_C=\prt{p}:\procoutsingle{q}{\ell_1(\tint)}{\procoutsingle{q}{\ell_0(\tint)}{\tend}},
-  \prt{q}:\procinsingle{p}{\ell_1(\tint)}{\procinsingle{p}{\ell_0(\tnat)}{\tend}}$. $\Gamma_C$ is not safe as 
-  we have $\lbltrans{\Gamma_C}{\lblsync{p}{q}{\ell_1}}{\Gamma_B}$ and $\Gamma_B$ is not safe.
-  
   Consider $\Gamma$ from Example \ref{exam:reductions}.  All the reducts satisfy \rulesafesync, hence $\Gamma$ is safe.
 \end{example}
 
@@ -126,7 +120,7 @@ inductive or (via Paco) coinductive  types.
 To achieve this, we recast fairness and liveness for local type context paths 
 in Linear Temporal Logic (LTL) 
 \cite{pnueli1977temporal}. 
-$\lozenge$ and $\square$ can be characterised as least and greatest fixed points using their expansion laws \cite[Chapter 5.14]{baier}.
+The LTL operators \textit{eventually} ($\lozenge$) and \textit{always} ($\square$) can be characterised as least and greatest fixed points using their expansion laws \cite[Chapter 5.14]{baier}.
 Hence they can be implemented in Rocq as the inductive type \lstin{eventually} \rocqlink{todo} and the coinductive type 
 \lstin{alwaysCG} \rocqlink{todo}. We can further represent reduction paths
 as \textit{cosequences}, or \textit{streams}. Then the Rocq definition of \cref{def-fair-live} amounts to the following \rocqlink{todo}:
@@ -173,8 +167,6 @@ that is, \lstin{gamma_proj = } $\{ \pp_i : \G \proj{\pp_i} \SEP \pp_i \in \parti
 We then leverage
 \cref{theo-completeness} to show that if \lstin{gamma_proj} is live, so is \lstin{gamma}. 
 
-The proof that \lstin{gamma_proj} is live proceeds by well-founded induction on the tree height \cite{clrs} of 
-the grafting (\cref{lem-grafting}) of the global type \lstin{g}.
 Suppose  \lstin{gamma_proj} $\lts{\lblsend{p}{q}{\ell(S)}}$ (the case for the receive is similar and omitted), 
 and \lstin{xs} is a fair local type context reduction path beginning with \lstin{gamma_proj}.
 To show that \lstin{xs} is live we need to show the 
@@ -190,7 +182,7 @@ We prove the following helper lemmas:
   and doesn't increase with the transitions not involving \lstin{q} \rocqlink{todo}.
 \end{itemize}
 These lemmas followed by well-founded induction on the height of the \lstin{p}-grafting of the 
-global type the head of \lstin{xs} is projected from gives the desired transition. 
+global type associated with the head of \lstin{xs} gives the desired transition \rocqlink{todo}. 
 
 In the second step of the proof we extend association on to paths to get, for each local type context reduction path 
 \lstin{xs} that begins with \lstin{gamma}, another local type context reduction path \lstin{ys} beginning with \lstin{gamma_proj}

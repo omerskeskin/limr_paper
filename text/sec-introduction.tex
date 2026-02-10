@@ -25,7 +25,8 @@ defined using (coinductive plain) projection \cite{tirore2023sound} and subtypin
 local type contexts and global types. This association relation ensures \textit{operational correspondence}
 between the labelled transition system (LTS) semantics we define for local type contexts and global types. We then type ($\vdash_\mathcal{M}$) sessions using local type contexts that are associated with
 global types, which ensure that the local type context, and hence the session, is well-behaved in some sense.
-Whenever an associated local type context $\Gamma$ types a session $\M$, our type system guarantees the following properties:
+Whenever an associated local type context $\Gamma$ types a session $\M$, our type system guarantees 
+safety (\cref{theo-type-safe}), deadlock-freedom \cref{theo-progress} and liveness \cref{theo-sess-live}. the following properties:
 \begin{enumerate}
     \item \textbf{Subject Reduction} (\cref{theo-sub-red}): If $\M$ can progress into $\M'$, then $\Gamma$ can progress into $\Gamma'$ such that $\Gamma'$ types $\M'$.
     \item \textbf{Session Fidelity} (\cref{theo-sess-fid}): If $\Gamma$ can progress into $\Gamma'$, 
@@ -77,7 +78,8 @@ as inductive and coinductive predicates in Rocq. This approach, together with th
 results in compositional and clear proofs.
 
 \textbf{Outline.} In \cref{sec-procs} we define our session calculus and its LTS semantics. 
-In \cref{sec:types} we introduce local and global type trees. In \cref{sec:lts} we give LTS
+In \cref{sec:types} we recapitulate the definitions of local and global type trees, and the subtyping and projection relations on them, from \cite{srpaper}. 
+In \cref{sec:lts} we give LTS
 semantics to local type contexts and global types, and detail the association relation between them.
 In \cref{sec-props} we define safety and liveness for local type contexts, and prove that they hold
 for contexts associated with a global type tree. In \cref{sec-proc-props} we give the typing rules for 
