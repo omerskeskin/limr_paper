@@ -681,10 +681,6 @@ INPUT ./main.listing
 INPUT ./main.listing
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmtti10.tfm
 INPUT main.listing
-OUTPUT main.listing
-INPUT ./main.listing
-INPUT ./main.listing
-INPUT main.listing
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/rm-lmtt9.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/rm-lmtt8.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc

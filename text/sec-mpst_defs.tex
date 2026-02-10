@@ -10,28 +10,9 @@ can be found in \cite{srpaper} and hence are omitted here.
 \subsection{Local Type Trees}
 We start by defining the sorts that will be used to type expressions, 
 and local types that will be used to type single processes.
-\begin{definition}[Sorts]
-    \label[definition]{def:sorts}
-    Sorts are defined as follows: 
-
-    \begin{minipage}{.45\textwidth}
-      \begin{align*}
-        \S &::= \quad \tint \SEP \tbool \SEP \tnat
-        \end{align*}
-    \end{minipage}
-    \begin{minipage}{.45\textwidth}  
-      \begin{tcb}{Rocq}
-Inductive sort: Type :=
-   | sbool: sort
-   | sint : sort
-   | snat : sort.
-    \end{tcb}
-    \end{minipage}
-    
-\end{definition}
-
-\begin{definition}
-Local type trees are defined coinductively with the following syntax: 
+\begin{definition}[Sorts and Local Type Trees]
+We define three atomic sorts: $\tint$, $\tbool$ and $\tnat$.
+Local type trees are then defined coinductively with the following syntax: 
 \begin{minipage}{0.45\textwidth}
 \begin{align*}
     \T ::= \quad &\tend \\
@@ -41,6 +22,8 @@ Local type trees are defined coinductively with the following syntax:
 \end{minipage}
 \begin{minipage}{0.45\textwidth}
 \begin{tcb}{Rocq}
+Inductive sort: Type :=
+   | sbool: sort | sint : sort | snat : sort.
 CoInductive ltt: Type :=
   | ltt_end : ltt
   | ltt_recv: part -> list (option(sort*ltt)) -> ltt
