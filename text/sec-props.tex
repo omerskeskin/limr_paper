@@ -62,55 +62,6 @@ We have that local type contexts with associated global types are always safe.
 \subsection{Fairness and Liveness}
 \label{subsec-ltl}
 We now focus our attention to fairness and liveness. 
-%In this paper we have defined LTS semantics on three types of constructs: 
-%sessions, local type contexts and global types. 
-%We will appropriately define liveness properties on all three of these systems, 
-%so it will be convenient to define a general notion of valid reduction paths
-%(also known as \textit{runs} or \textit{executions} \cite[2.1.1]{baier}) 
-%along with a general statement of some 
-%Linear Temporal Logic \cite{pnueli1977temporal} constructs.
-
-%We start by defining the general notion of a reduction path \cite[Def. 2.6]{baier} using possibly infinite cosequences.
-%\begin{definition}[Reduction Paths]
-%  A finite reduction path is an alternating sequence of states and labels 
-%  $S_0 \lambda_0 S_1 \lambda_1 ...S_n$ such that $S_i \xrightarrow{\lambda_i} S_{i+1}$ for all $0 \leq i < n$.
-%  An infinite reduction path is an alternating sequence of states and labels  $S_0 \lambda_0 S_1 \lambda_1 ...S_n$
-%  such that $S_i \xrightarrow{\lambda_i} S_{i+1}$ for all $0 \leq i$. 
-%\end{definition}
-%We won't be distinguishing between finite and infinite reduction paths and refer to them both as just 
-%\textit{(reduction) paths}. Note that the above definition is general for LTSs, by \textit{state} we will 
-%be referring to local type contexts, global types or sessions, depending on our application.
-
-%In Rocq, we define reduction paths using possibly infinite cosequences of pairs of states 
-%(which will be \lstin{tctx}, \lstin{gtt} or \lstin{session} in this paper) and \lstin{option label}:
-%\begin{tcb}{Rocq}
-%CoInductive coseq (A: Type): Type :=
-%  | conil : coseq A
-%  | cocons: A -> coseq A -> coseq A.
-%Notation local_path := (coseq (tctx*option label)).
-%Notation global_path := (coseq (gtt*option label)).
-%Notation session_path := (coseq (session*option label)).
-%\end{tcb}
-%\begin{minipage}
-%\begin{tcb}{Rocq}
-%Definition local_path_vcriteria := (fun x1 l  x2  =>
-%  match (x1,l,x2) with 
-%    | ((g1,lcomm p q ell),g2) => tctxR g1 (lcomm p q ell) g2
-%    | _ => False 
-%  end
-%).
-%\end{tcb}     
-%\end{minipage}
-%Note the use of \lstin{option label}, where we employ \lstin{None} to represent transitions into the end of the list, \lstin{conil}.
-%For example, $S_0 \xrightarrow{\lambda_0} \S_1 \xrightarrow{\lambda_1} S_2$ would be represented in Rocq as
-%\lstin{cocons (s_0, Some lambda_0) (cocons (s_1, Some lambda_1) (cocons (s_2,None) conil))}, and 
-%\lstin{cocons (s_1, Some lambda) conil} would not be considered a valid path.
-%From now on, we assume all reduction paths we consider in the Rocq implementation
-%satisfy this validity condition. Further, when talking about local type context reduction paths,
-%we assume that all the transition labels involved in the path are synchronous transitions i.e.
-%they are of form $\lblsync{p}{q}{\ell}$.
-
-%We can now define fairness and liveness on local type context reduction paths. 
 We first restate the definition of fairness and liveness for 
 local type context paths from \cite{LessIsMoreRevisited}.
 \begin{definition}[Fair, Live Paths] \label[definition]{def-fair-live}
@@ -135,6 +86,7 @@ We say that a path $(\Gamma_n)_{n \in N}$ is live iff, $\forall n \in N$:
   every fair path starting from $\Gamma'$ 
   is also live.
 \end{definition}
+
 In general, fairness assumptions are used so that only the reduction sequences that are
 "well-behaved" in some sense are considered when formulating other properties \cite{fairness}. 
 For our purposes we define fairness such that, 
@@ -176,7 +128,18 @@ in Linear Temporal Logic (LTL)
 \cite{pnueli1977temporal}. 
 $\lozenge$ and $\square$ can be characterised as least and greatest fixed points using their expansion laws \cite[Chapter 5.14]{baier}.
 Hence they can be implemented in Rocq as the inductive type \lstin{eventually} \rocqlink{todo} and the coinductive type 
-\lstin{alwaysCG} \rocqlink{todo}. The Rocq definition of \cref{def-fair-live} amounts to the following \rocqlink{todo}:
+\lstin{alwaysCG} \rocqlink{todo}. We can further represent reduction paths
+as \textit{cosequences}, or \textit{streams}. Then the Rocq definition of \cref{def-fair-live} amounts to the following \rocqlink{todo}:
+
+\begin{minipage}{0.4\textwidth}
+\begin{tcb}{Rocq}
+CoInductive coseq (A: Type): Type :=
+  | conil : coseq A
+  | cocons: A -> coseq A -> coseq A.
+Notation local_path := (coseq (tctx*option label)).
+\end{tcb}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
 \begin{tcb}{Rocq}
 Definition fair_path_local_inner (pt: local_path): Prop :=
   forall p q n, to_path_prop (tctxRE (lcomm p q n)) False pt ->  eventually (headComm p q) pt.
@@ -185,15 +148,9 @@ Definition live_path_inner (pt: local_path) : Prop := forall p q s n,
 (to_path_prop (tctxRE (lsend p q (Some s) n)) False pt -> eventually (headComm p q) pt) /\
 (to_path_prop (tctxRE (lrecv p q (Some s) n)) False pt -> eventually (headComm q p) pt).
 Definition live_path := alwaysCG live_path_inner.
-\end{tcb}
+\end{tcb}  
+\end{minipage}
 
-\begin{remark}
-Note that the LTS of local type contexts has the property that, once a transition between participants 
-$\pp$ and $\pq$ is enabled, it stays enabled until a transition between $\pp$ and $\pq$ occurs. This makes
-\lstin{fair_path} equivalent to the standard formulas \cite[Definition 5.25]{baier} for strong fairness 
-($\square \lozenge \mathtt{enabledComm}_{\pp,\pq} \implies \square \lozenge \mathtt{headComm_{\pp,\pq}}$) and 
-weak fairness ($ \lozenge \square \mathtt{enabledComm}_{\pp,\pq} \implies \square \lozenge \mathtt{headComm_{\pp,\pq}}$).
-\end{remark}
 With these definitions we can now prove that local type contexts associated with a global type are live,
 which is the most involved of the results mechanised in this work.
 We now detail the Rocq Proof that associated local type contexts are also live.

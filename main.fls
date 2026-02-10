@@ -749,6 +749,10 @@ OUTPUT main.listing
 INPUT ./main.listing
 INPUT ./main.listing
 INPUT main.listing
+OUTPUT main.listing
+INPUT ./main.listing
+INPUT ./main.listing
+INPUT main.listing
 INPUT ./img/icon-rocq-blue.png
 INPUT ./img/icon-rocq-blue.png
 INPUT ./img/icon-rocq-blue.png
