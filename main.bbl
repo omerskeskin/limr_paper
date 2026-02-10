@@ -17,11 +17,6 @@ Franco Barbanera and Mariangiola Dezani-Ciancaglini.
 \newblock arXiv:2308.10653 [cs].
 \newblock URL: \url{http://arxiv.org/abs/2308.10653}, \href {https://doi.org/10.4204/EPTCS.383.2} {\path{doi:10.4204/EPTCS.383.2}}.
 
-\bibitem{coqfilter}
-Yves Bertot.
-\newblock Filters on coinductive streams, an application to eratosthenes' sieve.
-\newblock In Pawe{\l} Urzyczyn, editor, {\em Typed Lambda Calculi and Applications}, pages 102--115, Berlin, Heidelberg, 2005. Springer Berlin Heidelberg.
-
 \bibitem{coq}
 Yves Bertot and Pierre Castran.
 \newblock {\em Interactive Theorem Proving and Program Development: Coq'Art The Calculus of Inductive Constructions}.
@@ -180,11 +175,6 @@ Luca Padovani.
 Luca Padovani, Vasco~Thudichum Vasconcelos, and Hugo~Torres Vieira.
 \newblock Typing {Liveness} in {Multiparty} {Communicating} {Systems}.
 \newblock In Eva Kühn and Rosario Pugliese, editors, {\em Coordination {Models} and {Languages}}, pages 147--162, Berlin, Heidelberg, 2014. Springer Berlin Heidelberg.
-
-\bibitem{pierce2002types}
-Benjamin~C Pierce.
-\newblock {\em Types and programming languages}.
-\newblock MIT press, 2002.
 
 \bibitem{Pischke2026}
 Kai Pischke and Nobuko Yoshida.

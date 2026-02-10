@@ -1,8 +1,13 @@
 \section{The Type System}
-We briefly recap the core definitions of local and global type trees, subtyping and projection from
-\cite{SynchronousSubtyping}.
+We briefly recap the core definitions of local and global type trees, 
+subtyping and projection from
+\cite{SynchronousSubtyping}. We take an equirecursive approach and 
+work directly on the possibly infinite local and global type trees 
+obtained by unfolding the recursion
+in guarded syntactic types, details of this approach
+can be found in \cite{srpaper} and hence are omitted here.  
 \label{sec:types}
-\subsection{Local Types and Type Trees}
+\subsection{Local Type Trees}
 We start by defining the sorts that will be used to type expressions, 
 and local types that will be used to type single processes.
 \begin{definition}[Sorts]
@@ -23,35 +28,10 @@ Inductive sort: Type :=
     \end{tcb}
     \end{minipage}
     
-  \end{definition}
-
-\begin{definition}
-    Local types are defined inductively with the following syntax: 
-    \begin{align*}
-        \tlt &::= \quad \tend 
-        \SEP \ltsend{\prt{p}}{\ell_i(\S_i).\tlt_i}_{i \in I}
-        \SEP \ltrec{\prt{p}}{\ell_i(\S_i).\tlt_i}_{i \in I}
-        \SEP \textbf{t}
-        \SEP \mu \textbf{t}.\tlt        
-    \end{align*}                              
 \end{definition}
-Informally, in the above definition, $\tend$ represents a role that has finished communicating.
-$\ltsend{\prt{p}}{\ell_i(\S_i).\tlt_i}_{i \in I}$ denotes a role that may, from any $i \in I$, 
-receive a value of sort $S_i$ with message label $\ell_i$ and continue with $\tlt_i$.
-Similarly, $\ltrec{\prt{p}}{\ell_i(\S_i).\tlt_i}_{i \in I}$ represents a role that may choose
-to send a value of sort $S_i$ with message label $\ell_i$ and continue with $\tlt_i$ for any $i \in I$.
-$\mu \textbf{t}.\tlt$ represents a recursive type where $\textbf{t}$ is a type variable. 
-We assume that the indexing sets $I$ are always non-empty. We also assume that recursion is
-always guarded.
-
-We employ an equirecursive approach based on the standard techniques from \cite{pierce2002types}
-where $\mu \textbf{t}.\tlt$ is considered to be equivalent to its unfolding
-$\tlt[\mu \textbf{t}.\tlt/\textbf{t}]$. This enables us to identify a recursive type 
-with the possibly infinite local type tree obtained by fully unfolding its recursive subterms.
 
 \begin{definition}
 Local type trees are defined coinductively with the following syntax: 
-
 \begin{minipage}{0.45\textwidth}
 \begin{align*}
     \T ::= \quad &\tend \\
@@ -68,6 +48,12 @@ CoInductive ltt: Type :=
 \end{tcb}  
 \end{minipage}
 \end{definition}
+In the above definition, $\tend$ represents a role that has finished communicating.
+$\ltsend{\prt{p}}{\ell_i(\S_i).\tlt_i}_{i \in I}$ denotes a role that may, from any $i \in I$, 
+receive a value of sort $S_i$ with message label $\ell_i$ and continue with $\tlt_i$.
+Similarly, $\ltrec{\prt{p}}{\ell_i(\S_i).\tlt_i}_{i \in I}$ represents a role that may choose
+to send a value of sort $S_i$ with message label $\ell_i$ and continue with $\tlt_i$ for any $i \in I$.
+
 In Rocq we represent the continuations using a \lstin{list} of \lstin{option} types. 
 In a continuation \lstin{gcs : list (option(sort*ltt))}, index \lstin{k} (using zero-indexing) being equal to 
 \lstin{Some (s_k, T_k)} means that $\ell_k (S_k).\T_k$ is available in the continuation.
@@ -80,10 +66,6 @@ that the message label $\ell_k$ is not present in the continuation.
   all the continuations in the local type tree are non-empty. Henceforth we assume that all local types
   we mention satisfy this property.
 \end{remark}
-We omit the details of the translation between local types and local type trees, the technicalities of
-our approach is explained in \cite{SynchronousSubtyping}, and the Rocq implementation of translation
-is detailed in \cite{srpaper}. From now on we work exclusively on local type trees. Also, as done in \cite{srpaper},
-we assume coinductive extensionality and consider isomorphic type trees to be equal.
 \subsection{Subtyping}
 We define the subsorting relation on sorts and the subtyping relation on local type trees.
 \begin{definition}[Subsorting and Subtyping] \label[definition]{def:subtyping}
@@ -222,7 +204,7 @@ In Rocq, projection is defined as a \lstin{Paco} greatest fixpoint as the relati
 
 We further have the following fact about projections that lets us regard it as a partial
 function:
-\begin{lemma} \label[lemma]{lem-proj-func} If \lstin{projectionC G p T} and 
+\begin{lemma}[\cite{srpaper}] \label[lemma]{lem-proj-func} If \lstin{projectionC G p T} and 
 \lstin{projectionC G p T'} then \lstin{T = T'}.  
 \end{lemma}
 We write $\projfn{\G}{\pr}=\T$ when $\G\proj{\pr}\T$. Furthermore we will be frequently

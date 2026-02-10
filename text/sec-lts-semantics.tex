@@ -139,7 +139,6 @@ of local contexts under the \lstin{M.Equal} predicate from the MMaps library.
 
 
 \noindent We give an example to illustrate typing context reductions.
-\todo{this can be cut}
 \begin{example}\label{exam:reductions}
   Let
   \begin{align*}
@@ -154,6 +153,9 @@ and $\Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}}  \Gamma$. Similarly via syn
 via message label $\ell_1$ we get $\Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_1}} \Gamma'$
 where $\Gamma'$ is defined as  $\{{\prt{p}} : \tend, \; {\prt{q}}: 
 \procoutsingle{\prt{r}}{\ell_2(\tint)}{\tend}, {\prt{r}} : \T_{\prt{r}}\}$.
+We further have that $\Gamma' \lts{\lblsync{q}{r}{\ell_2}} \Gamma_\mathtt{end}$ where
+$\Gamma_{\mathtt{end}}$ is defined as 
+$\{{\prt{p}}:\tend, \; {\prt{q}} : \tend,\; {\prt{r}}: \tend \}$.
 
 In Rocq, $\Gamma$ is defined the following way:
 \begin{tcb}{Rocq}

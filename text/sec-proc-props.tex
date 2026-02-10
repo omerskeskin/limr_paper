@@ -109,7 +109,7 @@ We have a single rule for typing sessions:
 \rulename{t-sess} says that a session made of the parallel composition of processes $\prod_i \pp_i \triangleleft \PT_i$ 
 can be typed by an associated local context $\Gamma$ if the local type of participant $\pp_i$ in $\Gamma$
 types the process  
-\subsection{Subject Reduction, Progress and Session Fidelity}
+\subsection{Properties of Typed Sessions}
 The subject reduction, progress and non-stuck theorems from \cite{srpaper} \todo{give theorem no}
 also hold in this setting, with minor changes in their statements and proofs. 
 We won't discuss these proofs in detail.
@@ -117,21 +117,12 @@ We won't discuss these proofs in detail.
   \label{lem-typ-unfold}
   If \lstin{gamma} $\vdashm$ \lstin{M}   and \lstin{M} $\Rrightarrow$ \lstin{M'} then \lstin{typ_sess M' gamma}.
 \end{lemma}
-\begin{theorem}[Subject Reduction]\label{theo-sub-red}
+\begin{theorem}[Subject Reduction \rocqlink{todo}]\label{theo-sub-red}
 If \lstin{gamma} $\vdashm$ \lstin{M}   and 
 \lstin{M} $\lts{\lblsync{p}{q}{\ell}}$ \lstin{M'}, then 
 there exists a typing context \lstin{gamma'} such that 
 \lstin{gamma} $\lts{\lblsync{p}{q}{\ell}}$ \lstin{gamma'}
 and \lstin{gamma} $\vdashm$ \lstin{M}  .
-\end{theorem}
-\begin{theorem}[Progress] \label{theo-progress}
-If \lstin{gamma} $\vdashm$ \lstin{M}  , one of the following hold :
-\begin{enumerate}
-  \item Either \lstin{M} $\Rrightarrow$ \lstin{M_inact} where every process making up \lstin{M_inact}
-  is inactive, i.e. 
-  \lstin{M_inact} $\equiv \prod_{i=1}^{n}\pp_i \triangleleft \bf{0}$ for some $n$. 
-  \item Or there is a \lstin{M'} such that \lstin{M} $\rdc$ \lstin{M'}.
-\end{enumerate}
 \end{theorem}
 \begin{remark}\label{remark-reactive-justif}
 Note that in \cref{theo-sub-red} one transition between sessions corresponds to exactly one transition
@@ -142,17 +133,23 @@ ordinary semantics. In other words, with $\tau$-semantics the typing relation is
 while it turns into a strong simulation with reactive semantics. For our Rocq implementation 
 working with the strong simulation turns out be more convenient. 
 \end{remark}
-We can also prove the following correspondence result in the reverse direction to \cref{theo-sub-red}, analogus 
+\begin{theorem}[Deadlock Freedom \rocqlink{todo}] \label{theo-progress}
+If \lstin{gamma} $\vdashm$ \lstin{M}  , one of the following hold :
+\begin{enumerate}
+  \item Either \lstin{M} $\Rrightarrow$ \lstin{M_inact} where every process making up \lstin{M_inact}
+  is inactive, i.e. 
+  \lstin{M_inact} $\equiv \prod_{i=1}^{n}\pp_i \triangleleft \bf{0}$ for some $n$. 
+  \item Or there is a \lstin{M'} such that \lstin{M} $\rdc$ \lstin{M'}.
+\end{enumerate}
+\end{theorem}
+We can also prove the following correspondence result in the reverse direction to \cref{theo-sub-red}, analogous 
 to \cref{theo-soundness}.
-\begin{theorem}[Session Fidelity]\label{theo-sess-fid}
+\begin{theorem}[Session Fidelity \rocqlink{todo}]\label{theo-sess-fid}
 If \lstin{gamma} $\vdashm$ \lstin{M} and \lstin{gamma} $\lts{\lblsync{p}{q}{\ell}}$ \lstin{gamma'}, there exists a
 message label
 $\ell'$, a context \lstin{gamma''} and a session \lstin{M'} such that \lstin{M} $\lts{\lblsync{p}{q}{\ell'}}$ \lstin{M'} 
 , \lstin{gamma} $\lts{\lblsync{p}{q}{\ell'}}$ \lstin{gamma''} and \lstin{typ_sess M' gamma''}.  
 \end{theorem}
-\begin{proof}
-By inverting the local type context transition and the typing.
-\end{proof}
 \begin{remark}
 Again we note that by \cref{theo-sess-fid} a single-step context reduction induces 
 a single-step session reduction on the type. 
@@ -160,13 +157,12 @@ With the $\tau$-semantics the session reduction induced by
 the context reduction would be multistep.
 \end{remark}
 Now the following type safety property follows from the above theorems:
-\begin{theorem}[Type Safety]\label{theo-type-safe}
+\begin{theorem}[Type Safety \rocqlink{todo}]\label{theo-type-safe}
 If \lstin{gamma} $\vdashm$ \lstin{M} and  \lstin{M} $\lts{}^*$ \lstin{M'} $\Rrightarrow$ 
-\lstin{p <- p_send q ell P \|\|\| q <- p_recv p xs \|\|\| M''}, then \lstin{onth ell xs <> None}.
+\lstin{(p <- p_send q ell P \|\|\| q <- p_recv p xs \|\|\| M'')}, 
+then \lstin{onth ell xs <> None}.
 \end{theorem} 
-\subsection{Session Liveness}
-We state the liveness property we are interested in proving,
-and show that typable sessions have this property.
+The final, and the most intricate, session property we prove is liveness.
 \begin{definition}[Session Liveness]\label[definition]{def-live-sess}
   Session $\M$ is live iff
   \begin{enumerate}
@@ -176,14 +172,14 @@ and show that typable sessions have this property.
     \item ${\M}\longrightarrow^* {\M'} \Rrightarrow \pq \triangleleft \texternal \tin{\pp}{\ell_i}{x_i}.Q_i \;|\; \N$ implies 
     ${\M'}\longrightarrow^*{\M''} \Rrightarrow \pq \triangleleft Q_i[v/x_i] \;|\; \N'$ for some $\M'', \N', i, v.$ 
   \end{enumerate}
-  In Rocq we express this with the following:
+  In Rocq this is expressed with the predicate \lstin{live_sess} \rocqlink{todo}:
   \begin{tcb}{Rocq}
 Definition live_sess Mp := forall M, betaRtc Mp M -> 
-  (forall p q ell e P' M', p <>q -> unfoldP M ( (p <-- p_send q ell e P') \|\|\| M') -> exists M'',
+  (forall p q ell e P' M', p <>q -> unfoldP M ( (p <-- p_send q ell e P') ||| M') -> exists M'',
   betaRtc M ((p <-- P')\|\|\|M''))
   /\
-  (forall p  q llp M', p <>q -> unfoldP M ( (p <-- p_recv q llp) \|\|\| M') -> 
-    exists M'' P' e k, onth k llp = Some P' /\ betaRtc M ((p <-- subst_expr_proc P' e 0 0)\|\|\|M'')). 
+  (forall p  q llp M', p <>q -> unfoldP M ( (p <-- p_recv q llp) ||| M') -> 
+    exists M'' P' e k, onth k llp = Some P' /\ betaRtc M ((p <-- subst_expr_proc P' e 0 0) |||M'')). 
   \end{tcb}
 \end{definition}
 Session liveness, analogous to liveness for typing contexts (\cref{def-fair-live}), says that 
@@ -191,95 +187,35 @@ when $\M$ is live, if $\M$ reduces to a session $\M'$ containing a participant t
 or receive, then $\M'$ reduces to a session where that communication has happened. 
 It's also called \textit{lock-freedom} in related work (\cite{fairnesslock,padovani}). 
 
-We now prove that typed sessions are live. Our proof follows the following steps:
-\begin{enumerate}
-  \item Formulate a "fairness" property for typable sessions,
-  with the property that any finite session reduction path can be extended to a fair
-  session reduction path.  
-  \item Lift the typing relation to reduction paths, and show that fair session reduction paths
-  are typed by fair local type context reduction paths.
-  \item Prove that a certain transition eventually happens in the local context reduction 
-  path, and that this means the desired transition is enabled in the session reduction path.   
-\end{enumerate}
-We first state a "fairness" (the reason for the quotes is explained in \cref{remark-fairness-session})
-property for session reduction paths, analogous to fairness 
-for local type context reduction paths (\cref{def-fair-live}).  
-\begin{definition}["Fairness" of Sessions]\label{def-fair-sess}
-We say that a $(\pp,\pq)\ell$ transition is enabled at $\M$ if
-$\M \lts{(\pp,\pq)\ell} \M'$ for some $\M'$. A session reduction path is fair if the following LTL property holds:
-\begin{align*}
-  \square(\mathtt{enabledComm}_{\prt{p},\prt{q},\ell} \implies 
-  \lozenge(\mathtt{headComm}_{\prt{p},\prt{q}}))
-  \end{align*}
-\end{definition}
-\begin{remark}\label{remark-fairness-session}
-\cref{def-fair-sess} is not actually a sensible fairness property for our reactive semantics, 
-mainly because it doesn't satisfy 
-the \textit{feasibility} \cite{fairness} property stating that any finite execution can be extended 
-to a fair execution. Consider the following session:
-\begin{align*}
-  \M = \pp \triangleleft \kf{if} (\kf{true} \oplus \kf{false}) \; \kf{then} \;  \pq!\ell_1(true) 
-  \; \kf{else} \;
-  \pr!\ell_2(true).\bf{0} \mid \pq \triangleleft \pp?\ell_1(x).0  \mid \pr \triangleleft \pp?\ell_2(x).0
-\end{align*}
-We have that $\M \lts{(\pp,\pq)\ell_1} \M'$ where $\M'=\pp \triangleleft \bf{0}
- \mid \pq \triangleleft \bf{0}  \mid \pr \triangleleft \pp?\ell_2(x).0
-$, 
-and  also $\M \lts{(\pp,\pr)\ell_2} \M''$ for another $\M''$. Now consider the reduction path 
-$\rho = \M \lts{(\pp,\pq)\ell_1} \M'$. $(\pp,\pr)\ell_2$ is enabled at $\M$ so in a fair path it should eventually 
-be executed, however no extension of $\rho$ can contain such a transition as $\M'$ has no remaining transitions.
-%With $\tau$ semantics we wouldn't have $(\pp,\pq)\ell_1$ and $(\pp,\pr)\ell_2$ transitions at the same state, 
-%as a $\pp$ would have to make a choice via a $\tau$ transition before a communication can be enabled.
-Nevertheless, it turns out that there is a fair reduction path starting from every
-typable session (\cref{lem-fair-scheduling}), and this will be enough to prove our desired liveness property.
-\end{remark}
-We can now lift the typing relation to reduction paths, just like we did in \cref{def-assoc-path}. 
-\begin{definition}[Path Typing]
-\label{def-typ-path}
-Path typing is a relation between session reduction paths and local type context reduction paths,
-defined coinductively by the following rules:
-\begin{enumerate}[(i)]
-  \item The empty session reductoin path is typed with the empty context reduction path.
-  \item If $\M \lts{\lambda_0} \rho$ is typed by $\Gamma \lts{\lambda_1} \rho'$ 
-  where ($\rho$ and $\rho'$ are session and local type context reduction paths, respectively), 
-  then $\lambda_0=\lambda_1$ and $\rho$ is typed by $\rho'$.
-\end{enumerate}
-\end{definition}
-Similar to \cref{lem-path-assoc-exists}, we can show that if the head of the path is typable
-then so is the whole path.
-\begin{lemma}\label{lem-typ-path-exists}
-If \lstin{typ_sess M gamma}, then any session reduction path \lstin{xs} starting with \lstin{M}
-is typed by a local context reduction path \lstin{ys} starting with \lstin{gamma}.
-\end{lemma} 
-\begin{proof}
-We can construct a local context reduction path that types the session path. The construction
-exactly like \cref{lem-path-assoc-exists} but elements of the output stream are generated by 
-\cref{theo-sub-red} instead of \cref{theo-completeness}.
-\end{proof}
-We also have that typing path preserves fairness.
-\begin{lemma}\label{lem-typ-path-fair}
-If session path \lstin{xs} is typed by the local context path \lstin{ys}, and \lstin{xs} is fair, then so 
-is \lstin{ys}.   
-\end{lemma}
-The final lemma we need in order to prove liveness is that there exists a fair reduction path from
-every typable session.
-\begin{lemma}[Fair Path Existence]\label{lem-fair-scheduling}
-If \lstin{typ_sess M gamma}, then there is a fair session reduction path \lstin{xs} starting from
-\lstin{M}.
+We can now prove that typed sessions are live. First we prove the following lemma:
+\begin{lemma}[Fair Extension of Typed Sessions \rocqlink{todo}]\label{lem-fair-scheduling}
+If \lstin{typ_sess M gamma}, then there exists a session reduction path \lstin{xs} 
+starting from \lstin{M} such that the following fairness property holds:
+\begin{itemize}
+  \item On \lstin{xs}, whenever a transition with label $\lblsync{p}{q}{\ell}$ is enabled,
+  a transition with label $\lblsync{p}{q}{\ell'}$ eventually occurs for some $\ell'$.  
+\end{itemize}
 \end{lemma}
 \begin{proof}
-We can construct a fair path starting from \lstin{M} by repeatedly cycling through all participants,
-checking if there is a transition involving that participant, and executing that transition if there is.   
+  The desired path can be constructed by repeatedly cycling through all participants,
+checking if there is a transition involving that participant, and executing that transition if there is.
+Correctness follows from \cref{theo-sub-red} and \cref{theo-sess-fid}.
 \end{proof}
+\cref{lem-fair-scheduling} defines a "fairness" property for sessions analogous to \cref{def-fair-live}.
+It then shows that there exists a fair path from any typable session. 
+This resembles the \textit{feasibility} property expected from sensible notions of fairness \cite{fairness},
+which states that any partial path can be extended into a fair one 
+\footnote{Note that this fairness property for sessions is not actually feasible as there are partial paths 
+starting with an untypable session that can't be extended into a fair one. 
+Nevertheless, \cref{lem-fair-scheduling} turns out to be enough to prove our liveness property.}.  
 \begin{remark}
-The Rocq implementation of \cref{lem-fair-scheduling} computes a \lstin{CoFixpoint} corresponding to 
-the fair path constructed above. As in \cref{lem-path-assoc-exists}, we use \lstin{constructive_indefinite_description}
-to turn existence statements in \lstin{Prop} to dependent pairs. We also assume the informative law of excluded middle (\lstin{excluded_middle_informative})
-in order to carry out the "check if there is a transition" step in the algorithm above. 
-When proving that the constructed path is fair, we sometimes rely on the LTL constructs we outlined in \cref{subsec-ltl}
-reminiscent of the techniques employed in \cite{coqfilter}.
+As in the proof of \cref{theo-ctx-live}, the construction in \cref{lem-fair-scheduling} uses 
+the \lstin{constructive_indefinite_description} axiom to construct a \lstin{CoFixpoint}.
+Additionally, we use the axiom \lstin{excluded_middle_informative}
+for the "check if there is a transition involving a participant" part of the scheduling algorithm.
+The use of this axiom is probably not necessary but it makes the proof easier. 
 \end{remark}
-We can now prove that typed sessions are live.
+
 \begin{theorem}[Liveness by Typing]\label{theo-sess-live}
 For a session \lstin{Mp}, if \lstin{exists gamma gamma} $\vdashm$ \lstin{Mp} then \lstin{live_sess Mp}.
 \end{theorem}
@@ -296,10 +232,13 @@ by \cref{theo-sub-red}, therefore
 \lstin{gamma} $\vdashm$ \lstin{((p <- p_send q ell e P') \|\|\| M')}
 by \cref{lem-typ-unfold}.
 
-Now let \lstin{xs} be a fair reduction path starting from \lstin{((p <-- p_send q ell e P') \|\|\| M')}, 
-which exists by \cref{lem-fair-scheduling}. Let \lstin{ys} be the
-local context reduction path starting with \lstin{gamma} that types \lstin{xs}, which exists by 
-\cref{lem-typ-path-exists}. Now \lstin{ys} is fair by \cref{lem-typ-path-fair}.
+Now let \lstin{xs} be a fair session reduction path starting from \lstin{((p <- p_send q ell e P') \|\|\| M')}, 
+which exists by \cref{lem-fair-scheduling}. 
+By \cref{theo-sub-red}, let \lstin{ys} be a
+local type context reduction path starting with \lstin{gamma} 
+such that every session in \lstin{xs} is typed by the context at the corresponding index 
+of \lstin{ys}, and the transitions of \lstin{xs} and \lstin{ys} at every step match. 
+Now it can be shown that \lstin{ys} is fair \rocqlink{todo}.
 Therefore by \cref{theo-ctx-live} \lstin{ys} is live, 
 so a \lstin{lcomm p q ell'} transition
 eventually occurs in \lstin{ys} for some \lstin{ell'}.
@@ -309,7 +248,7 @@ for some \lstin{gamma_0}, \lstin{gamma_1}. Now consider the session \lstin{M_0} 
 \lstin{gamma_0} in \lstin{xs}. 
 We have \lstin{((p <- p_send q ell e P') \|\|\| M'')} $\rdc^*$ \lstin{M_0}
 by \lstin{M_0} being on \lstin{xs}. 
-We also have that 
+We also have that \\
 \lstin{M_0} $\lts{(\pp,\pq)\ell''}$ \lstin{M_1} for some $\ell''$, \lstin{M_1} by \cref{theo-sess-fid}.
 Now observe that \lstin{M_0} $\equiv$ \lstin{((p <- p_send q ell e P') \|\|\| M'')} for some 
 \lstin{M''} as no transitions involving \lstin{p} have happened on the reduction path to \lstin{M_0}.

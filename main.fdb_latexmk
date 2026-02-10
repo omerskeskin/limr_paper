@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1770655089.6845 "main.aux" "main.bbl" "main" 1770655118.25343 0
+["bibtex main"] 1770690865.3686 "main.aux" "main.bbl" "main" 1770691182.29017 0
   "./references.bib" 1770166868.11974 52043 e68e886fa619df29c3986c56848df74d ""
   "/usr/local/texlive/2024/texmf-dist/bibtex/bst/urlbst/plainurl.bst" 1675116457 33495 46cfb45e24a877059f9f7e142c7fc61c ""
-  "main.aux" 1770655117.85681 31082 4d28c7aff2ed6fa00b4af31f73fe1df6 "pdflatex"
+  "main.aux" 1770691181.89804 24333 8d7afc63788013abb1a10688a85a9177 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1770655114.24445 "/home/omer1/part_c_project/paper/main.tex" "main.pdf" "main" 1770655118.25371 0
+["pdflatex"] 1770691179.00051 "/home/omer1/part_c_project/paper/main.tex" "main.pdf" "main" 1770691182.29037 0
   "/home/omer1/part_c_project/paper/main.tex" 1770512234.63524 5071 bf6789b3da8caba768f2e1a4fbae37ad ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1254269338 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1202520719 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
@@ -109,7 +109,6 @@
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb" 1248133631 35309 940e81a5b9e04201a07e8b33a3ae6e64 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb" 1255129361 121021 1bf809ce4a594679006bd72263eba59b ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb" 1255129361 116908 1fca96723793882c2e0160350c192fc8 ""
-  "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx7.pfb" 1255129361 119461 4a38ff487952cdeffc81de782e40a4a0 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx9.pfb" 1255129361 126646 439622e6fd57f388c9979d39c4fce535 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb" 1255129361 112766 bdd4fa8b13a0d7dd137624085bd31d40 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb" 1255129361 116427 4a5b1ccaa7cce719091920a86b58608d ""
@@ -141,7 +140,6 @@
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt9.pfb" 1255129361 108480 ee1de99df36ee0a16b36023b9c9d8a58 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtti10.pfb" 1255129361 98822 859130196f7a6d2d1173200c66afbcff ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb" 1302307949 27430 0e29b053ae98d5f87d872ee72a12d5f5 ""
-  "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/wasy-type1/wasy10.pfb" 1579560704 33599 0bed01d43ee0675cf5ec1221acad6641 ""
   "/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2024/texmf-dist/tex/generic/atbegshi/atbegshi.sty" 1575674566 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
   "/usr/local/texlive/2024/texmf-dist/tex/generic/babel-english/UKenglish.ldf" 1496785618 2772 43f923fdb8719709f1f3e1f4f671e083 ""
@@ -386,10 +384,10 @@
   "img/icon-rocq-blue.png" 1734221746 35098 9a5bd246b8b8a9d0236badb3535bcb16 ""
   "lipics-v2021.cls" 1615969052 46941 c8ebab70288b7b418b7400898e0847b4 ""
   "listing_macros.tex" 1759709160.03389 9334 13f72c4bfe471fd9ad84b101be4b70c0 ""
-  "main.aux" 1770655117.85681 31082 4d28c7aff2ed6fa00b4af31f73fe1df6 "pdflatex"
-  "main.bbl" 1770655089.79681 14584 4501b8cb89f4a4b1d13f9ae68eb53b7a "bibtex main"
-  "main.listing" 1770655117.60081 375 e7ec6768b7c94a27ebe96763d6768235 "pdflatex"
-  "main.out" 1770655117.86081 4654 7bd97b59e214ca9f0d748f8b5b13faae "pdflatex"
+  "main.aux" 1770691181.89804 24333 8d7afc63788013abb1a10688a85a9177 "pdflatex"
+  "main.bbl" 1770690865.47406 14192 6c48eb6444809a0a15674bebbb8f48f4 "bibtex main"
+  "main.listing" 1770691181.67404 367 0aa36056262691a1596007a8c62b3c65 "pdflatex"
+  "main.out" 1770691181.89804 4328 e1b88fcea02941aaf74c2ded924683dd "pdflatex"
   "main.tex" 1770512234.63524 5071 bf6789b3da8caba768f2e1a4fbae37ad ""
   "mpst_macros.sty" 1770340828.62221 8525 d575fc80116093d5738e6834b49f2288 ""
   "orcid.pdf" 1615969052 88694 b21075e0bfdd1e3bb46ba8e2af52827d ""
@@ -397,11 +395,11 @@
   "text/abstract.tex" 1770255644.10637 1750 c3a66c09a5a946e4413ffc6f945c59ca ""
   "text/sec-concl.tex" 1769476239.95534 4211 32991113cc4c776440c80c58a2399d06 ""
   "text/sec-introduction.tex" 1770255615.69038 7374 71ff9a239ebf802eb6e6e98e30b5f590 ""
-  "text/sec-lts-semantics.tex" 1770602017.62756 13027 2f343ee05101ee42f277bbd68604fc40 ""
-  "text/sec-mpst_defs.tex" 1770601267.75561 15600 7856823b85693decc81a110b3f4c883f ""
-  "text/sec-proc-props.tex" 1770256555.67413 17106 908d496a3ce90a620780cf3e08f4c53a ""
+  "text/sec-lts-semantics.tex" 1770688942.53021 13195 c11b57a2c6cb112e05d1f4a42abc92cb ""
+  "text/sec-mpst_defs.tex" 1770689224.69418 14503 ed61bc3f7e3f788eb94709c6252dd9c7 ""
+  "text/sec-proc-props.tex" 1770687561.04231 13591 58629df6cf96282ad16effcd889dcfa1 ""
   "text/sec-process.tex" 1770600580.64767 8061 37bb8894e5f65fd97fd3cf371157dff8 ""
-  "text/sec-props.tex" 1770655113.94481 33303 9904fb9057573ba3f1368a2accc5d14b ""
+  "text/sec-props.tex" 1770691178.74604 16079 63a0cf64e002e57d666a9d8bfb1ae6e4 ""
   (generated)
   "main.aux"
   "main.listing"
