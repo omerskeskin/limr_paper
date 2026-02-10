@@ -88,6 +88,12 @@ Nissim Francez.
 \newblock Springer US, New York, NY, 1986.
 \newblock URL: \url{http://link.springer.com/10.1007/978-1-4612-4886-6}, \href {https://doi.org/10.1007/978-1-4612-4886-6} {\path{doi:10.1007/978-1-4612-4886-6}}.
 
+\bibitem{Gay2016}
+Simon~J. Gay.
+\newblock {\em Subtyping Supports Safe Session Substitution}, pages 95--108.
+\newblock Springer International Publishing, Cham, 2016.
+\newblock \href {https://doi.org/10.1007/978-3-319-30936-1_5} {\path{doi:10.1007/978-3-319-30936-1_5}}.
+
 \bibitem{SynchronousSubtyping}
 Silvia Ghilezan, Svetlana Jak{\v s}i{\'c}, Jovanka Pantovi{\'c}, Alceste Scalas, and Nobuko Yoshida.
 \newblock Precise subtyping for synchronous multiparty sessions.

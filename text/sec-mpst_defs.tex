@@ -52,7 +52,7 @@ in Rocq.
   we mention satisfy this property.
 \end{remark}
 \subsection{Subtyping}
-We define the subsorting relation on sorts and the subtyping relation on local type trees.
+We define the subsorting relation on sorts and the process-oriented \cite{Gay2016} subtyping relation on local type trees.
 \begin{definition}[Subsorting and Subtyping] \label[definition]{def:subtyping}
   Subsorting $\subso$ is the least reflexive binary relation that satisfies $\tnat \subso \tint$. 
   Subtyping $\subtp$ is the largest relation between local type trees coinductively defined by the following rules:
@@ -100,19 +100,17 @@ for details of we refer to \cite{SynchronousSubtyping}.
 We now define global types which give a bird's eye view of the whole protocol.
 As before, we work directly on infinite trees and omit the details which can be found in 
 \cite{srpaper}.
-$\tend$ denotes a protocol that has ended, $\GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\mathbb{G}_i}_{i\in I}$
-denotes a protocol where for any $i \in I$, participant $\pp$ may send a value of sort 
-$S_i$ to another participant $\pq$ via message label $\ell_i$, after which the protocol continues as $\mathbb{G}_i$.
 \begin{definition}[Global type trees]
   \label[definiton]{def:global_type_trees}
   We define global type trees coinductively as follows: 
-  \begin{minipage}{0.47\textwidth}
+  
+  \begin{minipage}{0.43\textwidth}
   \begin{align*}
-\G &::= \quad \tend 
+\G &::= \tend 
      \SEP \GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\G_i}_{i\in I}
     \end{align*}  
   \end{minipage}
-    \begin{minipage}{0.50\textwidth}
+  \begin{minipage}{0.5\textwidth}
     \begin{tcb}{Rocq}
     CoInductive gtt: Type :=
     | gtt_end    : gtt 
@@ -120,7 +118,10 @@ $S_i$ to another participant $\pq$ via message label $\ell_i$, after which the p
     \end{tcb}  
     \end{minipage}    
 \end{definition}
-We further define the function $\funprt(\G)$ that denotes the 
+$\tend$ denotes a protocol that has ended, $\GvtPair{\prt{p}}{\prt{q}}{\ell_i(\S_i).\G_i}_{i\in I}$
+denotes a protocol where for any $i \in I$, participant $\pp$ may send a value of sort 
+$S_i$ to another participant $\pq$ via message label $\ell_i$, after which the protocol continues as $\G_i$.
+We further define a function $\funprt(\G)$ that denotes the 
 participants of the global type $\G$ as the least solution 
 \footnote{Here we adopt a simplified presentation as $\funprt(\G)$ 
 is actually defined by extending it from an inductively defined function on 
@@ -232,13 +233,10 @@ to proofs by induction on the grafting context.
 If \lstin{G} is a balanced global type tree and \lstin{isgPartsC p G}, then there is 
 a global type tree context \lstin{Gctx} and an option list of global type trees 
 \lstin{gs} such that \lstin{typ_gtth gs Gctx G}, \lstin{\~ ishParts p Gctx} and every \lstin{Some} element of \lstin{gs}
-is of shape \lstin{gtt_end}, \lstin{gtt_send p q} or \lstin{gtt_send q p}. 
+is of shape \lstin{gtt_end}, \lstin{gtt_send p q} or \lstin{gtt_send q p}. We refer to 
+\lstin{Gctx} and \lstin{gs} as the \lstin{p}-grafting of \lstin{G}. When we don't care about
+\lstin{gs} we may just say that \lstin{G} is \lstin{p}-grafted by \lstin{Gctx}.
 \end{lemma}
-If \lstin{typ_gtth gs Gctx G}, \lstin{\~ ishParts p Gctx} and every \lstin{Some} element of \lstin{gs}
-is of shape \lstin{gtt_end}, \lstin{gtt_send p q} or \lstin{gtt_send q p}, then we call 
-the pair \lstin{gs} and \lstin{Gctx} as the $\pp$-grafting of \lstin{G}, expressed in Rocq as
-\lstin{typ_p_gtth gs Gctx p G}. When we don't care about the contents of \lstin{gs} we may just say
-that \lstin{G} is \lstin{p}-grafted by \lstin{Gctx}.
 \begin{remark}
   From now on, all the global type trees we will be referring to are assumed to be balanced.
   When talking about the Rocq implementation, any \lstin{G : gtt} we mention is assumed

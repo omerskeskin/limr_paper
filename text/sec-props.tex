@@ -3,7 +3,8 @@ We now use the LTS semantics to define some desirable properties on type context
 reduction sequences. Namely, we formulate
 safety, liveness and fairness properties based on the definitions in \cite{LessIsMoreRevisited}. 
 \subsection{Safety}
-We start by defining safety:
+We start by defining the \textit{safety} property that plays an important role 
+in bottom-up session type systems \cite{LessIsMore}:
 \begin{definition}[Safe Type Contexts] \label[definition]{def:safety}
   We define $\safe$ coinductively as the largest set of type contexts such that whenever we have $\Gamma \in \safe$:
   \begin{align}
@@ -13,9 +14,12 @@ We start by defining safety:
   \end{align}
   We write $\safe(\Gamma)$ if \;$\Gamma \in \safe$.
 \end{definition}
-Informally, safety says that if $\pp$ and $\pq$ communicate with each other and $\pp$ requests to 
+\begin{tcolorbox}[colback=blue!10]
+Safety says that if $\pp$ and $\pq$ communicate with each other and $\pp$ requests to 
 send a value using message label $\ell$, then $\pq$ should be able to receive that message label.
 Furthermore, this property should be preserved under any typing context reductions. 
+\end{tcolorbox}
+
 Being a coinductive property, to show that $\safe(\Gamma)$ it suffices to give a set
 $\varphi$ such that $\Gamma \in \varphi$ and $\varphi$ satisfies \rulesafesync and \rulesafereduce.
 This amounts to showing that every element of $\Gamma'$ of the set of reducts of $\Gamma$,
@@ -31,17 +35,12 @@ We illustrate this with some examples:
   Consider $\Gamma$ from Example \ref{exam:reductions}.  All the reducts satisfy \rulesafesync, hence $\Gamma$ is safe.
 \end{example}
 
-Being a coinductive property, $\safe$ can be expressed in Rocq using Paco:
+In Rocq, we define $\safe$ coinductively with Paco:
 \begin{tcb}{Rocq}
 Definition weak_safety (c: tctx ) :=
-forall p q s s'  k k', tctxRE (lsend p q (Some s) k) c -> tctxRE (lrecv q p (Some s') k') c ->
-                               tctxRE (lcomm p q k) c.
-
+  forall p q s s'  k k', tctxRE (lsend p q (Some s) k) c -> tctxRE (lrecv q p (Some s') k') c -> tctxRE (lcomm p q k) c.
 Inductive safe (R: tctx -> Prop): tctx -> Prop :=
-  | safety_red :  forall c, weak_safety c -> (forall p q c' k, 
-    tctxR c (lcomm p q k) c' -> R c') 
-    ->  safe R c.
-
+  | safety_red :  forall c, weak_safety c -> (forall p q c' k, tctxR c (lcomm p q k) c' -> R c') ->  safe R c.
 Definition safeC c := paco1 safe bot1 c.
 \end{tcb}
 \lstin{weak_safety} corresponds \rulesafesync where \lstin{tctxRE l c} is shorthand for
@@ -80,17 +79,18 @@ We say that a path $(\Gamma_n)_{n \in N}$ is live iff, $\forall n \in N$:
   every fair path starting from $\Gamma'$ 
   is also live.
 \end{definition}
-
+\begin{tcolorbox}[colback=blue!10]
 In general, fairness assumptions are used so that only the reduction sequences that are
 "well-behaved" in some sense are considered when formulating other properties \cite{fairness}. 
-For our purposes we define fairness such that, 
-in a fair path, if at any point $\pp$ attempts to send to $\pq$ \textit{and} $\pq$ attempts to send to 
-$\pp$ then eventually a communication between $\pp$ and $\pq$ takes place. Then live paths 
-are defined to be paths such that whenever $\pp$ attempts to send to $\pq$ \textit{or} 
-$\pq$ attempts to send to $\pp$, eventually a $\pp$ to $\pq$ communication takes place.
+We define fairness such that, in a fair path, whenever a synchronous transition $\lblsync{p}{q}{\ell}$
+is enabled, a communication between $\pp$ and $\pq$ is eventually executed.  
+Then live paths are defined to be paths such that whenever $\pp$ attempts to send to $\pq$ \textit{or} 
+$\pq$ attempts to receive from $\pp$, eventually a $\pp$ to $\pq$ communication takes place.
 Informally, this means that every communication request is eventually answered.
-Then live typing contexts are defined to be the $\Gamma$ where 
-all fair paths that start from  $\Gamma$ are also live.
+Live typing contexts are then defined to be the $\Gamma$ such that whenever 
+$\Gamma$ can evolve (in possibly multiple steps) into $\Gamma'$, 
+all fair paths that start from  $\Gamma'$ are also live.  
+\end{tcolorbox}
 
 
 \begin{example}\label[examples]{exam:live}
@@ -114,7 +114,7 @@ We have $\forall n, \Gamma_n \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}}$ and
 \end{example}
 
 \cref{def-fair-live} , while intuitive, is not really convenient for a Rocq formalisation due to 
-the existential statements contained in them. It would be ideal if these properties could
+the existential statements it contains. It would be ideal if these properties could
 be expressed as a least or greatest fixed point, which could then be formalised via Rocq's 
 inductive or (via Paco) coinductive  types. 
 To achieve this, we recast fairness and liveness for local type context paths 
@@ -147,7 +147,6 @@ Definition live_path := alwaysCG live_path_inner.
 
 With these definitions we can now prove that local type contexts associated with a global type are live,
 which is the most involved of the results mechanised in this work.
-We now detail the Rocq Proof that associated local type contexts are also live.
 \begin{remark}
   We once again emphasise that all global types mentioned are assumed to be balanced (\cref{def-balance}).
   Indeed association with non-balanced global types doesn't guarantee liveness. 
@@ -171,18 +170,10 @@ Suppose  \lstin{gamma_proj} $\lts{\lblsend{p}{q}{\ell(S)}}$ (the case for the re
 and \lstin{xs} is a fair local type context reduction path beginning with \lstin{gamma_proj}.
 To show that \lstin{xs} is live we need to show the 
 existence of a  $\lblsync{p}{q}{\ell}$ transition in \lstin{xs}. 
-We prove the following helper lemmas:
-\begin{itemize}
-  \item The height of the \lstin{p}-grafting of \lstin{g} is not smaller than the \lstin{q}-grafting \rocqlink{todo}.
-  \item If the \lstin{p}-grafting and \lstin{q}-grafting of a global type \lstin{g'} 
-  have the same height, then any fair path beginning with the direct projection context of \lstin{g'} 
-  eventually contains a $\lblsync{p}{q}{\ell}$ transition \rocqlink{todo}.
-  \item The height of the \lstin{p}-grafting of \lstin{g} strictly decreases 
-  with every transition involving \lstin{q} \rocqlink{todo},
-  and doesn't increase with the transitions not involving \lstin{q} \rocqlink{todo}.
-\end{itemize}
-These lemmas followed by well-founded induction on the height of the \lstin{p}-grafting of the 
-global type associated with the head of \lstin{xs} gives the desired transition \rocqlink{todo}. 
+We achieve this by taking the height of the \lstin{p}-grafting of the 
+global type associated with the head of \lstin{xs} as our induction invariant.
+We show (\rocqlink{todo}, \rocqlink{todo}, \rocqlink{todo}) that this invariant keeps decreasing until a $\lblsync{p}{q}{\ell}$ transition is enabled on the path,
+at which point our fairness assumption forces that transition to fire \rocqlink{todo}. 
 
 In the second step of the proof we extend association on to paths to get, for each local type context reduction path 
 \lstin{xs} that begins with \lstin{gamma}, another local type context reduction path \lstin{ys} beginning with \lstin{gamma_proj}

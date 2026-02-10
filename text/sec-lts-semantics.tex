@@ -2,7 +2,7 @@
 \label{sec:lts}
 In this section we introduce local type contexts, and define Labelled Transition System 
 semantics on these constructs.
-\subsection{Typing Contexts} 
+\subsection{Local Type Contexts and Reductions} 
 We start by defining typing contexts as finite mappings of participants to local type trees.
 \begin{minipage}{0.45\textwidth}
 \begin{definition}[Typing Contexts]\label[definition]{def-type-ctx}
@@ -28,13 +28,12 @@ In the Rocq implementation we implement local typing contexts as finite maps of
 participants, which are represented as natural numbers, and local type trees.
 We use the red-black tree based finite map implementation of the MMaps library \cite{mmaps}.
 
-
 \begin{remark}
 From now on, we assume the all the types in the local type contexts always have non-empty continuations.
 In Rocq terms, if \lstin{T} is in context \lstin{gamma} then \lstin{wfltt T} holds. This is expressed by the predicate
-\lstin{wfltt: tctx -> Prop}.
+\lstin{tctx_wf: tctx -> Prop}.
 \end{remark}
-\subsection{Local Type Context Reductions}
+
 We now give LTS semantics to local typing contexts, for which we first define the transition labels.
 \begin{definition}[Transition labels] A transition label $\alpha$ has the following form:
   \begin{align*}
@@ -57,7 +56,8 @@ The typing context transition $\lts{\alpha}$ is defined inductively by the follo
     {\prt{p} : \T_k}
     }
     \enspace \rulename{ $\Gamma$-\andsign}
-  \\\\
+    \qquad
+    
   \inferrule[]{
      k \in I }{
       \lbltrans
@@ -66,7 +66,7 @@ The typing context transition $\lts{\alpha}$ is defined inductively by the follo
       {\prt{p} : \T_k}
     }
     \enspace \rulename{ $\Gamma$-$\oplus$}
-\qquad
+  \\\\
     \inferrule[]{
   \lbltrans{\Gamma}{\alpha}{\Gamma'}}
   {
@@ -74,8 +74,9 @@ The typing context transition $\lts{\alpha}$ is defined inductively by the follo
      {\alpha} {\Gamma', {\prt{p}} : \T} 
   }
   \enspace \rulename{$\Gamma$-,}
-  \\\\
-  \inferrule[]{
+  
+  \qquad
+    \inferrule[]{
     \lbltrans{\Gamma_1}{\lblsend{\prt{p}}{\prt{q}}{\ell(S)}}{\Gamma'_1}
     \qquad  
     \lbltrans{\Gamma_2}{\lblrec{\prt{q}}{\prt{p}}{\ell(S')}}{\Gamma'_2}
@@ -86,7 +87,6 @@ The typing context transition $\lts{\alpha}$ is defined inductively by the follo
     {\Gamma'_1, \Gamma'_2}
     }
     \enspace \rulename{$\Gamma$-$\oplus$\andsign}
-    \\\\
 \end{array}
 \]
 We write $\Gamma \lts{\alpha}$ if there exists $\Gamma'$ such that $\Gamma\lts{a}\Gamma'$.  
@@ -94,7 +94,7 @@ We define a reduction $\Gamma\lts{}\Gamma'$ that holds iff \; $\lbltrans{\Gamma}
 We write $\lts{}^*$ for the reflexive transitive closure of $\lts{}$.
 \end{definition}
 $\ruleredsend$ and $\ruleredrec$, express a single participant sending or receiving.
-$\ruleredsync$ expresses a synchronized communication where one participant sends while another receives,
+$\ruleredsync$ expresses a synchronised communication where one participant sends while another receives,
 and they both progress with their continuation. $\ruleredvar$ shows how to extend a context.  
 
 In Rocq typing context reductions are defined with the predicate \lstin{tctxR} \rocqlink{todo}.
@@ -202,7 +202,7 @@ by directly describing the roles of every participant,
 and global types, which give a top-down view of the whole protocol, and the transition relations on them.
 We now relate these local and global definitions by defining \textit{association} between local type
 context and global types.
-\begin{definition}[Association]\label[definition]{def-assoc}
+\begin{definition}[Association \rocqlink{todo}]\label[definition]{def-assoc}
 A local typing context $\Gamma$ is associated with a global type tree $\G$, written $\Gamma \assoc \G$,
 if the following hold:
 \begin{itemize}
@@ -222,14 +222,10 @@ obey the specification described by the global type tree $\G$.
 \begin{example}\label{exam:assoc}
   In Example \ref{exam:reductions},
   we have that $\Gamma \assoc \G$ where
-  \begin{align*}
-  \G := \GvtPair{\prt{p}}{\prt{q}}{\ell_0(\tint).\G,\ell_1(\tint).\GvtPair{\prt{q}}{\prt{r}}{\ell_2(\tint).\tend}}
-  \end{align*}
+  $\G := \GvtPair{\prt{p}}{\prt{q}}{\ell_0(\tint).\G,\ell_1(\tint).\GvtPair{\prt{q}}{\prt{r}}{\ell_2(\tint).\tend}}$.
   In fact, we have $\Gamma(\ps) = \projfn{\G}{\ps}$ for $\ps \in \{\prt{p},\pq,\pr\}$. 
   Similarly, we have $\Gamma' \assoc \G'$ where
-  \begin{align*}
-    \G' := \GvtPair{\prt{q}}{\prt{r}}{\ell_2(\tint).\tend}
-  \end{align*}
+    $\G' := \GvtPair{\prt{q}}{\prt{r}}{\ell_2(\tint).\tend}$
 \end{example}
 
 It is desirable to have the association
@@ -237,13 +233,13 @@ be preserved under local type context and global type reductions, that is,
 when one of the associated constructs "takes a step" so should the other. We formalise this property with 
 soundness and completeness theorems.
 
-\begin{theorem}[Soundness of Association]\label{theo-soundness} 
+\begin{theorem}[Soundness of Association \rocqlink{todo}]\label{theo-soundness} 
   If \lstin{assoc gamma G} and \lstin{gttstepC G G' p q ell}, then there is a local type context \lstin{gamma'},
   a global type tree \lstin{G''} and a message label \lstin{ell'} such that 
   \lstin{gttStepC G G'' p q ell'}, \lstin{assoc gamma' G''} and 
   \lstin{tctxR gamma (lcomm p q ell') gamma'}.
 \end{theorem}
-\begin{theorem}[Completeness of Association] \label{theo-completeness}
+\begin{theorem}[Completeness of Association \rocqlink{todo}] \label{theo-completeness}
   If \lstin{assoc gamma G} and \lstin{tctxR gamma (lcomm p q ell) gamma'}, 
   then there exists a global type tree \lstin{G'} such that 
   \lstin{assoc gamma' G'} and \lstin{gttstepC G G' p q ell}. 
@@ -253,13 +249,8 @@ soundness and completeness theorems.
   to be different to the message label for the global type reduction. 
   This is because our use of subtyping in association causes the entries in the local type context
   to be less expressive than the types obtained by projecting the global type. For example consider
-  \begin{align*}
-    \Gamma = \pp : \ltsend{q}{\ell_0(\tint).\tend}, \; \pq : \ltrec{p}{\ell_0(\tint).\tend, \ell_1(\tint).\tend}  
-  \end{align*}
-  and 
-  \begin{align*}
-    \G= \GvtPair{p}{q}{\ell_0(\tint).\tend, \ell_1(\tint).\tend}
-  \end{align*}
+    $\Gamma = \pp : \ltsend{q}{\ell_0(\tint).\tend}, \; \pq : \ltrec{p}{\ell_0(\tint).\tend, \ell_1(\tint).\tend}$
+    and $\G= \GvtPair{p}{q}{\ell_0(\tint).\tend, \ell_1(\tint).\tend}$.
   We have $\Gamma \assoc \G$ and $\G \lts{\lblsync{p}{q}{\ell_1}}$.
   However $\Gamma \lts{\lblsync{p}{q}{\ell_1}}$ is not a valid transition.
   Note that soundness still requires that $\Gamma \lts{\lblsync{p}{q}{\ell_x}}$ for some $x$,

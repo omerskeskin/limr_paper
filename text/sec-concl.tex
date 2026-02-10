@@ -1,6 +1,19 @@
 \section{Conclusion and Related Work}
+In this work we have mechanised the semantics of local and global types, proved a correspondence between them,
+and used this correspondence to prove safety, deadlock-freedom and liveness for the typed sessions in 
+simple message-passing calculus. To our knowledge, our liveness result is the first mechanised
+one of its kind, and is the most challenging of the theorems we formalised. Our implementation
+illustrates some of the difficulties encountered when mechanising liveness properties in general.
+These include the use of mixed inductive-coinductive reasoning and the absence of a clear general proof technique.
+In particular, the induction on the tree context height used in \cref{theo-ctx-live}
+requires some care to set up, and is not the most obvious way of implementing the proof in Rocq.
+Our earlier unsuccesful attempts at that proof included one which proceeded by induction 
+on the grafting (\cref{def:global-ctx}) of local type trees, which turned out to be a 
+defective induction variable. Still, our work illustrates the power of parameterised
+coinduction in the verification of liveness properties, and provides a framework
+for the verification of further linear time properties on session types. 
 
-\textbf{Liveness Properties.} Examinations of liveness, also called \textit{lock-freedom}, guarantees of multiparty session types abound in literature, e.g. 
+\textbf{Related Work.} Examinations of liveness, also called \textit{lock-freedom}, guarantees of multiparty session types abound in literature, e.g. 
 \cite{padovani_typing_2014,kobayashi_type_2002,LessIsMoreRevisited,LessIsMore,barbanera_partially_2023}.
 Most of these papers use the definition liveness proposed by Padovani \cite{padovani}, 
 which doesn't make the fairness assumptions that characterize the property \cite{francez_fairness_1986} explicit. 
@@ -17,14 +30,14 @@ is live but not typable by a context associated with a balanced global type in o
 
 Fairness assumptions are also made explicit in recent work by Ciccone et. al \cite{ciccone_fair_2024,ciccone_2022-binary} 
 which use generalized inference systems with coaxioms \cite{ancona_generalizing_2017} to characterize 
-\textit{fair termination}, which is stronger than \cref{def-live-sess}, but enjoys good composition properties.
+\textit{fair termination}, which is stronger than \cref{def-live-sess}, but enjoys good compositionality properties.
 
-\textbf{Mechanisation.} Mechanisation of session types in proof assistants is a relatively new effort. 
+Mechanisation of session types in proof assistants is a relatively new effort. 
 Our formalisation is built on recent work by Ekici et. al. \cite{srpaper} which uses a coinductive representation
 of global and local types to prove subject reduction and progress. 
 Their work uses a typing relation between global types and sessions while ours uses one 
 between associated local type contexts and sessions. This necessiates the rewriting of
-subject reduction and progress proofs in addition to the operational correspondence, safety and liveness
+subject reduction and progress proofs in addition to the novel operational correspondence, safety and liveness
 properties we have proved. Other recent results mechanised in Rocq include Ekici and Yoshida's \cite{ekici_completeness_2024}
 work on the completeness of asynchronous subtyping, and Tirore's work \cite{tirore_thesis, tirore2025multiparty,tirore2023sound}
 on projections and subject reduction for $\pi$-calculus. 

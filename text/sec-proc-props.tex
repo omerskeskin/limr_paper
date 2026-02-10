@@ -4,26 +4,16 @@ We give typing rules for the session calculus introduced in \ref{sec-procs}, and
 reduction and deadlock freedom for them. Then we define 
 a liveness property for sessions, and show that processes typable by a local type context 
 that's associated with a global type tree are guaranteed to satisfy this liveness property.
-\subsection{Typing rules}
-We give typing rules for our session calculus based on \cite{SynchronousSubtyping} and \cite{srpaper}. 
-
-We distinguish between two kinds of typing judgements and type contexts.
 \newcommand{\vdashm}{\vdash_\M}
 \newcommand{\vdashp}{\vdash_\PT}
-\begin{enumerate}
-    \item A local type context $\Gamma$ associates participants with local type trees, as defined in
-    c{def-type-ctx}. Local type contexts are used to type sessions (\cref{def:sessions}) i.e. a set of 
-    pairs of participants and single processes composed in parallel. We express 
-    such judgements as $\Gamma \vdashm \M$, or as \lstin{typ_sess M gamma} or 
-    \lstin{gamma $\;\vdash$ M} in Rocq.
-    \item A process variable context $\Theta_\T$ associates process variables with local type trees,
-    and an expression variable context $\Theta_\kf{e}$ 
-    assigns sorts to expresion variables.
-    Variable contexts are used to type single processes and expressions (\cref{def:processes}). 
-    Such judgements are expressed 
-    as $\Theta_\T, \Theta_\kf{e} \vdashp \PT : \T$, or in Rocq as 
-    \lstin{typ_proc theta_T theta_e P T} or \lstin{theta_T, theta_e $\;\vdash$ P : T}.
-\end{enumerate}
+\subsection{Typing rules}
+We give typing rules for our session calculus based on \cite{SynchronousSubtyping} and \cite{srpaper}. 
+We have two kinds of typing judgements and type contexts.
+$\Theta_\T, \Theta_\kf{e} \vdashp \PT : \T$ says that the single process $\PT$
+can be typed with local type $\T$ using expression and type variables from $\Theta_\T, \Theta_\kf{e}$.
+On the other hand, $\Gamma \vdashm \M$ expresses that session $\M$ can be typed by the local type context (\cref{def-type-ctx})
+Typing rules for expressions are standard and can be found in e.g. \cite{SynchronousSubtyping}, and are therefore omitted.
+$\Gamma$.
 \begin{table}[h]
 {\footnotesize
 \[
@@ -61,8 +51,8 @@ We distinguish between two kinds of typing judgements and type contexts.
 \caption{Typing processes}
 \label{tbl:proc}
 \end{table}
-Typing rules for expressions are standard and can be found in e.g. \cite{SynchronousSubtyping}, and are therefore omitted.
-\cref{tbl:proc} state the standard \cite{srpaper,SynchronousSubtyping} typing rules for processes, 
+
+\cref{tbl:proc} states the standard \cite{srpaper,SynchronousSubtyping} typing rules for processes, 
 which we don't elaborate on.
 We additionally have a single rule for typing sessions:
 \[
@@ -74,9 +64,8 @@ We additionally have a single rule for typing sessions:
 can be typed by an associated local context $\Gamma$ if the local type of participant $\pp_i$ in $\Gamma$
 types the process  
 \subsection{Properties of Typed Sessions}
-The subject reduction, progress and non-stuck theorems from \cite{srpaper} \todo{give theorem no}
-also hold in this setting, with minor changes in their statements and proofs. 
-We won't discuss these proofs in detail.
+We can now prove some properties typed sessions. The following theorems relating
+session reductions to types underlie our results.
 \begin{lemma}[Typing after Unfolding \rocqlink{todo}]
   \label{lem-typ-unfold}
   If \lstin{gamma} $\vdashm$ \lstin{M}   and \lstin{M} $\Rrightarrow$ \lstin{M'} then \lstin{typ_sess M' gamma}.
@@ -88,6 +77,17 @@ there exists a typing context \lstin{gamma'} such that
 \lstin{gamma} $\lts{\lblsync{p}{q}{\ell}}$ \lstin{gamma'}
 and \lstin{gamma} $\vdashm$ \lstin{M}  .
 \end{theorem}
+\begin{theorem}[Session Fidelity \rocqlink{todo}]\label{theo-sess-fid}
+If \lstin{gamma} $\vdashm$ \lstin{M} and \lstin{gamma} $\lts{\lblsync{p}{q}{\ell}}$ \lstin{gamma'}, there exists a
+message label
+$\ell'$, a context \lstin{gamma''} and a session \lstin{M'} such that \lstin{M} $\lts{\lblsync{p}{q}{\ell'}}$ \lstin{M'} 
+, \lstin{gamma} $\lts{\lblsync{p}{q}{\ell'}}$ \lstin{gamma''} and \lstin{typ_sess M' gamma''}.  
+\end{theorem}
+\begin{tcolorbox}[colback=blue!10]
+\cref{lem-typ-unfold} says that typing is preserved after unfolding. 
+\cref{theo-sub-red} shows that the typing context reduces along with the session it types.
+\cref{theo-sess-fid} is an analogue of \cref{theo-sub-red} in the opposite direction.
+\end{tcolorbox}
 \begin{remark}\label{remark-reactive-justif}
 Note that in \cref{theo-sub-red} one transition between sessions corresponds to exactly one transition
 between local type contexts with the same label. That is, every session transition is observed by the corresponding type.
@@ -97,6 +97,18 @@ ordinary semantics. In other words, with $\tau$-semantics the typing relation is
 while it turns into a strong simulation with reactive semantics. For our Rocq implementation 
 working with the strong simulation turns out be more convenient. 
 \end{remark}
+
+Now we can prove two of our main results, communication safety and deadlock freedom:
+\begin{theorem}[Communication Safety \rocqlink{todo}]\label{theo-type-safe}
+If \lstin{gamma} $\vdashm$ \lstin{M} and  \lstin{M} $\lts{}^*$ \lstin{M'} $\Rrightarrow$ 
+\lstin{(p <- p_send q ell P \|\|\| q <- p_recv p xs \|\|\| M'')}, 
+then \lstin{onth ell xs <> None}.
+\end{theorem} 
+\begin{tcolorbox}[colback=blue!10]
+\cref{theo-type-safe} means that typed sessions evolve to sessions where if participant \lstin{p}
+wants to send to \lstin{q} with label $\ell$, and \lstin{q} is listening to receive from \lstin{p},
+then \lstin{q} is able to receive with label $\ell$.
+\end{tcolorbox}
 \begin{theorem}[Deadlock Freedom \rocqlink{todo}] \label{theo-progress}
 If \lstin{gamma} $\vdashm$ \lstin{M}  , one of the following hold :
 \begin{enumerate}
@@ -106,26 +118,10 @@ If \lstin{gamma} $\vdashm$ \lstin{M}  , one of the following hold :
   \item Or there is a \lstin{M'} such that \lstin{M} $\rdc$ \lstin{M'}.
 \end{enumerate}
 \end{theorem}
-We can also prove the following correspondence result in the reverse direction to \cref{theo-sub-red}, analogous 
-to \cref{theo-soundness}.
-\begin{theorem}[Session Fidelity \rocqlink{todo}]\label{theo-sess-fid}
-If \lstin{gamma} $\vdashm$ \lstin{M} and \lstin{gamma} $\lts{\lblsync{p}{q}{\ell}}$ \lstin{gamma'}, there exists a
-message label
-$\ell'$, a context \lstin{gamma''} and a session \lstin{M'} such that \lstin{M} $\lts{\lblsync{p}{q}{\ell'}}$ \lstin{M'} 
-, \lstin{gamma} $\lts{\lblsync{p}{q}{\ell'}}$ \lstin{gamma''} and \lstin{typ_sess M' gamma''}.  
-\end{theorem}
-\begin{remark}
-Again we note that by \cref{theo-sess-fid} a single-step context reduction induces 
-a single-step session reduction on the type. 
-With the $\tau$-semantics the session reduction induced by 
-the context reduction would be multistep.
-\end{remark}
-Now the following type safety property follows from the above theorems:
-\begin{theorem}[Type Safety \rocqlink{todo}]\label{theo-type-safe}
-If \lstin{gamma} $\vdashm$ \lstin{M} and  \lstin{M} $\lts{}^*$ \lstin{M'} $\Rrightarrow$ 
-\lstin{(p <- p_send q ell P \|\|\| q <- p_recv p xs \|\|\| M'')}, 
-then \lstin{onth ell xs <> None}.
-\end{theorem} 
+\begin{tcolorbox}[colback=blue!10]
+\cref{theo-progress} says that the only way a typed session has no reductions available is if 
+it has terminated.
+\end{tcolorbox}
 The final, and the most intricate, session property we prove is liveness.
 \begin{definition}[Session Liveness \rocqlink{todo}]\label[definition]{def-live-sess}
   Session $\M$ is live iff
@@ -146,12 +142,14 @@ Definition live_sess Mp := forall M, betaRtc Mp M ->
     exists M'' P' e k, onth k llp = Some P' /\ betaRtc M ((p <-- subst_expr_proc P' e 0 0) |||M'')). 
   \end{tcb}
 \end{definition}
+\begin{tcolorbox}[colback=blue!10]
 Session liveness, analogous to liveness for typing contexts (\cref{def-fair-live}), says that 
 when $\M$ is live, if $\M$ reduces to a session $\M'$ containing a participant that's attempting to send 
 or receive, then $\M'$ reduces to a session where that communication has happened. 
 It's also called \textit{lock-freedom} in related work (\cite{fairnesslock,padovani}). 
-
-We can now prove that typed sessions are live. First we prove the following lemma:
+\end{tcolorbox}
+We  now detail the proof that typed sessions are live. 
+First we prove the following lemma:
 \begin{lemma}[Fair Extension of Typed Sessions \rocqlink{todo}]\label{lem-fair-scheduling}
 If \lstin{typ_sess M gamma}, then there exists a session reduction path \lstin{xs} 
 starting from \lstin{M} such that the following fairness property holds:
@@ -161,24 +159,29 @@ starting from \lstin{M} such that the following fairness property holds:
 \end{itemize}
 \end{lemma}
 \begin{proof}
-  The desired path can be constructed by repeatedly cycling through all participants,
+The desired path can be constructed by repeatedly cycling through all participants,
 checking if there is a transition involving that participant, and executing that transition if there is.
-Correctness follows from \cref{theo-sub-red} and \cref{theo-sess-fid}.
+As in the proof of \cref{theo-ctx-live}, the construction in \cref{lem-fair-scheduling} uses 
+the \lstin{constructive_indefinite_description} axiom to construct 
+a cosequence as a \lstin{CoFixpoint}.
+Additionally, we use the axiom \lstin{excluded_middle_informative}
+for the "check if there is a transition involving a participant" part of the scheduling algorithm.
+The use of this axiom is probably not necessary but it makes the proof easier. 
+Correctness of the algorithm follows from \cref{theo-sub-red} and \cref{theo-sess-fid}.
 \end{proof}
+
+\begin{savenotes}
+\begin{tcolorbox}[colback=blue!10]
 \cref{lem-fair-scheduling} defines a "fairness" property for sessions analogous to \cref{def-fair-live}.
 It then shows that there exists a fair path from any typable session. 
 This resembles the \textit{feasibility} property expected from sensible notions of fairness \cite{fairness},
 which states that any partial path can be extended into a fair one 
 \footnote{Note that this fairness property for sessions is not actually feasible as there are partial paths 
 starting with an untypable session that can't be extended into a fair one. 
-Nevertheless, \cref{lem-fair-scheduling} turns out to be enough to prove our liveness property.}.  
-\begin{remark}
-As in the proof of \cref{theo-ctx-live}, the construction in \cref{lem-fair-scheduling} uses 
-the \lstin{constructive_indefinite_description} axiom to construct a \lstin{CoFixpoint}.
-Additionally, we use the axiom \lstin{excluded_middle_informative}
-for the "check if there is a transition involving a participant" part of the scheduling algorithm.
-The use of this axiom is probably not necessary but it makes the proof easier. 
-\end{remark}
+Nevertheless, \cref{lem-fair-scheduling} turns out to be enough to prove our liveness property.}.    
+\end{tcolorbox}
+\end{savenotes}
+
 
 \begin{theorem}[Liveness by Typing \rocqlink{todo}]\label{theo-sess-live}
 For a session \lstin{Mp}, if \lstin{exists gamma gamma} $\vdashm$ \lstin{Mp} then \lstin{live_sess Mp}.
