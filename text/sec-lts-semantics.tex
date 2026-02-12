@@ -119,13 +119,11 @@ of local contexts under the \lstin{M.Equal} predicate from the MMaps library.
 
 We illustrate typing context reductions with an example.
 \begin{example}\label{exam:reductions}
-  Let
-  \begin{align*}
-  \T_{\prt{p}} &= \procoutmult{\prt{q}}{\ell_0(\tint).\T_{\prt{p}}\;,\;\ell_1(\tint).\tend}\\
-  \T_{\prt{q}} &= \procinmult{\prt{p}}{\ell_0(\tint).\T_{\prt{q}}\;,  \; \ell_1(\tint).\procoutsingle{\prt{r}}{\ell_2(\tint)}{\tend}}\\
-  \T_{\prt{r}} &= \procinmult{\prt{q}}{\ell_2(\tint).\tend}
-\end{align*}
-and $\Gamma = \{{\prt{p}}:\T_{\prt{p}}, \; {\prt{q}} : \T_{\prt{q}},\; {\prt{r}}: \T_{\prt{r}}\}$.
+  Let $\Gamma = \{{\prt{p}}:\T_{\prt{p}}, \; {\prt{q}} : \T_{\prt{q}},\; {\prt{r}}: \T_{\prt{r}}\}$ where
+  $\T_{\prt{p}} = \procoutmult{\prt{q}}{\ell_0(\tint).\T_{\prt{p}},\ell_1(\tint).\tend}$
+  $\T_{\prt{q}} = \procinmult{\prt{p}}{\ell_0(\tint).\T_{\prt{q}},  \ell_1(\tint).\procoutsingle{\prt{r}}{\ell_2(\tint)}{\tend}}$
+  and 
+  $\T_{\prt{r}} = \procinmult{\prt{q}}{\ell_2(\tint).\tend}$.
 We have the reductions $\Gamma\lts{\lblsend{p}{q}{\ell_0(\tint)}} \Gamma$ and
 $\Gamma \lts{\lblrec{\prt{q}}{\prt{p}}{\ell_0(\tint)}} \Gamma$, which synchronise to give the reduction
 and $\Gamma \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}}  \Gamma$. Similarly via synchronised communication of $\pp$ and $\pq$
