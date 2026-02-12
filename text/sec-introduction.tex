@@ -26,7 +26,8 @@ local type contexts and global types. This association relation ensures \textit{
 between the labelled transition system (LTS) semantics we define for local type contexts and global types. We then type ($\vdash_\mathcal{M}$) sessions using local type contexts that are associated with
 global types, which ensure that the local type context, and hence the session, is well-behaved in some sense.
 Whenever an associated local type context $\Gamma$ types a session $\M$, our type system guarantees 
-safety (\cref{theo-type-safe}), deadlock-freedom \cref{theo-progress} and liveness \cref{theo-sess-live}.
+safety (\cref{theo-type-safe}), deadlock-freedom (\cref{theo-progress}) and 
+liveness (\cref{theo-sess-live}).
 To our knowledge, this work presents the first mechanisation of liveness for multiparty session types in
 a proof assistant.
 

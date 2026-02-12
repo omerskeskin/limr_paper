@@ -1,7 +1,7 @@
 \section{Properties of Local Type Contexts} \label{sec-props}
 We now use the LTS semantics to define some desirable properties on type contexts and their 
 reduction sequences. Namely, we formulate
-safety, liveness and fairness properties based on the definitions in \cite{LessIsMoreRevisited}. 
+safety, fairness and liveness properties based on the definitions in \cite{LessIsMoreRevisited}. 
 \subsection{Safety}
 We start by defining the \textit{safety} property that plays an important role 
 in bottom-up session type systems \cite{LessIsMore}:
@@ -112,7 +112,6 @@ We have $\forall n, \Gamma_n \lts{\lblsync{\prt{p}}{\prt{q}}{\ell_0}}$ and
   This path is fair and live as it contains the $\lblsync{\prt{q}}{\prt{r}}{}$ transition 
   from the counterexample above.   
 \end{example}
-
 \cref{def-fair-live} , while intuitive, is not really convenient for a Rocq formalisation due to 
 the existential statements it contains. It would be ideal if these properties could
 be expressed as a least or greatest fixed point, which could then be formalised via Rocq's 

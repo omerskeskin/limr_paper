@@ -119,63 +119,55 @@ and $\beta$ reductions are defined up to this unfolding (\cref{tbl:unf}).
 {\footnotesize
 \[
 \begin{array}{@{}l@{}}
+  \inferrule[\rulename{R-comm}]
+  {j\in I \quad e \downarrow v}
+  {\pp \triangleleft \sum^{}_{i\in I} \tin\pq{\ell_i}{x_i}.\PT_i \ \mid \  \pq \triangleleft \tout{\pp}{\ell_j}{\kf{e}}.\QT \ \mid \ \N \ \ 
+  \xrightarrow{(\pp,\pq)\ell_j} \ \ 
+    \pp \triangleleft \PT_j[v/x_j] \ \mid \ \pq \triangleleft \QT \ \mid \ \N}
+\quad
+    \inferrule[\rulename{Unf-trans}]
+  {\M \Rrightarrow \M' \quad \M' \Rrightarrow \N }
+  {\M \Rrightarrow \N}  
+    \\[10mm]
+    \inferrule[\rulename{R-unfold}]
+  {\M \Rrightarrow \M' \quad \M' \lts{\lambda} \N' \quad \N' \Rrightarrow \N}
+  {\M \lts{\lambda} \N}
+  \qquad
     \inferrule[\rulename{Unf-struct}]
   {\M \equiv \N}
   {\M \Rrightarrow \N}
-  \quad
-  \inferrule[\rulename{Unf-rec}]
-  {}
-  {\pp \triangleleft \mu \Xv.\PT \mid \N \ \ 
-  \Rrightarrow
-    \pp \triangleleft \PT[\mu \Xv.\PT / \Xv] \ \mid \ \N}  
-  \quad
+  \qquad
     \inferrule[\rulename{Unf-condt}]
   {e \downarrow \text{true}}
   {\pp \triangleleft \text{ if } e \text{ then } \PT \text{ else } \QT \ \mid \ \N \ \ 
   \Rrightarrow \ \
     \pp \triangleleft \PT \ \mid \ \N}    
       \\[5mm]
-        \inferrule[\rulename{Unf-condf}]
+      
+  \inferrule[\rulename{Unf-rec}]
+  {}
+  {\pp \triangleleft \mu \Xv.\PT \mid \N \ \ 
+  \Rrightarrow
+    \pp \triangleleft \PT[\mu \Xv.\PT / \Xv] \ \mid \ \N}  
+  \quad
+  \inferrule[\rulename{Unf-condf}]
   {e \downarrow \text{false}}
   {\pp \triangleleft \text{ if } e \text{ then } \PT \text{ else } \QT \ \mid \ \N \ \ 
   \Rrightarrow \ \
     \pp \triangleleft \QT \ \mid \ \N}  
-  \quad
-    \inferrule[\rulename{Unf-trans}]
-  {\M \Rrightarrow \M' \quad \M' \Rrightarrow \N }
-  {\M \Rrightarrow \N}  
 \end{array}
 \]}
-\caption{Unfolding of Sessions}
+\caption{Unfolding and Reductions of Sessions}
 \label{tbl:unf}
 \end{table}
 
-$\M \Rrightarrow \N$ means that $\M$ can transition to $\N$ through some internal actions, that is, a reduction that doesn't involve a communication. 
-We say that $\M$ \textit{unfolds} to $\N$. 
-In Rocq it's captured by the predicate \lstin{unfoldP : session -> session -> Prop} \rocqlink{todo}.
-\begin{table}[h]
-{\footnotesize
-\[
-\begin{array}{@{}l@{}}
-    \inferrule[\rulename{R-comm}]
-  {j\in I \quad e \downarrow v}
-  {\pp \triangleleft \sum^{}_{i\in I} \tin\pq{\ell_i}{x_i}.\PT_i \ \mid \  \pq \triangleleft \tout{\pp}{\ell_j}{\kf{e}}.\QT \ \mid \ \N \ \ 
-  \xrightarrow{(\pp,\pq)\ell_j} \ \ 
-    \pp \triangleleft \PT_j[v/x_j] \ \mid \ \pq \triangleleft \QT \ \mid \ \N}
-    \\[10mm]
-    \inferrule[\rulename{R-unfold}]
-  {\M \Rrightarrow \M' \quad \M' \lts{\lambda} \N' \quad \N' \Rrightarrow \N}
-  {\M \lts{\lambda} \N}
-    \\[10mm]
-\end{array}
-\]}
-\caption{Reactive Semantics of Sessions}
-\label{tbl:srr-react}
-\end{table}
-
-\cref{tbl:srr-react} illustrates the rules for communicating transitons. 
+In \cref{tbl:unf}, $\M \Rrightarrow \N$ means that $\M$ can transition to $\N$ through some internal actions, that is, a reduction that doesn't involve a communication. 
+We say that $\M$ \textit{unfolds} to $\N$. Then
 \rulename{R-comm} captures communications between processes, and \rulename{R-unfold} lets us consider reductions up to
-unfoldings. In Rocq, \lstin{betaP_lbl M lambda M'} \rocqlink{todo} denotes 
+unfoldings.  
+
+In Rocq the unfolding captured by the predicate \lstin{unfoldP : session -> session -> Prop} \rocqlink{todo}.
+and, \lstin{betaP_lbl M lambda M'} \rocqlink{todo} denotes 
 $\M \lts{\lambda} \M'$. We write $\M \lts{} \M'$ if $\M \lts{\lambda} \M'$
 for some $\lambda$, which is written \lstin{betaP M M'} in Rocq.
 We write $\lts{}^*$ to denote the reflexive transitive closure of

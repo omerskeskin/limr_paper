@@ -40,7 +40,7 @@ We now give LTS semantics to local typing contexts, for which we first define th
     \alpha ::&= \lblrec{p}{q}{\ell(S)}  && 
     \text{(${\prt{p}}$ receives a value of sort ${S}$ from ${\prt{q}}$ with message label ${\ell}$)}\\
     & \SEP \lblsend{p}{q}{\ell(S)} && \text{(${\prt{p}}$ sends a value of sort $S$ to ${\prt{q}}$ with message label $\ell$ )}\\
-    & \SEP \lblsync{p}{q}{\ell} && \text{(A synchronized communication from $\pp$ to $\pq$ occurs via message label $\ell$)}\\
+    & \SEP \lblsync{p}{q}{\ell} && \text{(A synchronised communication from $\pp$ to $\pq$ occurs via label $\ell$)}\\
   \end{align*}
 \end{definition}
 Next we define labelled transitions for local type contexts.
@@ -55,9 +55,8 @@ The typing context transition $\lts{\alpha}$ is defined inductively by the follo
     {\lblrec{p}{q}{\ell_k(S_k)}}
     {\prt{p} : \T_k}
     }
-    \enspace \rulename{ $\Gamma$-\andsign}
-    \qquad
-    
+    \; \rulename{ $\Gamma$-\andsign}
+    \;
   \inferrule[]{
      k \in I }{
       \lbltrans
@@ -65,7 +64,7 @@ The typing context transition $\lts{\alpha}$ is defined inductively by the follo
       {\lblsend{p}{q}{\ell_k(S_k)}}
       {\prt{p} : \T_k}
     }
-    \enspace \rulename{ $\Gamma$-$\oplus$}
+    \; \rulename{ $\Gamma$-$\oplus$}
   \\\\
     \inferrule[]{
   \lbltrans{\Gamma}{\alpha}{\Gamma'}}
@@ -97,19 +96,14 @@ $\ruleredsend$ and $\ruleredrec$, express a single participant sending or receiv
 $\ruleredsync$ expresses a synchronised communication where one participant sends while another receives,
 and they both progress with their continuation. $\ruleredvar$ shows how to extend a context.  
 
-In Rocq typing context reductions are defined with the predicate \lstin{tctxR} \rocqlink{todo}.
+In Rocq typing context reductions are defined with the predicate \lstin{tctxR}.
 
-\begin{minipage} {0.45\textwidth}
 \begin{tcb}{Rocq}
 Notation opt_lbl := nat.
 Inductive label: Type :=
   | lrecv: part -> part -> option sort -> opt_lbl -> label
   | lsend: part -> part -> option sort -> opt_lbl -> label
   | lcomm: part -> part -> opt_lbl -> label.
-  \end{tcb}
-\end{minipage}
-\begin{minipage}{0.5\textwidth}
-\begin{tcb}[\tiny]{Rocq}
 Inductive tctxR: tctx -> label -> tctx -> Prop :=
   | Rsend: ...
   | Rrecv: ...  
@@ -118,7 +112,6 @@ Inductive tctxR: tctx -> label -> tctx -> Prop :=
   | Rstruct: forall g1 g1' g2 g2' l, tctxR g1' l g2' ->
     M.Equal g1 g1' -> M.Equal g2 g2' -> tctxR g1 l g2.
 \end{tcb}
-\end{minipage}
 
 The first four constructors in the definition of \lstin{tctxR} corresponds to the 
 rules in \cref{def-ctx-red}, and \lstin{Rstruct} expresses the indistinguishability
@@ -191,7 +184,6 @@ transition to any of its children corresponding to the message label choosen by 
 \rulegredctx says that if the subjects of $\alpha$ are disjoint from the root and all its children
 can transition via $\alpha$, then the whole tree can also transition via $\alpha$, with the root remaining 
 the same and just the subtrees of its children transitioning.
-
 In Rocq global type reductions are expressed using the coinductively defined predicate \lstin{gttstepC}. 
 For example, $\lbltrans{\G}{\lblsync{p}{q}{\ell_k}}{\G'}$ translates to \lstin{gttstepC G G' p q k}. 
 We refer to \cite{srpaper} for details.
@@ -253,6 +245,4 @@ soundness and completeness theorems.
     and $\G= \GvtPair{p}{q}{\ell_0(\tint).\tend, \ell_1(\tint).\tend}$.
   We have $\Gamma \assoc \G$ and $\G \lts{\lblsync{p}{q}{\ell_1}}$.
   However $\Gamma \lts{\lblsync{p}{q}{\ell_1}}$ is not a valid transition.
-  Note that soundness still requires that $\Gamma \lts{\lblsync{p}{q}{\ell_x}}$ for some $x$,
-  which is satisfied in this case by the valid transition  $\Gamma \lts{\lblsync{p}{q}{\ell_0}}$.
 \end{remark}

@@ -13,6 +13,7 @@ and local types that will be used to type single processes.
 \begin{definition}[Sorts and Local Type Trees]
 We define three atomic sorts: $\tint$, $\tbool$ and $\tnat$.
 Local type trees are then defined coinductively with the following syntax: 
+
 \begin{minipage}{0.45\textwidth}
 \begin{align*}
     \T ::= \quad &\tend \\
@@ -20,7 +21,7 @@ Local type trees are then defined coinductively with the following syntax:
      \SEP &\procoutset{\prt{p}}{\ell_i(\S_i)}{\T_i}{i \in I}
     \end{align*}  
 \end{minipage}
-\begin{minipage}{0.45\textwidth}
+\begin{minipage}{0.5\textwidth}
 \begin{tcb}{Rocq}
 Inductive sort: Type :=
    | sbool: sort | sint : sort | snat : sort.
@@ -31,6 +32,7 @@ CoInductive ltt: Type :=
 \end{tcb}  
 \end{minipage}
 \end{definition}
+
 In the above definition, $\tend$ represents a role that has finished communicating.
 $\ltsend{\prt{p}}{\ell_i(\S_i).\T}_{i \in I}$ denotes a role that may, from any $i \in I$, 
 receive a value of sort $S_i$ with message label $\ell_i$ and continue with $\tlt_i$.
@@ -134,7 +136,6 @@ syntactic types, we refer to \cite{srpaper} for details.} to the following equat
 We extend the function $\funprt$ onto trees by defining $\funprt(\G)=\funprt(\mathbb{G})$
 where the global type $\mathbb{G}$ corresponds to the global type tree $\G$. Technical details 
 of this definition such as well-definedness can be found in \cite{srpaper,SynchronousSubtyping}. 
-
 In Rocq $\funprt$ is captured with the 
 predicate \lstin{isgPartsC : part -> gtt -> Prop}, where \lstin{isgPartsC p G} 
 denotes $\prt{p} \in \funprt(\G)$.  
@@ -179,14 +180,13 @@ $\T \subtp \projfn{\G}{\pr}$. In our Rocq implementation we define the predicate
 as a shorthand for this.
 \subsection{Balancedness, Global Tree Contexts and Grafting}
 We introduce an important constraint on the types of global type trees we will consider, balancedness.
-
+We omit the technical details of The definition and the Rocq implementation, they can be found in 
+\cite{SynchronousSubtyping} and \cite{srpaper}.
 \begin{definition}[Balanced Global Type Trees]\label[definition]{def-balance}
 A global tree $\G$ is balanced if for any subtree $\G'$ of $\G$, there exists $k$ such that
 for all $\pp \in \funprt(\G')$, $\pp$ occurs on every path from the root of $\G'$ of length at 
 least $k$.
 \end{definition}
-We omit the technical details of this definition and the Rocq implementation, they can be found in 
-\cite{SynchronousSubtyping} and \cite{srpaper}.
 
 Balancedness is a regularity condition that imposes a notion of \textit{liveness} on the protocol
 described by the global type tree. Indeed, our liveness results in \cref{sec-proc-props} 
