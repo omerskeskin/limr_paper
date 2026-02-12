@@ -356,6 +356,8 @@ INPUT ./mpst_macros.sty
 INPUT mpst_macros.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
+INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/wrapfig/wrapfig.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/todonotes/todonotes.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/todonotes/todonotes.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/xkeyval/xkeyval.sty
@@ -561,8 +563,8 @@ INPUT ./text/sec-process.tex
 INPUT ./text/sec-process.tex
 INPUT ./text/sec-process.tex
 INPUT text/sec-process.tex
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmssbx10.tfm
@@ -676,11 +678,11 @@ INPUT ./main.listing
 INPUT ./main.listing
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmtti10.tfm
 INPUT main.listing
+INPUT ./img/icon-rocq-blue.png
+INPUT ./img/icon-rocq-blue.png
+INPUT ./img/icon-rocq-blue.png
+INPUT ./img/icon-rocq-blue.png
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc
-INPUT ./img/icon-rocq-blue.png
-INPUT ./img/icon-rocq-blue.png
-INPUT ./img/icon-rocq-blue.png
-INPUT ./img/icon-rocq-blue.png
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/rm-lmtt9.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/rm-lmtt8.tfm
 OUTPUT main.listing
@@ -698,6 +700,10 @@ INPUT main.listing
 INPUT ./text/sec-lts-semantics.tex
 INPUT ./text/sec-lts-semantics.tex
 INPUT text/sec-lts-semantics.tex
+OUTPUT main.listing
+INPUT ./main.listing
+INPUT ./main.listing
+INPUT main.listing
 OUTPUT main.listing
 INPUT ./main.listing
 INPUT ./main.listing

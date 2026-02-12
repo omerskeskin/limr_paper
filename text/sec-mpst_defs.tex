@@ -46,13 +46,6 @@ Similarly index \lstin{k} being equal to \lstin{None} or being out of bounds of 
 that the message label $\ell_k$ is not present in the continuation. The function \lstin{onth} \rocqlink{todo} 
 formalises this convention
 in Rocq.
-\begin{remark}
-  Note that Rocq allows us to create types such as \lstin{ltt_send q []} which 
-  don't correspond to well-formed local types as the continuation is empty.
-  In our implementation we define a predicate \lstin{wfltt : ltt -> Prop} capturing that 
-  all the continuations in the local type tree are non-empty. Henceforth we assume that all local types
-  we mention satisfy this property.
-\end{remark}
 \subsection{Subtyping}
 We define the subsorting relation on sorts and the process-oriented \cite{Gay2016} subtyping relation on local type trees.
 \begin{definition}[Subsorting and Subtyping] \label[definition]{def:subtyping}
@@ -227,8 +220,7 @@ tree, where holes $\hole_i$ indicate the cutoff points. Global type tree context
 are related to global type trees with the \textit{grafting} 
 operation that fills in the holes with type trees.
 The following lemma relates global type tree contexts to balanced
-global type trees. In particular, it allows us to turn proofs by coinduction on infinite trees 
-to proofs by induction on the grafting context.
+global type trees. 
 \begin{lemma}[Proper Grafting Lemma, \cite{srpaper}]\label[lemma]{lem-grafting}
 If \lstin{G} is a balanced global type tree and \lstin{isgPartsC p G}, then there is 
 a global type tree context \lstin{Gctx} and an option list of global type trees 
@@ -237,6 +229,11 @@ is of shape \lstin{gtt_end}, \lstin{gtt_send p q} or \lstin{gtt_send q p}. We re
 \lstin{Gctx} and \lstin{gs} as the \lstin{p}-grafting of \lstin{G}. When we don't care about
 \lstin{gs} we may just say that \lstin{G} is \lstin{p}-grafted by \lstin{Gctx}.
 \end{lemma}
+\begin{tcolorbox}[colback=blue!10]
+\cref{lem-grafting} allows us to turn proofs by coinduction on infinite trees 
+to proofs by induction on the grafting context, which is one of the main proof techniques we use
+in this work.
+\end{tcolorbox}
 \begin{remark}
   From now on, all the global type trees we will be referring to are assumed to be balanced.
   When talking about the Rocq implementation, any \lstin{G : gtt} we mention is assumed

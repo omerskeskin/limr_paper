@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.15)  12 FEB 2026 15:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.15)  12 FEB 2026 16:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -789,37 +789,44 @@ Package: stmaryrd 1994/03/03 St Mary's Road symbol package
 \symstmry=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
 (Font)                  U/stmry/m/n --> U/stmry/b/n on input line 89.
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen309
+\WF@size=\dimen310
+\c@WF@wrappedlines=\count352
+\WF@box=\box80
+\WF@everypar=\toks63
+Package: wrapfig 2003/01/31  v 3.6
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/todonotes/todonotes.sty
 Package: todonotes 2024/01/05 v1.1.7 Todonotes source and documentation.
 Package: todonotes 2024/01/05
  (/usr/local/texlive/2024/texmf-dist/tex/latex/xkeyval/xkeyval.sty
 Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
  (/usr/local/texlive/2024/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/usr/local/texlive/2024/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks63
-\XKV@tempa@toks=\toks64
+\XKV@toks=\toks64
+\XKV@tempa@toks=\toks65
 )
-\XKV@depth=\count352
+\XKV@depth=\count353
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 )) (/usr/local/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2023/07/08 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count353
-\calc@Bcount=\count354
-\calc@Adimen=\dimen309
-\calc@Bdimen=\dimen310
+\calc@Acount=\count354
+\calc@Bcount=\count355
+\calc@Adimen=\dimen311
+\calc@Bdimen=\dimen312
 \calc@Askip=\skip68
 \calc@Bskip=\skip69
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count355
+\calc@Ccount=\count356
 \calc@Cskip=\skip70
 )
-\c@@todonotes@numberoftodonotes=\count356
+\c@@todonotes@numberoftodonotes=\count357
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/mdwtools/footnote.sty
 Package: footnote 1997/01/28 1.13 Save footnotes around boxes
-\fn@notes=\box80
-\fn@width=\dimen311
+\fn@notes=\box81
+\fn@width=\dimen313
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/wasysym/wasysym.sty
 Package: wasysym 2020/01/19 v2.4 Wasy-2 symbol support package
 \symwasy=\mathgroup7
@@ -841,13 +848,13 @@ Package zref Info: New property list: main on input line 767.
 Package zref Info: New property: default on input line 768.
 Package zref Info: New property: page on input line 769.
 )
-\c@abspage=\count357
+\c@abspage=\count358
 Package zref Info: New property: abspage on input line 67.
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/needspace/needspace.sty
 Package: needspace 2010/09/12 v1.3d reserve vertical space
 )
 \mdf@templength=\skip71
-\c@mdf@globalstyle@cnt=\count358
+\c@mdf@globalstyle@cnt=\count359
 \mdf@skipabove@length=\skip72
 \mdf@skipbelow@length=\skip73
 \mdf@leftmargin@length=\skip74
@@ -890,11 +897,11 @@ Package: needspace 2010/09/12 v1.3d reserve vertical space
  (/usr/local/texlive/2024/texmf-dist/tex/latex/mdframed/md-frame-1.mdf
 File: md-frame-1.mdf 2013/07/01\ 1.9b: md-frame-1
 )
-\mdf@frametitlebox=\box81
-\mdf@footnotebox=\box82
-\mdf@splitbox@one=\box83
-\mdf@splitbox@two=\box84
-\mdf@splitbox@save=\box85
+\mdf@frametitlebox=\box82
+\mdf@footnotebox=\box83
+\mdf@splitbox@one=\box84
+\mdf@splitbox@two=\box85
+\mdf@splitbox@save=\box86
 \mdfsplitboxwidth=\skip111
 \mdfsplitboxtotalwidth=\skip112
 \mdfsplitboxheight=\skip113
@@ -922,48 +929,48 @@ File: md-frame-1.mdf 2013/07/01\ 1.9b: md-frame-1
 \mdf@horizontalspaceofbox=\skip135
 \mdfsubtitleheight=\skip136
 \mdfsubsubtitleheight=\skip137
-\c@mdfcountframes=\count359
+\c@mdfcountframes=\count360
 
 ****** mdframed patching \endmdf@trivlist
 
 ****** -- success******
 
-\mdf@envdepth=\count360
-\c@mdf@env@i=\count361
-\c@mdf@env@ii=\count362
-\c@mdf@zref@counter=\count363
+\mdf@envdepth=\count361
+\c@mdf@env@i=\count362
+\c@mdf@env@ii=\count363
+\c@mdf@zref@counter=\count364
 Package zref Info: New property: mdf@pagevalue on input line 895.
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
 Package: tcolorbox 2024/09/27 version 6.4.0 text color boxes
  (/usr/local/texlive/2024/texmf-dist/tex/latex/tools/verbatim.sty
 Package: verbatim 2024-01-22 v1.5x LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks65
-\verbatim@line=\toks66
+\every@verbatim=\toks66
+\verbatim@line=\toks67
 \verbatim@in@stream=\read4
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/environ/environ.sty
 Package: environ 2014/05/04 v0.3 A new way to define environments
  (/usr/local/texlive/2024/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
-\tcb@titlebox=\box86
-\tcb@upperbox=\box87
-\tcb@lowerbox=\box88
-\tcb@phantombox=\box89
-\c@tcbbreakpart=\count364
-\c@tcblayer=\count365
-\c@tcolorbox@number=\count366
-\l__tcobox_tmpa_box=\box90
-\l__tcobox_tmpa_dim=\dimen312
-\tcb@temp=\box91
+\tcb@titlebox=\box87
+\tcb@upperbox=\box88
+\tcb@lowerbox=\box89
+\tcb@phantombox=\box90
+\c@tcbbreakpart=\count365
+\c@tcblayer=\count366
+\c@tcolorbox@number=\count367
+\l__tcobox_tmpa_box=\box91
+\l__tcobox_tmpa_dim=\dimen314
 \tcb@temp=\box92
 \tcb@temp=\box93
 \tcb@temp=\box94
+\tcb@temp=\box95
  (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbraster.code.tex
 Library (tcolorbox): 'tcbraster.code.tex' version '6.4.0'
-\c@tcbrastercolumn=\count367
-\c@tcbrasterrow=\count368
-\c@tcbrasternum=\count369
-\c@tcbraster=\count370
+\c@tcbrastercolumn=\count368
+\c@tcbrasterrow=\count369
+\c@tcbrasternum=\count370
+\c@tcbraster=\count371
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbskins.code.tex
 Library (tcolorbox): 'tcbskins.code.tex' version '6.4.0'
 (/usr/local/texlive/2024/texmf-dist/tex/latex/tikzfill/tikzfill.image.sty
@@ -972,7 +979,7 @@ Package: tikzfill.image 2023/08/08 v1.0.1 Image filling library for TikZ
 Package: tikzfill-common 2023/08/08 v1.0.1 Auxiliary code for tikzfill
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/tikzfill/tikzlibraryfill.image.code.tex
 File: tikzlibraryfill.image.code.tex 2023/08/08 v1.0.1 Image filling library
-\l__tikzfill_img_box=\box95
+\l__tikzfill_img_box=\box96
 )) (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbskinsjigsaw.code.tex
 Library (tcolorbox): 'tcbskinsjigsaw.code.tex' version '6.4.0'
 )) (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbbreakable.code.tex
@@ -981,19 +988,19 @@ Library (tcolorbox): 'tcbbreakable.code.tex' version '6.4.0'
 Package: pdfcol 2022-09-21 v1.7 Handle new color stacks for pdfTeX (HO)
 )
 Package pdfcol Info: New color stack `tcb@breakable' = 1 on input line 23.
-\tcb@testbox=\box96
-\tcb@totalupperbox=\box97
-\tcb@totallowerbox=\box98
+\tcb@testbox=\box97
+\tcb@totalupperbox=\box98
+\tcb@totallowerbox=\box99
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbhooks.code.tex
 Library (tcolorbox): 'tcbhooks.code.tex' version '6.4.0'
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbtheorems.code.tex
 Library (tcolorbox): 'tcbtheorems.code.tex' version '6.4.0'
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbfitting.code.tex
 Library (tcolorbox): 'tcbfitting.code.tex' version '6.4.0'
-\tcbfitdim=\dimen313
-\tcb@lowerfitdim=\dimen314
-\tcb@upperfitdim=\dimen315
-\tcb@cur@hbadness=\count371
+\tcbfitdim=\dimen315
+\tcb@lowerfitdim=\dimen316
+\tcb@upperfitdim=\dimen317
+\tcb@cur@hbadness=\count372
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcblistingsutf8.code.tex
 Library (tcolorbox): 'tcblistingsutf8.code.tex' version '6.4.0'
 (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcblistings.code.tex
@@ -1003,7 +1010,7 @@ Library (tcolorbox): 'tcblistingscore.code.tex' version '6.4.0'
 (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbprocessing.code.tex
 Library (tcolorbox): 'tcbprocessing.code.tex' version '6.4.0'
 )
-\c@tcblisting=\count372
+\c@tcblisting=\count373
 )) (/usr/local/texlive/2024/texmf-dist/tex/latex/listingsutf8/listingsutf8.sty
 Package: listingsutf8 2019-12-10 v1.5 Allow UTF-8 in listings input (HO)
 )) (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbexternal.code.tex
@@ -1021,37 +1028,37 @@ Library (tcolorbox): 'tcbposter.code.tex' version '6.4.0'
 ))) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Info: Redefining \microtypecontext on input line 77.
-Package microtype Info: Applying patch `item' on input line 77.
-Package microtype Info: Applying patch `toc' on input line 77.
-Package microtype Info: Applying patch `eqnum' on input line 77.
-Package microtype Info: Applying patch `footnote' on input line 77.
-Package microtype Info: Applying patch `verbatim' on input line 77.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Info: Redefining \microtypecontext on input line 78.
+Package microtype Info: Applying patch `item' on input line 78.
+Package microtype Info: Applying patch `toc' on input line 78.
+Package microtype Info: Applying patch `eqnum' on input line 78.
+Package microtype Info: Applying patch `footnote' on input line 78.
+Package microtype Info: Applying patch `verbatim' on input line 78.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 77.
+LaTeX Info: Redefining \showhyphens on input line 78.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1059,33 +1066,34 @@ Package microtype Info: No adjustment of character kerning.
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 ) (/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count373
-\scratchdimen=\dimen316
-\scratchbox=\box99
-\nofMPsegments=\count374
-\nofMParguments=\count375
-\everyMPshowfont=\toks67
-\MPscratchCnt=\count376
-\MPscratchDim=\dimen317
-\MPnumerator=\count377
-\makeMPintoPDFobject=\count378
-\everyMPtoPDFconversion=\toks68
+\scratchcounter=\count374
+\scratchdimen=\dimen318
+\scratchbox=\box100
+\nofMPsegments=\count375
+\nofMParguments=\count376
+\everyMPshowfont=\toks68
+\MPscratchCnt=\count377
+\MPscratchDim=\dimen319
+\MPnumerator=\count378
+\makeMPintoPDFobject=\count379
+\everyMPtoPDFconversion=\toks69
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-\c@lstlisting=\count379
-Package hyperref Info: Link coloring ON on input line 77.
+\c@lstlisting=\count380
+Package hyperref Info: Link coloring ON on input line 78.
  (./main.out) (./main.out)
 \@outlinefile=\write6
 \openout6 = `main.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: rotating package is loaded.
+Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for T1+lmss on input line 80.
+LaTeX Font Info:    Trying to load font information for T1+lmss on input line 81.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1093,43 +1101,43 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmss' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 80.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 81.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 80.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 81.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 80.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 81.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 80.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 81.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 80.
+(Font)              <10> on input line 81.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 80.
+(Font)              <7> on input line 81.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 80.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 80.
+(Font)              <5> on input line 81.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 81.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 80.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 81.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+stmry on input line 80.
+LaTeX Font Info:    Trying to load font information for U+stmry on input line 81.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
-LaTeX Font Info:    Trying to load font information for U+wasy on input line 80.
+LaTeX Font Info:    Trying to load font information for U+wasy on input line 81.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/wasysym/uwasy.fd
 File: uwasy.fd 2020/01/19 v2.4 Wasy-2 symbol font definitions
 )
@@ -1163,11 +1171,8 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 ) (./text/sec-process.tex
-Underfull \vbox (badness 2671) has occurred while \output is active []
 
-
-
-[2.2{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
+[2.2{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
 Package hyperref Info: bookmark level for unknown definition defaults to 0 on input line 11.
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 18.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmtt.fd
@@ -1224,6 +1229,9 @@ Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/lmr/m/sc/9'.
 (microtype)             Ignoring protrusion settings for this character.
 
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
 
 [3.3 <./img/icon-rocq-blue.png>]
 LaTeX Font Info:    External font `lmex10' loaded for size
@@ -1261,39 +1269,45 @@ Package microtype Info: Loading generic protrusion settings for font family
 \openout7 = `main.listing'.
 
  (./main.listing)
-
-[4.4{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc}]
 File: img/icon-rocq-blue.png Graphic file (type png)
 <use img/icon-rocq-blue.png>
 Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 46.
 (pdftex.def)             Requested size: 11.0pt x 9.42058pt.
-Package hyperref Info: bookmark level for unknown remark defaults to 0 on input line 50.
 
+
+[4.4{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc}]
+pdfTeX warning (ext4): destination with the same identifier (name{definition.2}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.51 \begin{definition}[Subsorting and Subtyping]
+                                                  \label[definition]{def:sub...
 
 Package amsmath Warning: Foreign command \atop;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 66.
+(amsmath)                 on input line 59.
 
 \openout7 = `main.listing'.
 
 (./main.listing)
 
 [5.5]
-Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 173.
+Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 166.
 
-
-[6.6]
-Overfull \hbox (14.18503pt too wide) detected at line 204
+Overfull \hbox (14.18503pt too wide) detected at line 197
 []
  []
 
 \openout7 = `main.listing'.
 
 (./main.listing)
-Underfull \hbox (badness 10000) in paragraph at lines 200--216
+Underfull \hbox (badness 10000) in paragraph at lines 193--209
 []$[]$ $[]$
  []
 
+
+
+[6.6]
+Package hyperref Info: bookmark level for unknown remark defaults to 0 on input line 238.
 ) (./text/sec-lts-semantics.tex
 pdfTeX warning (ext4): destination with the same identifier (name{definition.1}) has been already used, duplicate ignored
 <to be read again> 
@@ -1303,16 +1317,8 @@ l.8 \begin{definition}[Typing Contexts]
 \openout7 = `main.listing'.
 
  (./main.listing)
-Underfull \vbox (badness 3623) has occurred while \output is active []
-
-
 
 [7.7]
-pdfTeX warning (ext4): destination with the same identifier (name{remark.2}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.32 F
-      rom now on, we assume the all the types in the local type contexts alw...
 pdfTeX warning (ext4): destination with the same identifier (name{definition.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1326,38 +1332,47 @@ l.47 \begin{definition}[Typing context reductions]
 \openout7 = `main.listing'.
 
  (./main.listing)
+\openout7 = `main.listing'.
+
+ (./main.listing)
+Package hyperref Info: bookmark level for unknown example defaults to 0 on input line 126.
+
 
 [8.8]
-Package hyperref Info: bookmark level for unknown example defaults to 0 on input line 121.
 File: img/icon-rocq-blue.png Graphic file (type png)
 <use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 137.
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 142.
+(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
+\openout7 = `main.listing'.
+
+ (./main.listing)
+pdfTeX warning (ext4): destination with the same identifier (name{definition.6}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.158 \begin{definition}[Global type reductions]
+                                                
+pdfTeX warning (ext4): destination with the same identifier (name{definition.7}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.200 ...{definition}[Association \rocqlink{todo}]
+                                                  \label[definition]{def-assoc}
+File: img/icon-rocq-blue.png Graphic file (type png)
+<use img/icon-rocq-blue.png>
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 200.
 (pdftex.def)             Requested size: 11.0pt x 9.42058pt.
 \openout7 = `main.listing'.
 
  (./main.listing)
 
 [9.9]
-pdfTeX warning (ext4): destination with the same identifier (name{definition.7}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.195 ...{definition}[Association \rocqlink{todo}]
-                                                  \label[definition]{def-assoc}
 File: img/icon-rocq-blue.png Graphic file (type png)
 <use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 195.
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 231.
 (pdftex.def)             Requested size: 11.0pt x 9.42058pt.
-\openout7 = `main.listing'.
-
- (./main.listing)
+Package hyperref Info: bookmark level for unknown theorem defaults to 0 on input line 231.
 File: img/icon-rocq-blue.png Graphic file (type png)
 <use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 226.
-(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
-Package hyperref Info: bookmark level for unknown theorem defaults to 0 on input line 226.
-File: img/icon-rocq-blue.png Graphic file (type png)
-<use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 232.
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 237.
 (pdftex.def)             Requested size: 11.0pt x 9.42058pt.
 ) (./text/sec-props.tex
 pdfTeX warning (ext4): destination with the same identifier (name{definition.1}) has been already used, duplicate ignored
@@ -1398,24 +1413,19 @@ LaTeX Font Warning: Font shape `U/wasy/b/n' in size <5> not available
 (Font)              Font shape `U/wasy/m/n' tried instead on input line 73.
 
 
-pdfTeX warning (ext4): destination with the same identifier (name{definition.5}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.77 \begin{definition}[Live Local Type Context]
-                                                \label[definition]{def-live-...
 
 [11.11]
 File: img/icon-rocq-blue.png Graphic file (type png)
 <use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 123.
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 118.
 (pdftex.def)             Requested size: 11.0pt x 9.42058pt.
 File: img/icon-rocq-blue.png Graphic file (type png)
 <use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 124.
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 119.
 (pdftex.def)             Requested size: 11.0pt x 9.42058pt.
 File: img/icon-rocq-blue.png Graphic file (type png)
 <use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 125.
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 120.
 (pdftex.def)             Requested size: 11.0pt x 9.42058pt.
 \openout7 = `main.listing'.
 
@@ -1425,34 +1435,34 @@ Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 125.
  (./main.listing)
 File: img/icon-rocq-blue.png Graphic file (type png)
 <use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 156.
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 151.
+(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
+File: img/icon-rocq-blue.png Graphic file (type png)
+<use img/icon-rocq-blue.png>
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 169.
+(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
+File: img/icon-rocq-blue.png Graphic file (type png)
+<use img/icon-rocq-blue.png>
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 169.
+(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
+File: img/icon-rocq-blue.png Graphic file (type png)
+<use img/icon-rocq-blue.png>
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 169.
+(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
+File: img/icon-rocq-blue.png Graphic file (type png)
+<use img/icon-rocq-blue.png>
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 170.
 (pdftex.def)             Requested size: 11.0pt x 9.42058pt.
 
 
-[12.12]
-File: img/icon-rocq-blue.png Graphic file (type png)
-<use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 174.
-(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
-File: img/icon-rocq-blue.png Graphic file (type png)
-<use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 174.
-(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
-File: img/icon-rocq-blue.png Graphic file (type png)
-<use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 174.
-(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
-File: img/icon-rocq-blue.png Graphic file (type png)
-<use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 175.
-(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
-) (./text/sec-proc-props.tex
-
-[13.13]
+[12.12]) (./text/sec-proc-props.tex
 File: img/icon-rocq-blue.png Graphic file (type png)
 <use img/icon-rocq-blue.png>
 Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 69.
 (pdftex.def)             Requested size: 11.0pt x 9.42058pt.
+
+
+[13.13]
 File: img/icon-rocq-blue.png Graphic file (type png)
 <use img/icon-rocq-blue.png>
 Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 73.
@@ -1476,8 +1486,6 @@ File: img/icon-rocq-blue.png Graphic file (type png)
 Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 112.
 (pdftex.def)             Requested size: 11.0pt x 9.42058pt.
 
-
-[14.14]
 pdfTeX warning (ext4): destination with the same identifier (name{definition.7}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1494,43 +1502,41 @@ Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 135.
 \openout7 = `main.listing'.
 
  (./main.listing)
-File: img/icon-rocq-blue.png Graphic file (type png)
-<use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 153.
-(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
 
-pdfTeX warning (ext4): destination with the same identifier (name{theorem.9}) has been already used, duplicate ignored
+[14.14]
+pdfTeX warning (ext4): destination with the same identifier (name{theorem.8}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.186 ...orem}[Liveness by Typing \rocqlink{todo}]
+l.159 ...orem}[Liveness by Typing \rocqlink{todo}]
                                                   \label{theo-sess-live}
 File: img/icon-rocq-blue.png Graphic file (type png)
 <use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 186.
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 159.
 (pdftex.def)             Requested size: 11.0pt x 9.42058pt.
-
-
-[15.15]
 File: img/icon-rocq-blue.png Graphic file (type png)
 <use img/icon-rocq-blue.png>
-Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 208.
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 179.
+(pdftex.def)             Requested size: 11.0pt x 9.42058pt.
+File: img/icon-rocq-blue.png Graphic file (type png)
+<use img/icon-rocq-blue.png>
+Package pdftex.def Info: img/icon-rocq-blue.png  used on input line 185.
 (pdftex.def)             Requested size: 11.0pt x 9.42058pt.
 ) (./text/sec-concl.tex
 
-[16.16]) (./main.bbl
+[15.15]) (./main.bbl
+
+[16.16]
 
 [17.17]
-
-[18.18]
 Underfull \hbox (badness 6961) in paragraph at lines 164--168
 [][]$\T1/lmtt/m/n/9 https : / / www . sciencedirect . com / science / article / pii / B978044488074150024X$[][]\T1/lmr/m/n/9 (+20) , [][]$\T1/lmtt/m/n/9 doi : 10 .
  []
 
 
 
-[19.19])
+[18.18])
 
-[20.20] (./main.aux)
+[19.19] (./main.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-09-10>
@@ -1547,18 +1553,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: B954E8F9C4353D60ECBDA4BECF03F066;4141.
  ) 
 Here is how much of TeX's memory you used:
- 44383 strings out of 473579
- 886498 string characters out of 5728233
- 1401283 words of memory out of 5000000
- 65599 multiletter control sequences out of 15000+600000
- 797991 words of font info for 460 fonts, out of 8000000 for 9000
+ 44443 strings out of 473579
+ 887454 string characters out of 5728233
+ 1407711 words of memory out of 5000000
+ 65664 multiletter control sequences out of 15000+600000
+ 797675 words of font info for 457 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,28n,101p,1034b,2254s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on main.pdf (20 pages, 808041 bytes).
+Output written on main.pdf (19 pages, 802879 bytes).
 PDF statistics:
- 992 PDF objects out of 1000 (max. 8388607)
- 841 compressed objects within 9 object streams
- 255 named destinations out of 1000 (max. 500000)
+ 973 PDF objects out of 1000 (max. 8388607)
+ 823 compressed objects within 9 object streams
+ 250 named destinations out of 1000 (max. 500000)
  141146 words of extra memory for PDF output out of 154059 (max. 10000000)
 

@@ -80,18 +80,13 @@ We say that a path $(\Gamma_n)_{n \in N}$ is live iff, $\forall n \in N$:
   is also live.
 \end{definition}
 \begin{tcolorbox}[colback=blue!10]
-In general, fairness assumptions are used so that only the reduction sequences that are
-"well-behaved" in some sense are considered when formulating other properties \cite{fairness}. 
-We define fairness such that, in a fair path, whenever a synchronous transition $\lblsync{p}{q}{\ell}$
-is enabled, a communication between $\pp$ and $\pq$ is eventually executed.  
-Then live paths are defined to be paths such that whenever $\pp$ attempts to send to $\pq$ \textit{or} 
-$\pq$ attempts to receive from $\pp$, eventually a $\pp$ to $\pq$ communication takes place.
-Informally, this means that every communication request is eventually answered.
+Informally, liveness says that every communication request on the path is eventually answered.
+With our fairness assumption \cite{fairness}, we focus on "sensible" reduction paths
+where every communication that's enabled by both the participants is eventually executed.
 Live typing contexts are then defined to be the $\Gamma$ such that whenever 
 $\Gamma$ can evolve (in possibly multiple steps) into $\Gamma'$, 
 all fair paths that start from  $\Gamma'$ are also live.  
 \end{tcolorbox}
-
 
 \begin{example}\label[examples]{exam:live}
   Consider the contexts $\Gamma, \Gamma'$ and  $\Gamma_\tend$ from 

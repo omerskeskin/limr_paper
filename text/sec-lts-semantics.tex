@@ -95,15 +95,19 @@ We write $\lts{}^*$ for the reflexive transitive closure of $\lts{}$.
 $\ruleredsend$ and $\ruleredrec$, express a single participant sending or receiving.
 $\ruleredsync$ expresses a synchronised communication where one participant sends while another receives,
 and they both progress with their continuation. $\ruleredvar$ shows how to extend a context.  
-
 In Rocq typing context reductions are defined with the predicate \lstin{tctxR}.
 
-\begin{tcb}{Rocq}
+\begin{minipage}{0.45\textwidth}
+  \begin{tcb}{Rocq}
 Notation opt_lbl := nat.
 Inductive label: Type :=
   | lrecv: part -> part -> option sort -> opt_lbl -> label
   | lsend: part -> part -> option sort -> opt_lbl -> label
   | lcomm: part -> part -> opt_lbl -> label.
+\end{tcb}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+\begin{tcb}{Rocq}
 Inductive tctxR: tctx -> label -> tctx -> Prop :=
   | Rsend: ...
   | Rrecv: ...  
@@ -112,6 +116,7 @@ Inductive tctxR: tctx -> label -> tctx -> Prop :=
   | Rstruct: forall g1 g1' g2 g2' l, tctxR g1' l g2' ->
     M.Equal g1 g1' -> M.Equal g2 g2' -> tctxR g1 l g2.
 \end{tcb}
+\end{minipage}
 
 The first four constructors in the definition of \lstin{tctxR} corresponds to the 
 rules in \cref{def-ctx-red}, and \lstin{Rstruct} expresses the indistinguishability

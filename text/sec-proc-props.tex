@@ -148,40 +148,13 @@ when $\M$ is live, if $\M$ reduces to a session $\M'$ containing a participant t
 or receive, then $\M'$ reduces to a session where that communication has happened. 
 It's also called \textit{lock-freedom} in related work (\cite{fairnesslock,padovani}). 
 \end{tcolorbox}
-We  now detail the proof that typed sessions are live. 
-First we prove the following lemma:
-\begin{lemma}[Fair Extension of Typed Sessions \rocqlink{todo}]\label{lem-fair-scheduling}
-If \lstin{typ_sess M gamma}, then there exists a session reduction path \lstin{xs} 
-starting from \lstin{M} such that the following fairness property holds:
-\begin{itemize}
-  \item On \lstin{xs}, whenever a transition with label $\lblsync{p}{q}{\ell}$ is enabled,
-  a transition with label $\lblsync{p}{q}{\ell'}$ eventually occurs for some $\ell'$.  
-\end{itemize}
-\end{lemma}
-\begin{proof}
-The desired path can be constructed by repeatedly cycling through all participants,
-checking if there is a transition involving that participant, and executing that transition if there is.
-As in the proof of \cref{theo-ctx-live}, the construction in \cref{lem-fair-scheduling} uses 
-the \lstin{constructive_indefinite_description} axiom to construct 
-a cosequence as a \lstin{CoFixpoint}.
-Additionally, we use the axiom \lstin{excluded_middle_informative}
-for the "check if there is a transition involving a participant" part of the scheduling algorithm.
-The use of this axiom is probably not necessary but it makes the proof easier. 
-Correctness of the algorithm follows from \cref{theo-sub-red} and \cref{theo-sess-fid}.
-\end{proof}
-
-\begin{savenotes}
-\begin{tcolorbox}[colback=blue!10]
-\cref{lem-fair-scheduling} defines a "fairness" property for sessions analogous to \cref{def-fair-live}.
-It then shows that there exists a fair path from any typable session. 
-This resembles the \textit{feasibility} property expected from sensible notions of fairness \cite{fairness},
-which states that any partial path can be extended into a fair one 
-\footnote{Note that this fairness property for sessions is not actually feasible as there are partial paths 
-starting with an untypable session that can't be extended into a fair one. 
-Nevertheless, \cref{lem-fair-scheduling} turns out to be enough to prove our liveness property.}.    
-\end{tcolorbox}
-\end{savenotes}
-
+%\cref{lem-fair-scheduling} defines a "fairness" property for sessions analogous to \cref{def-fair-live}.
+%It then shows that there exists a fair path from any typable session. 
+%This resembles the \textit{feasibility} property expected from sensible notions of fairness \cite{fairness},
+%which states that any partial path can be extended into a fair one 
+%\footnote{Note that this fairness property for sessions is not actually feasible as there are partial paths 
+%starting with an untypable session that can't be extended into a fair one. 
+%Nevertheless, \cref{lem-fair-scheduling} turns out to be enough to prove our liveness property.}.    
 
 \begin{theorem}[Liveness by Typing \rocqlink{todo}]\label{theo-sess-live}
 For a session \lstin{Mp}, if \lstin{exists gamma gamma} $\vdashm$ \lstin{Mp} then \lstin{live_sess Mp}.
@@ -200,8 +173,12 @@ by \cref{theo-sub-red}, therefore
 by \cref{lem-typ-unfold}.
 
 Now let \lstin{xs} be a fair session reduction path starting from \lstin{((p <- p_send q ell e P') \|\|\| M')}, 
-which exists by \cref{lem-fair-scheduling}. 
-By \cref{theo-sub-red}, let \lstin{ys} be a
+which has the following fairness property: whenever a transition with label $\lblsync{p}{q}{\ell}$ is enabled,
+  a transition with label $\lblsync{p}{q}{\ell'}$ eventually occurs for some $\ell'$.
+It can be shown that such a path always exists, and that path can be constructed using the axioms
+\lstin{constructive_indefinite_description} and \lstin{excluded_middle_informative} \rocqlink{todo}.
+
+Now by extending \cref{theo-sub-red} onto paths, let \lstin{ys} be a
 local type context reduction path starting with \lstin{gamma} 
 such that every session in \lstin{xs} is typed by the context at the corresponding index 
 of \lstin{ys}, and the transitions of \lstin{xs} and \lstin{ys} at every step match. 

@@ -34,7 +34,7 @@ a proof assistant.
 
 
 % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAHEQBfU9TXfIRRkAjFVqMWbACrdeIDNjwEiZAEzj6zVohAAFOXyWCiI0mOpapugDo3gACjQB9LKWmuAlAAIAPt6xvOywwbwBJOy4AXjt2OgBbeLpDBX5lIWQ1c01JHRBYhKSAchTFARUUMw1LXLYAWVK0kxQs6oltepKeI3KMrMoajt12LvEYKABzeCJQADMAJwh4pAB2ahwIJAAWQesQOjg4CABjFIWl7fXNxAA2XbycAE80OHgEbpBz5cQyEA2kMztPZoRYAKzOi2+gP+iCyQIezxBJwhFx+VyQAGZ7mwDkdTh8vgD0YgMQTIUg4TCAKxk1FYv7XKnY3RPF5vFHfX4wtbwth2eZYCYACxwdHmiwA7hzMcSdrzbDYBcLReKIFLad8mQykHd5flFYKRWLJdwKFwgA
-\begin{figure}
+\begin{wrapfigure}{l}{0.5\textwidth}
 \begin{tikzcd}
 \G \arrow[d, "\projf", dotted] \arrow[rd, "\assoc"] \arrow[rr, "\rightarrow",dotted] &   & \G' \arrow[d, "\assoc"]        \\
 \T \arrow[d, "\vdash_{\mathsf{P}}", dotted] \arrow[r]                                  & {\{(p_i,T_i) \; |\; i \in I\}=\Gamma} \arrow[d, "\vdash_\M"] \arrow[r, "\rightarrow"] & \Gamma' \arrow[d, "\vdash_M"] \\
@@ -42,7 +42,7 @@ a proof assistant.
 \end{tikzcd}
 \caption{Design overview. The dotted lines correspond to relations inherited from \cite{srpaper}
 while the solid lines denote relations that are new, or substantially rewritten, in this paper.}
-\end{figure}
+\end{wrapfigure}
 
 Our Rocq implementation builds upon the recent formalisation of subject reduction for MPST by Ekici et. al. \cite{srpaper},
 which itself is based on \cite{SynchronousSubtyping}.
